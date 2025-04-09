@@ -1,0 +1,153 @@
+---
+title: "Heat Loss in Humpback Whales Between Hawaii and Alaska"
+author: William T. Gough$^{1}$, Brijonnay Madrigal$^{1}$, Augusta Hollers$^{1}$, Jens J. Currie$^{1,2}$, Robin W. Baird$^{1,3}$, Kristi West$^{4}$, Andreas Fahlman$^{5}$, Frank E. Fish$^{6}$, Lewis Evans$^{1}$, Martin van Aswegen$^{1}$, Brian Stirling$^{2}$, Aude Pacini$^{1}$, Grace L. Olson$^{2}$, Stephanie H. Stack$^{2,7}$, William A. Walker$^{8}$, Lars Bejder$^{1,9}$
+bibliography: ZoteroLibraryGough.json
+csl: the-journal-of-experimental-biology.csl
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Libraries, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(cowplot)
+library(dplyr)
+library(knitr)
+library(tinytex)
+library(rbbt)
+library(ggspatial)
+library(grid)
+library(gridExtra)
+library(pdftools)
+library(magick)
+library(PieGlyph)
+library(purrr)
+library(devtools)
+library(patchwork)
+library(flextable)
+library(zoo)
+library(tuneR)
+library(seewave)
+library(reshape2)
+library(rnaturalearth)
+library(marmap)
+library(metR)
+library(tmap)
+library(sf)
+library(scales)
+library(formatdown)
+library(data.table)
+library(R.matlab)
+
+load_all()
+```
+
+```{r FUNCTION - Convert PDF to PNG, include=FALSE}
+convert_pdf_to_png <- function(pdf_file, png_file, dpi = 300) {
+  image <- image_read_pdf(pdf_file)
+  image_write(image, path = png_file, density = dpi)
+}
+```
+
+```{r FUNCTION - Linear Relationship Equation, include=FALSE}
+Linear_Relationship <- function(x, y) {
+  m <- lm(y ~ x)
+  coef_a <- format(coef(m)[1], digits = 4)
+  coef_b <- format(coef(m)[2], digits = 4)
+  r2 <- format(summary(m)$r.squared, digits = 3)
+  
+  equation <- paste("y =", coef_a, "+", coef_b, "* x, R^2 =", r2)
+  
+  as.character(equation)
+}
+
+Linear_Relationship2 <- function(x, y) {
+  m <- lm(y ~ x)
+  coef_a <- format(coef(m)[1], digits = 4)
+  coef_b <- format(coef(m)[2], digits = 4)
+  
+  equation <- paste("y =", coef_a, "+", coef_b, "* x")
+  
+  as.character(equation)
+}
+```
+
+```{r FUNCTION - Heat Loss Model, include=FALSE}
+heat_loss_model <- function(BodyLength, ThermalConductivity, InternalBodyTemperature, WaterTemperature) {
+  
+  # Length-dependent Values
+  BlubberThickness =  0.0119345-(0.0003168*BodyLength)
+  BodySurfaceArea = 5.55*BodyLength
+  
+  # Heat Loss Equation (Glarou et al. 2025)
+  HeatLoss = (ThermalConductivity*BodySurfaceArea*(InternalBodyTemperature-WaterTemperature))/BlubberThickness
+  
+  return(list(HeatLoss = HeatLoss,
+              BodyLength = BodyLength,
+              ThermalConductivity = ThermalConductivity,
+              BlubberThickness = BlubberThickness,
+              BodySurfaceArea = BodySurfaceArea,
+              InternalBodyTemperature = InternalBodyTemperature,
+              WaterTemperature = WaterTemperature))
+}
+```
+
+```{r DATA - Create Heat Loss Dataframe and Sampling Distributions, include=FALSE}
+modifier <- c(0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.05, 1.1, 1.15, 1.2, 1.25)
+
+# Total Body Length (BodyLength; m) - ranges from 3-14 m to cover the full range for humpback whales in Hawaii and Alaska.
+# Thermal Conductivity of Blubber (ThermalConductivity; W m-1) - taken from Perry (1949).
+# Blubber Thickness (BlubberThickness; m) - taken from Glarou et al. (2025) using a linear relationship between body size and blubber thickness.
+# Thermally Active Body Surface Area (BodySurfaceArea) - taken from CFD calculations done by John Kennedy and Jean Potvin (Kennedy 2021 - Dissertation) and mentioned by Gough et al. (2021).
+# Internal Body Temperature in Celsius (InternalBodyTemperature) - taken from Morrison (1962).
+# Ambient Water Temperature in Celsius (WaterTemperature) - estimated using tag data for humpbacks in Hawaii, and possibly Alaska as well? Talk to Niko about accuracy of temperature sensors in each tag.
+
+BodyLength = seq(3,12)
+ThermalConductivity = 0.2
+InternalBodyTemperature = 36
+WaterTemperature = c(5, 25)
+
+Heat_Loss = expand_grid(
+  BodyLength = BodyLength,
+  ThermalConductivity = ThermalConductivity * modifier,
+  InternalBodyTemperature = InternalBodyTemperature * modifier,
+  WaterTemperature = WaterTemperature * modifier) %>% 
+  mutate(model_results = pmap(
+    .l = list(BodyLength, ThermalConductivity, InternalBodyTemperature, WaterTemperature),
+    .f = heat_loss_model),
+    HeatLoss = map_dbl(model_results, "HeatLoss"),
+    BlubberThickness = map_dbl(model_results, "BlubberThickness"),
+    BodySurfaceArea = map_dbl(model_results, "BodySurfaceArea"),
+    Temperature = case_when(
+      WaterTemperature >= 5 * 0.75 & WaterTemperature <= 5 * 1.25 ~ "Alaska (5°C ± 25%)",
+      WaterTemperature >= 25 * 0.75 & WaterTemperature <= 25 * 1.25 ~ "Hawaii (25°C ± 25%)",
+      TRUE ~ NA_character_
+    ))
+```
+  
+```{r FIGURE - Show Heat Loss Between Hawaii and Alaska, echo=FALSE, message=FALSE, warning=FALSE, results='hide', fig.keep='none', fig.align='center', fig.dim = c(8, 8)}
+pHeatLoss <- ggplot(Heat_Loss, aes(x = factor(BodyLength), y = HeatLoss, fill = Temperature)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.85) +
+  scale_fill_manual(values = c("Alaska (5°C ± 25%)" = "aquamarine3", "Hawaii (25°C ± 25%)" = "coral3")) +
+  labs(
+    title = "Heat Loss in Humpback Whales Between Alaska and Hawaii",
+    subtitle = "Boxplots show modeled heat loss across ±25% temperature variation",
+    x = "Body Length (m)",
+    y = "Heat Loss (W)",
+    fill = "Water Temperature"
+  ) +
+  theme_minimal(base_size = 14)
+
+ggsave("figs/HeatLoss.pdf", height = 720, width = 960, units = "mm", dpi = 300)
+
+convert_pdf_to_png("figs/HeatLoss.pdf", "figs/HeatLoss.png", dpi = 300)
+```
