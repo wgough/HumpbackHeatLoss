@@ -1,6 +1,6 @@
 ---
-title: "Energetic Cost of Heat Loss in Humpback Whales of Varying Body Sizes Across Breeding and Foraging Habitats"
-author: William T. Gough$^{1}$, Martin van Aswegen$^{1}$, Andreas Fahlman$^{2}$, Kristi West$^{3}$, Andy Szabo$^{4}$, Peter Madsen$^{5}$, Frank E. Fish$^{6}$, Lewis Evans$^{1}$, Lars Bejder$^{1,5}$
+title: "Hot Wings: Quantifying the Impact of Large Appendages on the Heat Loss Potential of Humpback Whales"
+author: William T. Gough$^{1}$, Martin van Aswegen$^{1}$, Lewis Evans$^{1}$, Andreas Fahlman$^{2}$, Frank E. Fish$^{6}$, Peter Madsen$^{5}$, Kristi West$^{3}$, Andy Szabo$^{4}$, Lars Bejder$^{1,5}$
 bibliography: ZoteroLibraryGough.json
 csl: the-journal-of-experimental-biology.csl
 output:
@@ -80,18 +80,14 @@ Linear_Relationship2 <- function(x, y) {
 ```
 
 ```{r FUNCTION - Heat Loss Model, include=FALSE}
-heat_loss_model <- function(BodyLength, BodyMass, BodySurfaceArea, FlipperSurfaceArea, FlukeSurfaceArea, BlubberThermalConductivity, CoreBodyTemperature, WarmAmbientTemp, ColdAmbientTemp, MetabolicBetaFactor) {
+heat_loss_model <- function(BodyLength, BodyMass, BodySurfaceArea, FlipperSurfaceArea, FlipperChordLength, FlukeSurfaceArea, FlukeChordLength, BlubberThermalConductivity, CoreBodyTemperature, WarmAmbientTemp, ColdAmbientTemp, MetabolicBetaFactor) {
 
-  # Size-specific Variables
-  # FlipperLength = 3 # UPDATE THESE FLIPPER/FLUKE VARIABLES
-  # FlipperChord = 1
-  # FlipperAreaSingleSide = 2.7
-  # FlukeChord = 1.1
-  # FlukeAreaSingleSide = 3.5
-  BodyBlubberThickness = (0.0119345-(0.0003168*BodyLength)) * BodyLength # Glarou model - might want to use Watts?
-  FlipperBlubberThickness = 0.003
-  FlukeBlubberThickness = 0.003
-  RespirationRate = -0.1475*(BodyLength)+2.36 # Derived from Gussie's mom/calf average points. Update with -REAL- data!!
+  BodyBlubberThickness = (0.0119345-(0.0003168*BodyLength))*BodyLength # Glarou model - might want to use Watts?
+  FlipperBlubberThickness = 0.002 #FlipperChordLength*0.012
+  FlukeBlubberThickness = 0.002 #FlukeChordLength*0.012
+  ExtremityTurnedOffTemperatureWarm = WarmAmbientTemp
+  ExtremityTurnedOffTemperatureCold = ColdAmbientTemp
+  RespirationRate = -0.1475*(BodyLength)+2.36 # Derived from Gussie's mom/calf average points. Update with better data?
   TidalVolume = 0.6*0.85*(0.135*(BodyMass^0.92))
   KleiberBMR = 3.39 * (BodyMass^0.75)
   FMR_Beta_Multiple = KleiberBMR*MetabolicBetaFactor
@@ -102,11 +98,15 @@ heat_loss_model <- function(BodyLength, BodyMass, BodySurfaceArea, FlipperSurfac
   ColdConductiveBodyOnlyHeatLoss = (BlubberThermalConductivity*BodySurfaceArea*(CoreBodyTemperature-ColdAmbientTemp))/BodyBlubberThickness
   
   # Conductive Heat Loss Equation for Flippers/Flukes (Glarou et al. 2025)
-  WarmConductiveFlipperHeatLoss = (BlubberThermalConductivity*FlipperSurfaceArea*(CoreBodyTemperature-WarmAmbientTemp))/FlipperBlubberThickness
-  ColdConductiveFlipperHeatLoss = (BlubberThermalConductivity*FlipperSurfaceArea*(CoreBodyTemperature-ColdAmbientTemp))/FlipperBlubberThickness
+  WarmConductiveFlipperHeatLossTurnedOn = (BlubberThermalConductivity*FlipperSurfaceArea*(CoreBodyTemperature-WarmAmbientTemp))/FlipperBlubberThickness
+  WarmConductiveFlipperHeatLossTurnedOff = (BlubberThermalConductivity*FlipperSurfaceArea*(ExtremityTurnedOffTemperatureWarm-WarmAmbientTemp))/FlipperBlubberThickness
+  ColdConductiveFlipperHeatLossTurnedOn = (BlubberThermalConductivity*FlipperSurfaceArea*(CoreBodyTemperature-ColdAmbientTemp))/FlipperBlubberThickness
+  ColdConductiveFlipperHeatLossTurnedOff = (BlubberThermalConductivity*FlipperSurfaceArea*(ExtremityTurnedOffTemperatureCold-ColdAmbientTemp))/FlipperBlubberThickness
   
-  WarmConductiveFlukeHeatLoss = (BlubberThermalConductivity*FlukeSurfaceArea*(CoreBodyTemperature-WarmAmbientTemp))/FlukeBlubberThickness
-  ColdConductiveFlukeHeatLoss = (BlubberThermalConductivity*FlukeSurfaceArea*(CoreBodyTemperature-ColdAmbientTemp))/FlukeBlubberThickness
+  WarmConductiveFlukeHeatLossTurnedOn = (BlubberThermalConductivity*FlukeSurfaceArea*(CoreBodyTemperature-WarmAmbientTemp))/FlukeBlubberThickness
+  WarmConductiveFlukeHeatLossTurnedOff = (BlubberThermalConductivity*FlukeSurfaceArea*(ExtremityTurnedOffTemperatureWarm-WarmAmbientTemp))/FlukeBlubberThickness
+  ColdConductiveFlukeHeatLossTurnedOn = (BlubberThermalConductivity*FlukeSurfaceArea*(CoreBodyTemperature-ColdAmbientTemp))/FlukeBlubberThickness
+  ColdConductiveFlukeHeatLossTurnedOff = (BlubberThermalConductivity*FlukeSurfaceArea*(ExtremityTurnedOffTemperatureCold-ColdAmbientTemp))/FlukeBlubberThickness
   
   # Respiratory Heat Loss Equation (Christiansen et al. 2025)
   WarmRespiratoryHeatLoss = ((RespirationRate*TidalVolume)/60)*(143.5 - 1.37 * WarmAmbientTemp - 0.07 * (WarmAmbientTemp^2))*0.0864
@@ -115,58 +115,78 @@ heat_loss_model <- function(BodyLength, BodyMass, BodySurfaceArea, FlipperSurfac
   # Total Heat Loss Estimation (Body Only and "Total" including flippers and flukes)
   WarmBodyOnlyHeatLoss = WarmConductiveBodyOnlyHeatLoss + WarmRespiratoryHeatLoss
   ColdBodyOnlyHeatLoss = ColdConductiveBodyOnlyHeatLoss + ColdRespiratoryHeatLoss
-  WarmTotalHeatLoss = WarmConductiveBodyOnlyHeatLoss + WarmConductiveFlipperHeatLoss + WarmConductiveFlukeHeatLoss + WarmRespiratoryHeatLoss
-  ColdTotalHeatLoss = ColdConductiveBodyOnlyHeatLoss + ColdConductiveFlipperHeatLoss + ColdConductiveFlukeHeatLoss + ColdRespiratoryHeatLoss
+  WarmWindowsOpenHeatLoss = WarmConductiveBodyOnlyHeatLoss + WarmConductiveFlipperHeatLossTurnedOn + WarmConductiveFlukeHeatLossTurnedOn + WarmRespiratoryHeatLoss
+  WarmWindowsClosedHeatLoss = WarmConductiveBodyOnlyHeatLoss + WarmConductiveFlipperHeatLossTurnedOff + WarmConductiveFlukeHeatLossTurnedOff + WarmRespiratoryHeatLoss
+  ColdWindowsOpenHeatLoss = ColdConductiveBodyOnlyHeatLoss + ColdConductiveFlipperHeatLossTurnedOn + ColdConductiveFlukeHeatLossTurnedOn + ColdRespiratoryHeatLoss
+  ColdWindowsClosedHeatLoss = ColdConductiveBodyOnlyHeatLoss + ColdConductiveFlipperHeatLossTurnedOff + ColdConductiveFlukeHeatLossTurnedOff + ColdRespiratoryHeatLoss
   
-  # Basal Metabolic Rate to Heat Loss Ratios (Body Only and "Total" including flippers and flukes)
+  # Basal Metabolic Rate to Heat Loss Ratios (Thermal Windows Closed and Open - including flippers and flukes)
   BMRtoWarmBodyOnlyHeatLossRatio = KleiberBMR/WarmBodyOnlyHeatLoss
   BMRtoColdBodyOnlyHeatLossRatio = KleiberBMR/ColdBodyOnlyHeatLoss
-  BMRtoWarmTotalHeatLossRatio = KleiberBMR/WarmTotalHeatLoss
-  BMRtoColdTotalHeatLossRatio = KleiberBMR/ColdTotalHeatLoss
+  BMRtoWarmWindowsOpenHeatLossRatio = KleiberBMR/WarmWindowsOpenHeatLoss
+  BMRtoWarmWindowsClosedHeatLossRatio = KleiberBMR/WarmWindowsClosedHeatLoss
+  BMRtoColdWindowsOpenHeatLossRatio = KleiberBMR/ColdWindowsOpenHeatLoss
+  BMRtoColdWindowsClosedHeatLossRatio = KleiberBMR/ColdWindowsClosedHeatLoss
   
-  # Estimated Beta-Multiplication "Field" Metabolic Rate to Heat Loss Ratios (Body Only and "Total" including flippers and flukes)
+  # Estimated Beta-Multiplication "Field" Metabolic Rate to Heat Loss Ratios (Thermal Windows Closed and Open)
   FMRBetatoWarmBodyOnlyHeatLossRatio = FMR_Beta_Multiple/WarmBodyOnlyHeatLoss
   FMRBetatoColdBodyOnlyHeatLossRatio = FMR_Beta_Multiple/ColdBodyOnlyHeatLoss
-  FMRBetatoWarmTotalHeatLossRatio = FMR_Beta_Multiple/WarmTotalHeatLoss
-  FMRBetatoColdTotalHeatLossRatio = FMR_Beta_Multiple/ColdTotalHeatLoss
+  FMRBetatoWarmWindowsOpenHeatLossRatio = FMR_Beta_Multiple/WarmWindowsOpenHeatLoss
+  FMRBetatoWarmWindowsClosedHeatLossRatio = FMR_Beta_Multiple/WarmWindowsClosedHeatLoss
+  FMRBetatoColdWindowsOpenHeatLossRatio = FMR_Beta_Multiple/ColdWindowsOpenHeatLoss
+  FMRBetatoColdWindowsClosedHeatLossRatio = FMR_Beta_Multiple/ColdWindowsClosedHeatLoss
   
-  # Estimated Respiration Rate "Field" Metabolic Rate to Heat Loss Ratios (Body Only and "Total" including flippers and flukes)
+  # Estimated Respiration Rate "Field" Metabolic Rate to Heat Loss Ratios (Thermal Windows Closed and Open)
   FMRResptoWarmBodyOnlyHeatLossRatio = FMR_Respiration/WarmBodyOnlyHeatLoss
   FMRResptoColdBodyOnlyHeatLossRatio = FMR_Respiration/ColdBodyOnlyHeatLoss
-  FMRResptoWarmTotalHeatLossRatio = FMR_Respiration/WarmTotalHeatLoss
-  FMRResptoColdTotalHeatLossRatio = FMR_Respiration/ColdTotalHeatLoss
+  FMRResptoWarmWindowsOpenHeatLossRatio = FMR_Respiration/WarmWindowsOpenHeatLoss
+  FMRResptoWarmWindowsClosedHeatLossRatio = FMR_Respiration/WarmWindowsClosedHeatLoss
+  FMRResptoColdWindowsOpenHeatLossRatio = FMR_Respiration/ColdWindowsOpenHeatLoss
+  FMRResptoColdWindowsClosedHeatLossRatio = FMR_Respiration/ColdWindowsClosedHeatLoss
   
   # Lower Tcrit Value
-  TcritLower = 36-((BodyBlubberThickness*FMR_Beta_Multiple)/(BodySurfaceArea*0.2))
+  TcritLower = 36-((BodyBlubberThickness*FMR_Beta_Multiple)/(BodySurfaceArea*BlubberThermalConductivity))
 
   # Return Values
   return(list(WarmConductiveBodyOnlyHeatLoss = WarmConductiveBodyOnlyHeatLoss,
               ColdConductiveBodyOnlyHeatLoss = ColdConductiveBodyOnlyHeatLoss,
-              WarmConductiveFlipperHeatLoss = WarmConductiveFlipperHeatLoss,
-              ColdConductiveFlipperHeatLoss = ColdConductiveFlipperHeatLoss,
-              WarmConductiveFlukeHeatLoss = WarmConductiveFlukeHeatLoss,
-              ColdConductiveFlukeHeatLoss = ColdConductiveFlukeHeatLoss,
+              WarmConductiveFlipperHeatLossTurnedOn = WarmConductiveFlipperHeatLossTurnedOn,
+              WarmConductiveFlipperHeatLossTurnedOff = WarmConductiveFlipperHeatLossTurnedOff,
+              ColdConductiveFlipperHeatLossTurnedOn = ColdConductiveFlipperHeatLossTurnedOn,
+              ColdConductiveFlipperHeatLossTurnedOff = ColdConductiveFlipperHeatLossTurnedOff,
+              WarmConductiveFlukeHeatLossTurnedOn = WarmConductiveFlukeHeatLossTurnedOn,
+              WarmConductiveFlukeHeatLossTurnedOff = WarmConductiveFlukeHeatLossTurnedOff,
+              ColdConductiveFlukeHeatLossTurnedOn = ColdConductiveFlukeHeatLossTurnedOn,
+              ColdConductiveFlukeHeatLossTurnedOff = ColdConductiveFlukeHeatLossTurnedOff,
               WarmRespiratoryHeatLoss = WarmRespiratoryHeatLoss,
               ColdRespiratoryHeatLoss = ColdRespiratoryHeatLoss,
               WarmBodyOnlyHeatLoss = WarmBodyOnlyHeatLoss,
               ColdBodyOnlyHeatLoss = ColdBodyOnlyHeatLoss,
-              WarmTotalHeatLoss = WarmTotalHeatLoss,
-              ColdTotalHeatLoss = ColdTotalHeatLoss,
+              WarmWindowsOpenHeatLoss = WarmWindowsOpenHeatLoss,
+              WarmWindowsClosedHeatLoss = WarmWindowsClosedHeatLoss,
+              ColdWindowsOpenHeatLoss = ColdWindowsOpenHeatLoss,
+              ColdWindowsClosedHeatLoss = ColdWindowsClosedHeatLoss,
               KleiberBMR = KleiberBMR,
               FMR_Beta_Multiple = FMR_Beta_Multiple,
               FMR_Respiration = FMR_Respiration,
               BMRtoWarmBodyOnlyHeatLossRatio = BMRtoWarmBodyOnlyHeatLossRatio,
               BMRtoColdBodyOnlyHeatLossRatio = BMRtoColdBodyOnlyHeatLossRatio,
-              BMRtoWarmTotalHeatLossRatio = BMRtoWarmTotalHeatLossRatio,
-              BMRtoColdTotalHeatLossRatio = BMRtoColdTotalHeatLossRatio,
+              BMRtoWarmWindowsOpenHeatLossRatio = BMRtoWarmWindowsOpenHeatLossRatio,
+              BMRtoWarmWindowsClosedHeatLossRatio = BMRtoWarmWindowsClosedHeatLossRatio,
+              BMRtoColdWindowsOpenHeatLossRatio = BMRtoColdWindowsOpenHeatLossRatio,
+              BMRtoColdWindowsClosedHeatLossRatio = BMRtoColdWindowsClosedHeatLossRatio,
               FMRBetatoWarmBodyOnlyHeatLossRatio = FMRBetatoWarmBodyOnlyHeatLossRatio,
               FMRBetatoColdBodyOnlyHeatLossRatio = FMRBetatoColdBodyOnlyHeatLossRatio,
-              FMRBetatoWarmTotalHeatLossRatio = FMRBetatoWarmTotalHeatLossRatio,
-              FMRBetatoColdTotalHeatLossRatio = FMRBetatoColdTotalHeatLossRatio,
+              FMRBetatoWarmWindowsOpenHeatLossRatio = FMRBetatoWarmWindowsOpenHeatLossRatio,
+              FMRBetatoWarmWindowsClosedHeatLossRatio = FMRBetatoWarmWindowsClosedHeatLossRatio,
+              FMRBetatoColdWindowsOpenHeatLossRatio = FMRBetatoColdWindowsOpenHeatLossRatio,
+              FMRBetatoColdWindowsClosedHeatLossRatio = FMRBetatoColdWindowsClosedHeatLossRatio,
               FMRResptoWarmBodyOnlyHeatLossRatio = FMRResptoWarmBodyOnlyHeatLossRatio,
               FMRResptoColdBodyOnlyHeatLossRatio = FMRResptoColdBodyOnlyHeatLossRatio,
-              FMRResptoWarmTotalHeatLossRatio = FMRResptoWarmTotalHeatLossRatio,
-              FMRResptoColdTotalHeatLossRatio = FMRResptoColdTotalHeatLossRatio,
+              FMRResptoWarmWindowsOpenHeatLossRatio = FMRResptoWarmWindowsOpenHeatLossRatio,
+              FMRResptoWarmWindowsClosedHeatLossRatio = FMRResptoWarmWindowsClosedHeatLossRatio,
+              FMRResptoColdWindowsOpenHeatLossRatio = FMRResptoColdWindowsOpenHeatLossRatio,
+              FMRResptoColdWindowsClosedHeatLossRatio = FMRResptoColdWindowsClosedHeatLossRatio,
               TcritLower = TcritLower,
               BodyLength = BodyLength,
               BodyMass = BodyMass,
@@ -186,7 +206,9 @@ heat_loss_model <- function(BodyLength, BodyMass, BodySurfaceArea, FlipperSurfac
 ```{r DATA - Add "Likeliest Case" Heat Loss Variables Directly to Morphometric Dataset, include = FALSE}
 # Required Morphometric Regressions - Flippers and Flukes
 BLvFlipperArea_model <- lm(log10(Mean_Flipper_Area_m2) ~ log10(Body_Length_m), data = HumpbackHeatLoss::FlukeFlipperMetrics)
+BLvFlipperChord_model <- lm(log10(Mean_Flipper_Chord_m) ~ log10(Body_Length_m), data = HumpbackHeatLoss::FlukeFlipperMetrics)
 BLvFlukeArea_model <- lm(log10(Mean_Fluke_Area_m2) ~ log10(Body_Length_m), data = HumpbackHeatLoss::FlukeFlipperMetrics)
+BLvFlukeChord_model <- lm(log10(Mean_Fluke_Chord_m) ~ log10(Body_Length_m), data = HumpbackHeatLoss::FlukeFlipperMetrics)
 
 # Additional Useful Morphometric Regressions
 BLvSA_model <- lm(log10(Surface_Area_m2) ~ log10(Body_Length_m), data = HumpbackHeatLoss::Morphometrics)
@@ -198,7 +220,11 @@ Morphometrics <- HumpbackHeatLoss::Morphometrics %>%
   filter(!is.na(Region), !is.na(Body_Length_m), !is.na(Surface_Area_m2)) %>%
   mutate(
     Predicted_Single_Side_Flipper_Area_m2 = 10^predict(BLvFlipperArea_model, newdata = data.frame(Body_Length_m = Body_Length_m)),
-    Predicted_Single_Side_Fluke_Area_m2 = 10^predict(BLvFlukeArea_model, newdata = data.frame(Body_Length_m = Body_Length_m))) %>% 
+    Predicted_Total_Flipper_Area_m2 = Predicted_Single_Side_Flipper_Area_m2*4,
+    Predicted_Single_Side_Fluke_Area_m2 = 10^predict(BLvFlukeArea_model, newdata = data.frame(Body_Length_m = Body_Length_m)),
+    Predicted_Total_Fluke_Area_m2 = Predicted_Single_Side_Fluke_Area_m2*4,
+    Predicted_Flipper_Chord_m = 10^predict(BLvFlipperChord_model, newdata = data.frame(Body_Length_m = Body_Length_m)), 
+    Predicted_Fluke_Chord_m = 10^predict(BLvFlukeChord_model, newdata = data.frame(Body_Length_m = Body_Length_m))) %>% 
   rowwise() %>%
   mutate(
     # Call the heat loss model with fixed modifiers
@@ -207,12 +233,14 @@ Morphometrics <- HumpbackHeatLoss::Morphometrics %>%
       BodyMass = Body_Mass_kg,
       BodySurfaceArea = Surface_Area_m2,
       FlipperSurfaceArea = (Predicted_Single_Side_Flipper_Area_m2*4),
+      FlipperChordLength = Predicted_Flipper_Chord_m,
       FlukeSurfaceArea = (Predicted_Single_Side_Fluke_Area_m2*4),
+      FlukeChordLength = Predicted_Fluke_Chord_m,
       BlubberThermalConductivity = 0.2,
       CoreBodyTemperature = 36,
       WarmAmbientTemp = 25,
       ColdAmbientTemp = 5,
-      MetabolicBetaFactor = 2)),
+      MetabolicBetaFactor = 1)),
     
     # Unpack returned values into columns
     Body_Blubber_Thickness_m_Glarou = model$BodyBlubberThickness,
@@ -225,50 +253,68 @@ Morphometrics <- HumpbackHeatLoss::Morphometrics %>%
     FMR_Beta_Multiple_W = model$FMR_Beta_Multiple,
     FMR_Respiration_W = model$FMR_Respiration,
     Hawaii_Conductive_Body_Only_Heat_Flow_W = model$WarmConductiveBodyOnlyHeatLoss,
-    Hawaii_Conductive_Flipper_Heat_Flow_W = model$WarmConductiveFlipperHeatLoss,
-    Hawaii_Conductive_Fluke_Heat_Flow_W = model$WarmConductiveFlukeHeatLoss,
+    Hawaii_Conductive_Turned_On_Flipper_Heat_Flow_W = model$WarmConductiveFlipperHeatLossTurnedOn,
+    Hawaii_Conductive_Turned_Off_Flipper_Heat_Flow_W = model$WarmConductiveFlipperHeatLossTurnedOff,
+    Hawaii_Conductive_Turned_On_Fluke_Heat_Flow_W = model$WarmConductiveFlukeHeatLossTurnedOn,
+    Hawaii_Conductive_Turned_Off_Fluke_Heat_Flow_W = model$WarmConductiveFlukeHeatLossTurnedOff,
     Hawaii_Respiratory_Heat_Flow_W = model$WarmRespiratoryHeatLoss,
     Hawaii_Body_Only_Heat_Flow_W = model$WarmBodyOnlyHeatLoss,
-    Hawaii_Total_Heat_Flow_W = model$WarmTotalHeatLoss,
+    Hawaii_Windows_Open_Heat_Flow_W = model$WarmWindowsOpenHeatLoss,
+    Hawaii_Windows_Closed_Heat_Flow_W = model$WarmWindowsClosedHeatLoss,
     Hawaii_BMR_Body_Only_Heat_Loss_Ratio = model$BMRtoWarmBodyOnlyHeatLossRatio,
-    Hawaii_BMR_Total_Heat_Loss_Ratio = model$BMRtoWarmTotalHeatLossRatio,
-    Hawaii_FMR_Beta_Multiple_Body_Only_Heat_Loss_Ratio = model$FMRBetatoWarmBodyOnlyHeatLossRatio,
-    Hawaii_FMR_Beta_Multiple_Total_Heat_Loss_Ratio = model$FMRBetatoWarmTotalHeatLossRatio,
-    Hawaii_FMR_Respiration_Body_Only_Heat_Loss_Ratio = model$FMRResptoWarmBodyOnlyHeatLossRatio,
-    Hawaii_FMR_Respiration_Total_Heat_Loss_Ratio = model$FMRResptoWarmTotalHeatLossRatio,
+    Hawaii_BMR_Windows_Open_Heat_Loss_Ratio = model$BMRtoWarmWindowsOpenHeatLossRatio,
+    Hawaii_BMR_Windows_Closed_Heat_Loss_Ratio = model$BMRtoWarmWindowsClosedHeatLossRatio,
+    Hawaii_FMR_Beta_Multiple_Body_Only_Heat_Loss_Ratio = model$FMRBetatoWarmWindowsClosedHeatLossRatio,
+    Hawaii_FMR_Beta_Multiple_Windows_Open_Heat_Loss_Ratio = model$FMRBetatoWarmWindowsOpenHeatLossRatio,
+    Hawaii_FMR_Beta_Multiple_Windows_Closed_Heat_Loss_Ratio = model$FMRBetatoWarmWindowsClosedHeatLossRatio,
+    Hawaii_FMR_Respiration_Body_Only_Heat_Loss_Ratio = model$FMRResptoWarmWindowsClosedHeatLossRatio,
+    Hawaii_FMR_Respiration_Windows_Open_Heat_Loss_Ratio = model$FMRResptoWarmWindowsOpenHeatLossRatio,
+    Hawaii_FMR_Respiration_Windows_Closed_Heat_Loss_Ratio = model$FMRResptoWarmWindowsClosedHeatLossRatio,
     Alaska_Conductive_Body_Only_Heat_Flow_W = model$ColdConductiveBodyOnlyHeatLoss,
-    Alaska_Conductive_Flipper_Heat_Flow_W = model$ColdConductiveFlipperHeatLoss,
-    Alaska_Conductive_Fluke_Heat_Flow_W = model$ColdConductiveFlukeHeatLoss,
+    Alaska_Conductive_Turned_On_Flipper_Heat_Flow_W = model$ColdConductiveFlipperHeatLossTurnedOn,
+    Alaska_Conductive_Turned_Off_Flipper_Heat_Flow_W = model$ColdConductiveFlipperHeatLossTurnedOff,
+    Alaska_Conductive_Turned_On_Fluke_Heat_Flow_W = model$ColdConductiveFlukeHeatLossTurnedOn,
+    Alaska_Conductive_Turned_Off_Fluke_Heat_Flow_W = model$ColdConductiveFlukeHeatLossTurnedOff,
     Alaska_Respiratory_Heat_Flow_W = model$ColdRespiratoryHeatLoss,
     Alaska_Body_Only_Heat_Flow_W = model$ColdBodyOnlyHeatLoss,
-    Alaska_Total_Heat_Flow_W = model$ColdTotalHeatLoss,
+    Alaska_Windows_Open_Heat_Flow_W = model$ColdWindowsOpenHeatLoss,
+    Alaska_Windows_Closed_Heat_Flow_W = model$ColdWindowsClosedHeatLoss,
     Alaska_BMR_Body_Only_Heat_Loss_Ratio = model$BMRtoColdBodyOnlyHeatLossRatio,
-    Alaska_BMR_Total_Heat_Loss_Ratio = model$BMRtoColdTotalHeatLossRatio,
-    Alaska_FMR_Beta_Multiple_Body_Only_Heat_Loss_Ratio = model$FMRBetatoColdBodyOnlyHeatLossRatio,
-    Alaska_FMR_Beta_Multiple_Total_Heat_Loss_Ratio = model$FMRBetatoColdTotalHeatLossRatio,
-    Alaska_FMR_Respiration_Body_Only_Heat_Loss_Ratio = model$FMRResptoColdBodyOnlyHeatLossRatio,
-    Alaska_FMR_Respiration_Total_Heat_Loss_Ratio = model$FMRResptoColdTotalHeatLossRatio,
+    Alaska_BMR_Windows_Open_Heat_Loss_Ratio = model$BMRtoColdWindowsOpenHeatLossRatio,
+    Alaska_BMR_Windows_Closed_Heat_Loss_Ratio = model$BMRtoColdWindowsClosedHeatLossRatio,
+    Alaska_FMR_Beta_Multiple_Body_Only_Heat_Loss_Ratio = model$FMRBetatoColdWindowsClosedHeatLossRatio,
+    Alaska_FMR_Beta_Multiple_Windows_Open_Heat_Loss_Ratio = model$FMRBetatoColdWindowsOpenHeatLossRatio,
+    Alaska_FMR_Beta_Multiple_Windows_Closed_Heat_Loss_Ratio = model$FMRBetatoColdWindowsClosedHeatLossRatio,
+    Alaska_FMR_Respiration_Body_Only_Heat_Loss_Ratio = model$FMRResptoColdWindowsClosedHeatLossRatio,
+    Alaska_FMR_Respiration_Windows_Open_Heat_Loss_Ratio = model$FMRResptoColdWindowsOpenHeatLossRatio,
+    Alaska_FMR_Respiration_Windows_Closed_Heat_Loss_Ratio = model$FMRResptoColdWindowsClosedHeatLossRatio,
     L_Crit_Temp = model$TcritLower,
     
     # Estimating Possible "Field" Metabolic Rate Sustainable Range
-    Hawaii_Lower_Realistic_BMR_Met_Beta_Factor = Hawaii_Body_Only_Heat_Flow_W / KleiberBMR_W,
-    Hawaii_Upper_Realistic_BMR_Met_Beta_Factor = Hawaii_Total_Heat_Flow_W / KleiberBMR_W,
-    Alaska_Lower_Realistic_BMR_Met_Beta_Factor = Alaska_Body_Only_Heat_Flow_W / KleiberBMR_W,
-    Alaska_Upper_Realistic_BMR_Met_Beta_Factor = Alaska_Total_Heat_Flow_W / KleiberBMR_W,
+    Hawaii_Lower_Realistic_BMR_Met_Beta_Factor = Hawaii_Windows_Closed_Heat_Flow_W / KleiberBMR_W,
+    Hawaii_Upper_Realistic_BMR_Met_Beta_Factor = Hawaii_Windows_Open_Heat_Flow_W / KleiberBMR_W,
+    Alaska_Lower_Realistic_BMR_Met_Beta_Factor = Alaska_Windows_Closed_Heat_Flow_W / KleiberBMR_W,
+    Alaska_Upper_Realistic_BMR_Met_Beta_Factor = Alaska_Windows_Open_Heat_Flow_W / KleiberBMR_W,
     
     # Mass-specific versions
     Mass_Specific_Hawaii_Conductive_Body_Only_Heat_Flow_W_kg = Hawaii_Conductive_Body_Only_Heat_Flow_W / Body_Mass_kg,
-    Mass_Specific_Hawaii_Conductive_Flipper_Heat_Flow_W_kg = Hawaii_Conductive_Flipper_Heat_Flow_W / Body_Mass_kg,
-    Mass_Specific_Hawaii_Conductive_Fluke_Heat_Flow_W_kg = Hawaii_Conductive_Fluke_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Hawaii_Conductive_Turned_On_Flipper_Heat_Flow_W_kg = Hawaii_Conductive_Turned_On_Flipper_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Hawaii_Conductive_Turned_Off_Flipper_Heat_Flow_W_kg = Hawaii_Conductive_Turned_Off_Flipper_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Hawaii_Conductive_Turned_On_Fluke_Heat_Flow_W_kg = Hawaii_Conductive_Turned_On_Fluke_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Hawaii_Conductive_Turned_Off_Fluke_Heat_Flow_W_kg = Hawaii_Conductive_Turned_Off_Fluke_Heat_Flow_W / Body_Mass_kg,
     Mass_Specific_Hawaii_Respiratory_Heat_Flow_W_kg = Hawaii_Respiratory_Heat_Flow_W / Body_Mass_kg,
     Mass_Specific_Hawaii_Body_Only_Heat_Flow_W = Hawaii_Body_Only_Heat_Flow_W / Body_Mass_kg,
-    Mass_Specific_Hawaii_Total_Heat_Flow_W = Hawaii_Total_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Hawaii_Windows_Open_Heat_Flow_W = Hawaii_Windows_Open_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Hawaii_Windows_Closed_Heat_Flow_W = Hawaii_Windows_Closed_Heat_Flow_W / Body_Mass_kg,
     Mass_Specific_Alaska_Conductive_Body_Only_Heat_Flow_W_kg = Alaska_Conductive_Body_Only_Heat_Flow_W / Body_Mass_kg,
-    Mass_Specific_Alaska_Conductive_Flipper_Heat_Flow_W_kg = Alaska_Conductive_Flipper_Heat_Flow_W / Body_Mass_kg,
-    Mass_Specific_Alaska_Conductive_Fluke_Heat_Flow_W_kg = Alaska_Conductive_Fluke_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Alaska_Conductive_Turned_On_Flipper_Heat_Flow_W_kg = Alaska_Conductive_Turned_On_Flipper_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Alaska_Conductive_Turned_Off_Flipper_Heat_Flow_W_kg = Alaska_Conductive_Turned_Off_Flipper_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Alaska_Conductive_Turned_On_Fluke_Heat_Flow_W_kg = Alaska_Conductive_Turned_On_Fluke_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Alaska_Conductive_Turned_Off_Fluke_Heat_Flow_W_kg = Alaska_Conductive_Turned_Off_Fluke_Heat_Flow_W / Body_Mass_kg,
     Mass_Specific_Alaska_Respiratory_Heat_Flow_W_kg = Alaska_Respiratory_Heat_Flow_W / Body_Mass_kg,
     Mass_Specific_Alaska_Body_Only_Heat_Flow_W = Alaska_Body_Only_Heat_Flow_W / Body_Mass_kg,
-    Mass_Specific_Alaska_Total_Heat_Flow_W = Alaska_Total_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Alaska_Windows_Open_Heat_Flow_W = Alaska_Windows_Open_Heat_Flow_W / Body_Mass_kg,
+    Mass_Specific_Alaska_Windows_Closed_Heat_Flow_W = Alaska_Windows_Closed_Heat_Flow_W / Body_Mass_kg,
     
     # Log-transformed
     Log_10_Body_Length_m = log10(Body_Length_m),
@@ -279,380 +325,32 @@ Morphometrics <- HumpbackHeatLoss::Morphometrics %>%
   select(-model)
 ```
 
-```{r DATA - Generate MC Simulation for Heat Loss Variables Based on Morphometrics for Each Individual, include = FALSE}
-set.seed(6795)
-
-simulate_individual_heatloss <- function(individual, n = 100) {
-  # Generate random modifiers
-  metabolic_mod <- runif(n, 0.5, 4.0)
-  conductivity_mod <- runif(n, 0.15, 0.25)
-
-  # Extract individual-level constants
-  ID <- individual$Individual_ID
-  Region <- individual$Region
-  BodyLength <- individual$Body_Length_m
-  BodyMass <- individual$Body_Mass_kg
-  SurfaceArea <- individual$Surface_Area_m2
-
-  # Ambient conditions
-  WaterTemp <- ifelse(Region == "AK", 5, ifelse(Region == "HI", 25, NA))
-  AirTemp <- WaterTemp # or set separately
-
-  # Run simulations using heat_loss_model()
-  sims <- map_dfr(1:n, function(i) {
-    out <- heat_loss_model(
-      BodyLength = BodyLength,
-      BodyMass = BodyMass,
-      BodySurfaceArea = SurfaceArea,
-      BlubberThermalConductivity = conductivity_mod[i],
-      CoreBodyTemperature = 36,
-      WaterTemperature = WaterTemp,
-      AirTemperature = AirTemp,
-      MetabolicBetaFactor = metabolic_mod[i]
-    )
-
-    tibble(
-      Simulation = i,
-      Individual_ID = ID,
-      Region = Region,
-      Body_Length_m = BodyLength,
-      Body_Mass_kg = BodyMass,
-      Surface_Area_m2 = SurfaceArea,
-      Metabolic_Modifier = metabolic_mod[i],
-      Conductivity_W_m_C = conductivity_mod[i],
-      Blubber_Thickness_m = out$BlubberThickness,
-      Conductive_Heat_Loss_W = out$ConductiveHeatLoss,
-      Respiratory_Heat_Loss_W = out$RespiratoryHeatLoss,
-      Total_Heat_Loss_W = out$HeatLoss,
-      Tcrit_Lower_C = out$TcritLower
-    )
-  })
-
-  return(sims)
-}
-
-# Apply to all individuals in Morphometrics
-AllWhaleSimulations <- Morphometrics %>%
-  filter(!is.na(Individual_ID)) %>%
-  group_split(Individual_ID) %>%
-  map_dfr(simulate_individual_heatloss)
-
-# Create ribbon of max and min simulated data for plotting
-AllWhaleSimulationsRibbon <- AllWhaleSimulations %>%
-  group_by(Individual_ID, Body_Length_m) %>%
-  summarise(
-    Tcrit_min = min(Tcrit_Lower_C),
-    Tcrit_max = max(Tcrit_Lower_C),
-    .groups = "drop"
-  )
-
-# Fit ribbons across body size
-model_min <- lm(Tcrit_min ~ Body_Length_m, data = AllWhaleSimulationsRibbon)
-model_max <- lm(Tcrit_max ~ Body_Length_m, data = AllWhaleSimulationsRibbon)
-
-x_vals <- seq(min(AllWhaleSimulations$Body_Length_m), max(AllWhaleSimulations$Body_Length_m), length.out = 200)
-
-WhaleRibbon_df <- tibble(
-  Body_Length_m = x_vals,
-  Lmin = predict(model_min, newdata = tibble(Body_Length_m = x_vals)),
-  Lmax = predict(model_max, newdata = tibble(Body_Length_m = x_vals)))
-```
-
-```{r DATA - Create Modeled Heat Loss Dataframe - Rigid For Sensitivity Analyses, include=FALSE}
-modifier <- c(0.90, 0.95, 1, 1.05, 1.1)
-
-# Total Body Length (BodyLength; m) - ranges from 3-14 m to cover the full range for humpback whales in Hawaii and Alaska.
-# Thermal Conductivity of Blubber (ThermalConductivity; W m-1) - taken from Perry (1949).
-# Blubber Thickness (BlubberThickness; m) - taken from Glarou et al. (2025) using a linear relationship between body size and blubber thickness.
-# Thermally Active Body Surface Area (BodySurfaceArea) - taken from CFD calculations done by John Kennedy and Jean Potvin (Kennedy 2021 - Dissertation) and mentioned by Gough et al. (2021).
-# Internal Body Temperature in Celsius (InternalBodyTemperature) - taken from Morrison (1962).
-# Ambient Water Temperature in Celsius (WaterTemperature) - estimated using tag data for humpbacks in Hawaii, and possibly Alaska as well? Talk to Niko about accuracy of temperature sensors in each tag.
-
-BodyLength = seq(3,12)
-
-ThermalConductivity = 0.2
-InternalBodyTemperature = 36
-WaterTemperature = c(5, 25)
-
-Heat_Loss_Sensitivity = expand_grid(
-  BodyLength = BodyLength,
-  ThermalConductivity = ThermalConductivity * modifier,
-  InternalBodyTemperature = InternalBodyTemperature * modifier,
-  WaterTemperature = WaterTemperature * modifier,
-  ModifierBT = modifier,
-  ModifierSA = modifier) %>% 
-  mutate(model_results = pmap(
-    .l = list(BodyLength, ThermalConductivity, InternalBodyTemperature, WaterTemperature, ModifierBT, ModifierSA),
-    .f = heat_loss_model),
-    HeatLoss = map_dbl(model_results, "HeatLoss"),
-    BodyLength = map_dbl(model_results, "BodyLength"),
-    BlubberThickness = map_dbl(model_results, "BlubberThickness"),
-    BodySurfaceArea = map_dbl(model_results, "BodySurfaceArea"),
-    ModifierBT = map_dbl(model_results, "ModifierBT"),
-    ModifierSA = map_dbl(model_results, "ModifierSA"),
-    TemperatureRegion = case_when(
-      WaterTemperature >= 5 * 0.75 & WaterTemperature <= 5 * 1.25 ~ "Alaska",
-      WaterTemperature >= 25 * 0.75 & WaterTemperature <= 25 * 1.25 ~ "Hawaii",
-      TRUE ~ NA_character_))
-```
-
-```{r DATA - Create Modeled Heat Loss Dataframe - Flexible for Monte Carlo Simulations, include = FALSE}
-set.seed(5500)
-
-n_sim <- 10000
-
-Heat_Loss_Monte_Carlo <- tibble(
-  BodyLength = runif(n_sim, min = 3, max = 12),   
-  ThermalConductivity = runif(n_sim, min = 0.2 * 0.9, max = 0.2 * 1.1),
-  InternalBodyTemperature = runif(n_sim, min = 36 * 0.9, max = 36 * 1.1),
-  WaterTemperature = sample(c(5, 25), size = n_sim, replace = TRUE) * runif(n_sim, min = 0.9, max = 1.1),
-  ModifierBT = runif(n_sim, min = 0.9, max = 1.1),
-  ModifierSA = runif(n_sim, min = 0.9, max = 1.1)) %>%
-  mutate(model_output = pmap(
-    list(BodyLength, ThermalConductivity, InternalBodyTemperature, WaterTemperature, ModifierBT, ModifierSA),
-    heat_loss_model),
-    HeatLoss = map_dbl(model_output, "HeatLoss"),
-    BlubberThickness = map_dbl(model_output, "BlubberThickness"),
-    BodySurfaceArea = map_dbl(model_output, "BodySurfaceArea"),
-    TemperatureRegion = case_when(
-      WaterTemperature < 15 ~ "Alaska",
-      WaterTemperature >= 15 ~ "Hawaii"))
-```
-
-```{r DATA - Regression Intercept and Slope for HI-AK "Surface Area Vs. Body Length" Difference, include = FALSE}
-# Region-specific log-log models
-Model_HI <- lm(Log_10_Surface_Area_m2 ~ Log_10_Body_Length_m, data = Morphometrics %>% filter(Region == "HI", Demographic_Class != "Calf"))
-Model_AK <- lm(Log_10_Surface_Area_m2 ~ Log_10_Body_Length_m, data = Morphometrics %>% filter(Region == "AK", Demographic_Class != "Calf"))
-
-# Predict across size range
-Model_Body_Length_m <- seq(8, 14, length.out = 100)
-Model_Log_10_Body_Length_m <- log10(Model_Body_Length_m)
-
-pred_HI <- 10 ^ predict(Model_HI, newdata = tibble(Log_10_Body_Length_m = Model_Log_10_Body_Length_m))
-pred_AK <- 10 ^ predict(Model_AK, newdata = tibble(Log_10_Body_Length_m = Model_Log_10_Body_Length_m))
-percent_diff <- 100 * (pred_HI - pred_AK) / pred_AK
-
-# Regression: % difference ~ log10(body length)
-sa_diff_data <- tibble(
-  Model_Body_Length_m = Model_Body_Length_m,
-  Model_Log_10_Body_Length_m = Model_Log_10_Body_Length_m,
-  PercentDifference = percent_diff
-)
-
-sa_diff_model <- lm(PercentDifference ~ Model_Log_10_Body_Length_m, data = sa_diff_data)
-
-# Save coefficients as variables
-sa_diff_intercept <- coef(sa_diff_model)[1]
-sa_diff_slope <- coef(sa_diff_model)[2]
-```
-
-```{r DATA - TESTING - Speed-Dependent Model of Heat Loss, include = FALSE}
-# Model only for flippers and flukes
-SwimSpeed = 2
-BodyLength = 12 # different for the lengths of the flippers and flukes - chord length for tail, span length for flipper
-KinematicViscosity = 1.044*(10^-6)
-
-# Model for flipper outstretched
-Reynolds = (FlipperChord * SwimSpeed) / KinematicViscosity
-
-PrandtlTurbulent = 0.85
-SeawaterThermalConductivity = 0.6
-
-Nusselt = 0.037 * (Reynolds^(4/5)) * (PrandtlTurbulent^(1/3)) # Heat Transfer: A Practical Approach (Second Edition)
-
-HeatTransferCoefficient = (Nusselt * SeawaterThermalConductivity) / FlipperChord
-
-SurfaceArea = FlipperAreaSingleSide
-BodyTemp = 36
-AmbientTemp = 25
-  
-HeatFluxFlipperOneSide = HeatTransferCoefficient * SurfaceArea * (BodyTemp - AmbientTemp)
-HeatFluxFlipperOneFull = HeatFluxFlipperOneSide * 2
-HeatFluxFlipperBoth = HeatFluxFlipperOneFull * 2
-
-FlipperBlubber = 0.003
-FlipperBlubberThermalConductivity = 0.2
-Heat_Flow_Conductive_Flipper = (FlipperBlubberThermalConductivity * (FlipperAreaSingleSide * 2) * (BodyTemp - AmbientTemp)) / FlipperBlubber
-
-#Model for Fluke
-Reynolds = (BodyLength * SwimSpeed) / KinematicViscosity
-
-PrandtlTurbulent = 0.85
-SeawaterThermalConductivity = 0.6
-
-Nusselt = 0.037 * (Reynolds^(4/5)) * (PrandtlTurbulent^(1/3)) # find for forced flow over a flat plate
-
-HeatTransferCoefficient = (Nusselt * SeawaterThermalConductivity) / BodyLength
-
-SurfaceArea = 60
-BodyTemp = 36
-AmbientTemp = 5
-  
-HeatFlux = HeatTransferCoefficient * SurfaceArea * (BodyTemp - AmbientTemp)
-
-# Relationships
-BodyMass = 26000
-
-BMR = 3.39 * (BodyMass^(0.75))
-```
-
-```{r DATA - Create Annual Heat Loss Dataframe - Flexible for Monte Carlo Simulations, include = FALSE}
-set.seed(910)
-
-# UPDATE THIS MODEL TO USE BODY VOLUME AND VOLUME CHANGE - THEN CALCULATE SA AND MASS ACCORDINGLY
-# Parameters
-n_simulations <- 1000
-daily_sd <- 1.0
-body_length_range <- c(8, 14)
-thermal_conductivity_range <- 0.2 * c(0.9, 1.1)
-internal_body_temp_range <- 36 * c(0.9, 1.1)
-modifier_blubber_thickness_range <- c(0.9, 1.1)
-day_of_year <- 1:365
-cv <- 0.1  # Coefficient of variation for SA swing
-
-# Storage
-heat_loss_matrix <- matrix(NA, nrow = 365, ncol = n_simulations)
-heat_loss_MS_matrix <- matrix(NA, nrow = 365, ncol = n_simulations)
-sa_modifier_matrix <- matrix(NA, nrow = 365, ncol = n_simulations)
-sst_matrix <- matrix(NA, nrow = 365, ncol = n_simulations)
-sa_matrix <- matrix(NA, nrow = 365, ncol = n_simulations)
-bm_matrix <- matrix(NA, nrow = 365, ncol = n_simulations)
-bt_matrix <- matrix(NA, nrow = 365, ncol = n_simulations)
-
-for (sim in 1:n_simulations) {
-
-  # Random whale parameters
-  bl <- runif(1, body_length_range[1], body_length_range[2])
-  tc <- runif(1, thermal_conductivity_range[1], thermal_conductivity_range[2])
-  ibt <- runif(1, internal_body_temp_range[1], internal_body_temp_range[2])
-  mbt <- runif(1, modifier_blubber_thickness_range[1], modifier_blubber_thickness_range[2]) 
-  
-  # Seasonal transitions
-  d_mig_north_start <- sample(80:100, 1)
-  d_feed_start      <- sample(140:160, 1)
-  d_mig_south_start <- sample(260:280, 1)
-  d_breed_start     <- sample(320:340, 1)
-
-  # Day durations
-  loss_days_1 <- d_feed_start - 1
-  gain_days   <- d_mig_south_start - d_feed_start
-  loss_days_2 <- d_breed_start - d_mig_south_start
-  loss_days_3 <- 365 - d_breed_start + 1
-  total_loss_days <- loss_days_1 + loss_days_2 + loss_days_3
-
-  # Surface area change from regression (absolute % swing)
-  log_bl <- log10(bl)
-  annual_sa_change_percent <- abs(sa_diff_intercept + sa_diff_slope * log_bl)
-  annual_sa_change_prop <- annual_sa_change_percent / 100
-
-  # Gain/loss rates for total swing
-  daily_gain_rate <- rnorm(1, mean = annual_sa_change_prop / gain_days, sd = (annual_sa_change_prop * cv) / gain_days)
-  daily_loss_rate <- rnorm(1, mean = annual_sa_change_prop / total_loss_days, sd = (annual_sa_change_prop * cv) / total_loss_days)
-
-  # Surface area modifier
-  modifier_sa_vector <- numeric(365)
-  sa_modifier <- 1.0  # Start at neutral midpoint
-
-  for (i in day_of_year) {
-    if (i < d_feed_start) {
-      sa_modifier <- sa_modifier - daily_loss_rate
-    } else if (i < d_mig_south_start) {
-      sa_modifier <- sa_modifier + daily_gain_rate
-    } else if (i < d_breed_start) {
-      sa_modifier <- sa_modifier - daily_loss_rate
-    } else {
-      sa_modifier <- sa_modifier - daily_loss_rate
-    }
-    modifier_sa_vector[i] <- pmin(pmax(sa_modifier, 0.7), 1.3)
-  }
-  sa_modifier_matrix[, sim] <- modifier_sa_vector
-
-  # SST curve
-  Tmax <- runif(1, 24, 26)
-  Tmin <- runif(1, 4, 7)
-  sst_curve <- sapply(day_of_year, function(i) {
-    if (i <= d_mig_north_start) {
-      Tmax
-    } else if (i <= d_feed_start) {
-      x <- (i - d_mig_north_start) / (d_feed_start - d_mig_north_start)
-      Tmax - (Tmax - Tmin) * x
-    } else if (i <= d_mig_south_start) {
-      Tmin
-    } else if (i <= d_breed_start) {
-      x <- (i - d_mig_south_start) / (d_breed_start - d_mig_south_start)
-      Tmin + (Tmax - Tmin) * x
-    } else {
-      Tmax
-    }
-  })
-  sst_matrix[, sim] <- sst_curve
-
-  # Daily heat loss + extract SA and BT from model
-  daily_outputs <- lapply(1:365, function(i) {
-    wt <- rnorm(1, sst_curve[i], daily_sd) %>% pmax(-2) %>% pmin(30)
-    heat_loss_model(
-      BodyLength = bl,
-      ThermalConductivity = tc,
-      InternalBodyTemperature = ibt,
-      WaterTemperature = wt,
-      ModifierBT = mbt,
-      ModifierSA = modifier_sa_vector[i]
-    )
-  })
-  
-  # Extract daily heat loss and surface area
-  daily_heat <- sapply(daily_outputs, function(x) x$HeatLoss)
-  daily_sa   <- sapply(daily_outputs, function(x) x$BodySurfaceArea)
-  
-  # Estimate daily mass from surface area using inverse of your model
-  log_mass <- predict(BMvSA_model, newdata = data.frame(Surface_Area_m2 = daily_sa))
-  mass_kg <- 10^log_mass
-  
-  # Mass-specific heat loss
-  heat_loss_MS <- daily_heat / mass_kg
-  
-  # Store
-  heat_loss_matrix[, sim] <- daily_heat
-  heat_loss_MS_matrix[, sim] <- heat_loss_MS
-  sa_matrix[, sim] <- daily_sa
-  bt_matrix[, sim] <- sapply(daily_outputs, function(x) x$BlubberThickness)
-}
-
-# Summarize
-heat_loss_summary <- tibble(
-  DayOfYear = day_of_year,
-  HeatMean = rowMeans(heat_loss_matrix),
-  HeatLower = apply(heat_loss_matrix, 1, quantile, probs = 0.05),
-  HeatUpper = apply(heat_loss_matrix, 1, quantile, probs = 0.95)
-)
-
-heat_loss_MS_summary <- tibble(
-  DayOfYear = day_of_year,
-  HeatMassSpecMean = rowMeans(heat_loss_MS_matrix),
-  HeatMassSpecLower = apply(heat_loss_MS_matrix, 1, quantile, probs = 0.05),
-  HeatMassSpecUpper = apply(heat_loss_MS_matrix, 1, quantile, probs = 0.95)
-)
-
-sst_summary <- tibble(
-  DayOfYear = day_of_year,
-  SSTMean = rowMeans(sst_matrix),
-  SSTLower = apply(sst_matrix, 1, quantile, probs = 0.05),
-  SSTUpper = apply(sst_matrix, 1, quantile, probs = 0.95)
-)
-
-sa_summary <- tibble(
-  DayOfYear = day_of_year,
-  SurfaceAreaMean = rowMeans(sa_matrix),
-  SurfaceAreaLower = apply(sa_matrix, 1, quantile, probs = 0.05),
-  SurfaceAreaUpper = apply(sa_matrix, 1, quantile, probs = 0.95)
-)
-
-bt_summary <- tibble(
-  DayOfYear = day_of_year,
-  BlubberThicknessMean = rowMeans(bt_matrix),
-  BlubberThicknessLower = apply(bt_matrix, 1, quantile, probs = 0.05),
-  BlubberThicknessUpper = apply(bt_matrix, 1, quantile, probs = 0.95)
-)
+```{r DATA - Create Modeled MC Heat Loss Dataframe, include = FALSE}
+# set.seed(5500)
+# 
+# n_sim <- 10000
+# 
+# Heat_Loss_Monte_Carlo <- tibble(
+#   BodyLength = runif(n_sim, min = 3, max = 12),
+#   ThermalConductivity = runif(n_sim, min = 0.2 * 0.9, max = 0.2 * 1.1),
+#   InternalBodyTemperature = runif(n_sim, min = 36 * 0.9, max = 36 * 1.1),
+#   WaterTemperature = sample(c(5, 25), size = n_sim, replace = TRUE) * runif(n_sim, min = 0.9, max = 1.1),
+#   ModifierBT = runif(n_sim, min = 0.9, max = 1.1),
+#   ModifierSA = runif(n_sim, min = 0.9, max = 1.1)
+# ) %>%
+#   mutate(
+#     model_output = pmap(
+#       list(BodyLength, ThermalConductivity, InternalBodyTemperature, WaterTemperature, ModifierBT, ModifierSA),
+#       heat_loss_model
+#     ),
+#     HeatLoss = map_dbl(model_output, "HeatLoss"),
+#     BlubberThickness = map_dbl(model_output, "BlubberThickness"),
+#     BodySurfaceArea = map_dbl(model_output, "BodySurfaceArea"),
+#     TemperatureRegion = case_when(
+#       WaterTemperature < 15 ~ "Alaska",
+#       WaterTemperature >= 15 ~ "Hawaii"
+#     )
+#   )
 ```
 
 ```{r TABLE - Creation of Morphometrics Table, include=FALSE}
@@ -669,8 +367,8 @@ MorphSummary_long <- Morphometrics %>%
     SD_Surface_Area = sd(Surface_Area_m2, na.rm = TRUE),
     Body_Condition = mean(Body_Condition, na.rm = TRUE),
     SD_Body_Condition = sd(Body_Condition, na.rm = TRUE),
-    Blubber_Thickness = mean(Blubber_Thickness_mm_Watts, na.rm = TRUE),
-    SD_Blubber_Thickness = sd(Blubber_Thickness_mm_Watts, na.rm = TRUE),
+    Blubber_Thickness = mean(Body_Blubber_Thickness_m_Glarou, na.rm = TRUE),
+    SD_Blubber_Thickness = sd(Body_Blubber_Thickness_m_Glarou, na.rm = TRUE),
     .groups = "drop"
   ) %>%
   mutate(
@@ -705,8 +403,8 @@ overall_summary_long <- Morphometrics %>%
     SD_Surface_Area = sd(Surface_Area_m2, na.rm = TRUE),
     Body_Condition = mean(Body_Condition, na.rm = TRUE),
     SD_Body_Condition = sd(Body_Condition, na.rm = TRUE),
-    Blubber_Thickness = mean(Blubber_Thickness_mm_Watts, na.rm = TRUE),
-    SD_Blubber_Thickness = sd(Blubber_Thickness_mm_Watts, na.rm = TRUE),
+    Blubber_Thickness = mean(Body_Blubber_Thickness_m_Glarou, na.rm = TRUE),
+    SD_Blubber_Thickness = sd(Body_Blubber_Thickness_m_Glarou, na.rm = TRUE),
     .groups = "drop"
   ) %>%
   mutate(
@@ -777,7 +475,7 @@ print(Morphometrics_Table, target = "man/Morphometric_Summary_WideTable.docx")
 ```
 
 ```{r FIGURE - Morphometrics Regression (Body Length Vs. Surface Area), echo = FALSE, message = FALSE, warning = FALSE, results = 'hide', fig.keep = 'none', fig.align = 'center', fig.dim = c(8, 8)}
-ResidualsData <- HumpbackHeatLoss::Morphometrics %>%
+BodyResidualsData <- Morphometrics %>%
   mutate(
     logBL = log10(Body_Length_m),
     logSA = log10(Surface_Area_m2),
@@ -786,60 +484,195 @@ ResidualsData <- HumpbackHeatLoss::Morphometrics %>%
     percent_error = (10^residual - 1) * 100
   )
 
-pBLvSA_log10_regression <- ggplot(HumpbackHeatLoss::Morphometrics, aes(x = Body_Length_m, y = Surface_Area_m2)) +
+FlipperResidualsData <- HumpbackHeatLoss::FlukeFlipperMetrics %>%
+  mutate(
+    logBL = log10(Body_Length_m),
+    logFlipperSA = log10(Mean_Flipper_Area_m2),
+    predicted_logFlipperSA = predict(BLvFlipperArea_model),
+    residual = logFlipperSA - predicted_logFlipperSA,
+    percent_error = (10^residual - 1) * 100
+  )
+
+FlukeResidualsData <- HumpbackHeatLoss::FlukeFlipperMetrics %>%
+  mutate(
+    logBL = log10(Body_Length_m),
+    logFlukeSA = log10(Mean_Fluke_Area_m2),
+    predicted_logFlukeSA = predict(BLvFlukeArea_model),
+    residual = logFlukeSA - predicted_logFlukeSA,
+    percent_error = (10^residual - 1) * 100
+  )
+
+pBLvSA_log10_regression <- ggplot(Morphometrics, aes(x = Body_Length_m, y = Surface_Area_m2)) +
   geom_point(size = 3) +
   geom_smooth(method = "lm", se = FALSE, linewidth = 5, color = "gray40") +
-  geom_smooth(aes(y = Surface_Area_m2 * (1 + quantile((10^(log10(Surface_Area_m2) - predict(BLvSA_model)) - 1), probs = 0.05))),
+  geom_smooth(aes(y = Surface_Area_m2 * (1 + quantile((10^(log10(Surface_Area_m2) - predict(BLvSA_model, newdata = Morphometrics)) - 1), probs = 0.05, na.rm = TRUE))),
               method = "lm", se = FALSE, linetype = "dashed", linewidth = 4, color = "darkblue") +
-  geom_smooth(aes(y = Surface_Area_m2 * (1 + quantile((10^(log10(Surface_Area_m2) - predict(BLvSA_model)) - 1), probs = 0.95))),
+  geom_smooth(aes(y = Surface_Area_m2 * (1 + quantile((10^(log10(Surface_Area_m2) - predict(BLvSA_model, newdata = Morphometrics)) - 1), probs = 0.95, na.rm = TRUE))),
               method = "lm", se = FALSE, linetype = "dashed", linewidth = 4, color = "darkred") +
   scale_x_log10(expand = c(0, 0)) +
   scale_y_log10(expand = c(0, 0)) +
-  annotate("text", x = min(Morphometrics$Body_Length_m) * 1.01, y = max(Morphometrics$Surface_Area_m2),
+  annotate("text", x = min(Morphometrics$Body_Length_m, na.rm = TRUE) * 1.01,
+           y = max(Morphometrics$Surface_Area_m2, na.rm = TRUE),
            label = Linear_Relationship(log10(Morphometrics$Body_Length_m), log10(Morphometrics$Surface_Area_m2)),
-           hjust = 0, vjust = 1, size = 24) +
+           hjust = 0, vjust = 1, size = 18) +
   labs(x = expression(log[10]("Body Length")~"(m)"),
-       y = expression(log[10]("Surface Area")~"(m"^2*")")) +
+       y = expression(log[10]("Body Surface Area")~"(m"^2*")")) +
   theme_classic(base_size = 8) +
-  theme(axis.text = element_text(size = 40),
-        axis.title.x = element_text(size = 45, margin = margin(t = 10, r = 0, b = 0, l = 0)),
-        axis.title.y = element_text(size = 35, margin = margin(t = 0, r = 10, b = 0, l = 0)),
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 40),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 32, margin = margin(t = 10, r = 0, b = 0, l = 0)),
         axis.line = element_line(color = "black", size = 1),
         legend.position = "none",
         panel.grid.minor = element_blank())
 
-pBLvSA_residuals <- ggplot(ResidualsData, aes(x = percent_error)) +
+pBLvSA_residuals <- ggplot(BodyResidualsData, aes(x = percent_error)) +
   geom_density(fill = "gray70", color = "black") +
-  geom_vline(xintercept = quantile(ResidualsData$percent_error, probs = 0.05), 
+  geom_vline(xintercept = quantile(BodyResidualsData$percent_error, probs = 0.05), 
              linetype = "dashed", color = "darkblue", linewidth = 3) +
-  geom_vline(xintercept = quantile(ResidualsData$percent_error, probs = 0.95), 
+  geom_vline(xintercept = quantile(BodyResidualsData$percent_error, probs = 0.95), 
              linetype = "dashed", color = "darkred", linewidth = 3) +
   annotate("text",
-           x = quantile(ResidualsData$percent_error, probs = 0.05),
-           y = 0.065,
-           label = paste0(round(quantile(ResidualsData$percent_error, probs = 0.05), 1), "%"),
-           hjust = 1.1, size = 10, color = "darkblue") +
+           x = quantile(BodyResidualsData$percent_error, probs = 0.05),
+           y = 0.06,
+           label = paste0(round(quantile(BodyResidualsData$percent_error, probs = 0.05), 1), "%"),
+           vjust = 2, size = 10, color = "darkblue") +
   annotate("text",
-           x = quantile(ResidualsData$percent_error, probs = 0.95),
-           y = 0.065,
-           label = paste0("+", round(quantile(ResidualsData$percent_error, probs = 0.95), 1), "%"),
-           hjust = -0.1, size = 10, color = "darkred") +
+           x = quantile(BodyResidualsData$percent_error, probs = 0.95),
+           y = 0.06,
+           label = paste0("+", round(quantile(BodyResidualsData$percent_error, probs = 0.95), 1), "%"),
+           vjust = 2, size = 10, color = "darkred") +
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(expand = c(0, 0)) +
   labs(
     x = "Percent Deviation from Predicted Surface Area (%)",
     y = "Count") +
+  coord_flip() +
   theme_classic(base_size = 8) +
-  theme(axis.text.x = element_text(size = 40),
-        axis.text.y = element_blank(),
-        axis.title.x = element_text(size = 45, margin = margin(t = 30, r = 0, b = 0, l = 0)),
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 40),
+        axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         axis.line = element_line(color = "black", size = 1),
         legend.position = "none",
         panel.grid.minor = element_blank())
 
-pBLvSA <- pBLvSA_log10_regression / pBLvSA_residuals +
-  plot_layout(heights = c(3, 1))
+pBLvFlipperArea_log10_regression <- ggplot(HumpbackHeatLoss::FlukeFlipperMetrics, aes(x = Body_Length_m, y = Mean_Flipper_Area_m2)) +
+  geom_point(size = 6) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 5, color = "gray40") +
+  geom_smooth(aes(y = Mean_Flipper_Area_m2 * (1 + quantile((10^(log10(Mean_Flipper_Area_m2) - predict(BLvFlipperArea_model, newdata = HumpbackHeatLoss::FlukeFlipperMetrics)) - 1), probs = 0.05, na.rm = TRUE))),
+              method = "lm", se = FALSE, linetype = "dashed", linewidth = 4, color = "darkblue") +
+  geom_smooth(aes(y = Mean_Flipper_Area_m2 * (1 + quantile((10^(log10(Mean_Flipper_Area_m2) - predict(BLvFlipperArea_model, newdata = HumpbackHeatLoss::FlukeFlipperMetrics)) - 1), probs = 0.95, na.rm = TRUE))),
+              method = "lm", se = FALSE, linetype = "dashed", linewidth = 4, color = "darkred") +
+  scale_x_log10(expand = c(0, 0)) +
+  scale_y_log10(expand = c(0, 0)) +
+  annotate("text", x = min(HumpbackHeatLoss::FlukeFlipperMetrics$Body_Length_m, na.rm = TRUE) * 1.01,
+           y = max(HumpbackHeatLoss::FlukeFlipperMetrics$Mean_Flipper_Area_m2, na.rm = TRUE),
+           label = Linear_Relationship(log10(HumpbackHeatLoss::FlukeFlipperMetrics$Body_Length_m), log10(HumpbackHeatLoss::FlukeFlipperMetrics$Mean_Flipper_Area_m2)),
+           hjust = 0, vjust = 1, size = 18) +
+  labs(x = expression(log[10]("Body Length")~"(m)"),
+       y = expression(log[10]("Total Flipper Surface Area")~"(m"^2*")")) +
+  theme_classic(base_size = 8) +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 40),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 32, margin = margin(t = 10, r = 0, b = 0, l = 0)),
+        
+        axis.line = element_line(color = "black", size = 1),
+        legend.position = "none",
+        panel.grid.minor = element_blank())
+
+pBLvFlipperArea_residuals <- ggplot(FlipperResidualsData, aes(x = percent_error)) +
+  geom_density(fill = "gray70", color = "black") +
+  geom_vline(xintercept = quantile(FlipperResidualsData$percent_error, probs = 0.05), 
+             linetype = "dashed", color = "darkblue", linewidth = 3, na.rm = TRUE) +
+  geom_vline(xintercept = quantile(FlipperResidualsData$percent_error, probs = 0.95), 
+             linetype = "dashed", color = "darkred", linewidth = 3, na.rm = TRUE) +
+  annotate("text",
+           x = quantile(FlipperResidualsData$percent_error, probs = 0.05),
+           y = 0.03,
+           label = paste0(round(quantile(FlipperResidualsData$percent_error, probs = 0.05), 1), "%"),
+           vjust = 2, size = 10, color = "darkblue") +
+  annotate("text",
+           x = quantile(FlipperResidualsData$percent_error, probs = 0.95),
+           y = 0.03,
+           label = paste0("+", round(quantile(FlipperResidualsData$percent_error, probs = 0.95), 1), "%"),
+           vjust = 2, size = 10, color = "darkred") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(
+    x = "Percent Deviation from Predicted Flipper Surface Area (%)",
+    y = "Count") +
+  coord_flip() +
+  theme_classic(base_size = 8) +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 40),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.line = element_line(color = "black", size = 1),
+        legend.position = "none",
+        panel.grid.minor = element_blank())
+
+pBLvFlukeArea_log10_regression <- ggplot(HumpbackHeatLoss::FlukeFlipperMetrics, aes(x = Body_Length_m, y = Mean_Fluke_Area_m2)) +
+  geom_point(size = 6) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 5, color = "gray40") +
+  geom_smooth(aes(y = Mean_Fluke_Area_m2 * (1 + quantile((10^(log10(Mean_Fluke_Area_m2) - predict(BLvFlukeArea_model, newdata = HumpbackHeatLoss::FlukeFlipperMetrics)) - 1), probs = 0.05, na.rm = TRUE))),
+              method = "lm", se = FALSE, linetype = "dashed", linewidth = 4, color = "darkblue") +
+  geom_smooth(aes(y = Mean_Fluke_Area_m2 * (1 + quantile((10^(log10(Mean_Fluke_Area_m2) - predict(BLvFlukeArea_model, newdata = HumpbackHeatLoss::FlukeFlipperMetrics)) - 1), probs = 0.95, na.rm = TRUE))),
+              method = "lm", se = FALSE, linetype = "dashed", linewidth = 4, color = "darkred") +
+  scale_x_log10(expand = c(0, 0)) +
+  scale_y_log10(expand = c(0, 0)) +
+  annotate("text", x = min(HumpbackHeatLoss::FlukeFlipperMetrics$Body_Length_m, na.rm = TRUE) * 1.01,
+           y = max(HumpbackHeatLoss::FlukeFlipperMetrics$Mean_Fluke_Area_m2, na.rm = TRUE),
+           label = Linear_Relationship(log10(HumpbackHeatLoss::FlukeFlipperMetrics$Body_Length_m), log10(HumpbackHeatLoss::FlukeFlipperMetrics$Mean_Fluke_Area_m2)),
+           hjust = 0, vjust = 1, size = 18) +
+  labs(x = expression(log[10]("Body Length")~"(m)"),
+       y = expression(log[10]("Total Fluke Surface Area")~"(m"^2*")")) +
+  theme_classic(base_size = 8) +
+  theme(axis.text = element_text(size = 40),
+        axis.title.x = element_text(size = 45, margin = margin(t = 10, r = 0, b = 0, l = 0)),
+        axis.title.y = element_text(size = 32, margin = margin(t = 0, r = 10, b = 0, l = 0)),
+        axis.line = element_line(color = "black", size = 1),
+        legend.position = "none",
+        panel.grid.minor = element_blank())
+
+
+pBLvFlukeArea_residuals <- ggplot(FlukeResidualsData, aes(x = percent_error)) +
+  geom_density(fill = "gray70", color = "black") +
+  geom_vline(xintercept = quantile(FlukeResidualsData$percent_error, probs = 0.05), 
+             linetype = "dashed", color = "darkblue", linewidth = 3, na.rm = TRUE) +
+  geom_vline(xintercept = quantile(FlukeResidualsData$percent_error, probs = 0.95), 
+             linetype = "dashed", color = "darkred", linewidth = 3, na.rm = TRUE) +
+  annotate("text",
+           x = quantile(FlukeResidualsData$percent_error, probs = 0.05),
+           y = 0.02,
+           label = paste0(round(quantile(FlukeResidualsData$percent_error, probs = 0.05), 1), "%"),
+           vjust = 2, size = 10, color = "darkblue") +
+  annotate("text",
+           x = quantile(FlukeResidualsData$percent_error, probs = 0.95),
+           y = 0.02,
+           label = paste0("+", round(quantile(FlukeResidualsData$percent_error, probs = 0.95), 1), "%"),
+           vjust = 2, size = 10, color = "darkred") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(
+    x = "Percent Deviation from Predicted Fluke Surface Area (%)",
+    y = "Count") +
+  coord_flip() +
+  theme_classic(base_size = 8) +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 40),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.line = element_line(color = "black", size = 1),
+        legend.position = "none",
+        panel.grid.minor = element_blank())
+
+row1 <- (pBLvSA_log10_regression | pBLvSA_residuals) + plot_layout(widths = c(3, 1))
+row2 <- (pBLvFlipperArea_log10_regression | pBLvFlipperArea_residuals) + plot_layout(widths = c(3, 1))
+row3 <- (pBLvFlukeArea_log10_regression | pBLvFlukeArea_residuals) + plot_layout(widths = c(3, 1))
+
+pBLvSA <- row1 / row2 / row3
 
 ggsave("figs/BodyLengthSurfaceArea.pdf", height = 720, width = 960, units = "mm", dpi = 300)
 
@@ -847,12 +680,23 @@ convert_pdf_to_png("figs/BodyLengthSurfaceArea.pdf", "figs/BodyLengthSurfaceArea
 ```
 
 ```{r FIGURE - Morphometric Dataset - Mass-Specific Heat Loss Vs. Body Condition, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide', fig.keep = 'none', fig.align = 'center', fig.dim = c(8, 8)}
+Morphometrics <- Morphometrics %>%
+  mutate(
+    True_Region_Windows_Open_Heat_Flow_W = case_when(
+      Region == "HI" ~ Hawaii_Windows_Open_Heat_Flow_W,
+      Region == "AK" ~ Alaska_Windows_Open_Heat_Flow_W,
+      TRUE ~ NA_real_
+    ),
+    Mass_Specific_True_Region_Windows_Open_Heat_Flow_W = True_Region_Windows_Open_Heat_Flow_W / Body_Mass_kg
+  )
+
+
 pHeatLossVsBodyCondition <- ggplot(Morphometrics %>%
                                      filter(!Demographic_Class %in% c("Juvenile", "Yearling"))) +
-  geom_point(aes(x = Body_Condition, y = log10(Mass_Specific_Heat_Flow_Qfp_W_kg),
+  geom_point(aes(x = Body_Condition, y = log10(Mass_Specific_True_Region_Windows_Open_Heat_Flow_W),
                  color = Demographic_Class, shape = Region),
              size = 8, alpha = 0.5) +
-  geom_smooth(aes(x = Body_Condition, y = log10(Mass_Specific_Heat_Flow_Qfp_W_kg),
+  geom_smooth(aes(x = Body_Condition, y = log10(Mass_Specific_True_Region_Windows_Open_Heat_Flow_W),
                   color = Demographic_Class, linetype = Region),
               size = 5) +
   labs(x = "Body Condition Score",
@@ -877,7 +721,7 @@ pHeatLossVsBodyCondition <- ggplot(Morphometrics %>%
 pHeatLossDensity <- ggplot(
   Morphometrics %>%
     filter(!Demographic_Class %in% c("Juvenile", "Yearling")),
-  aes(y = log10(Mass_Specific_Heat_Flow_Qfp_W_kg))
+  aes(y = log10(Mass_Specific_True_Region_Windows_Open_Heat_Flow_W))
 ) +
   geom_density(aes(fill = Demographic_Class), color = "black", alpha = 0.6, linewidth = 1.2) +
   #coord_cartesian(ylim = c(-300,400)) +
@@ -908,11 +752,11 @@ convert_pdf_to_png("figs/HeatLossVsBodyCondition.pdf", "figs/HeatLossVsBodyCondi
 ```{r FIGURE - Morphometric Dataset - Lower Critical Temperature Vs. Body Length, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide', fig.keep = 'none', fig.align = 'center', fig.dim = c(8, 8)}
 pHeatLossVsBodyCondition <- ggplot(Morphometrics) +
   geom_vline(xintercept = 4.31, linetype = "dashed", size = 3) +
-  geom_point(aes(x = Body_Length_m, y = L_Crit_Temp_Tlc_fp_C_Watts,
+  geom_point(aes(x = Body_Length_m, y = L_Crit_Temp,
                  color = Demographic_Class, shape = Region),
              size = 8, alpha = 0.5) +
   geom_smooth(data = Morphometrics[Morphometrics$Demographic_Class == "Calf", ],
-              aes(x = Body_Length_m, y = L_Crit_Temp_Tlc_fp_C_Watts),
+              aes(x = Body_Length_m, y = L_Crit_Temp),
               method = "lm", se = FALSE, color = "black", size = 2, linetype = "solid") +
   geom_hline(yintercept = 5, linetype = "dotted", size = 3) +
   geom_hline(yintercept = 25, linetype = "dotted", size = 3) +
@@ -941,63 +785,12 @@ ggsave("figs/LowerCritTempVsBodyLength.pdf", height = 720, width = 960, units = 
 convert_pdf_to_png("figs/LowerCritTempVsBodyLength.pdf", "figs/LowerCritTempVsBodyLength.png", dpi = 300)
 ```
 
-```{r Figure - Morphometrics Dataset - Calves-only Lower Tcrit vs Body Length, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide', fig.keep = 'none', fig.align = 'center', fig.dim = c(8, 8)}
-pCalfTcritRibbon <- ggplot() +
-  geom_rect(aes(xmin = 3.69, xmax = 5.02, ymin = -Inf, ymax = Inf),
-            fill = "lightgreen", alpha = 0.4) +
-  geom_vline(xintercept = 4.31, linetype = "dotted", size = 3) +
-  geom_rect(aes(xmin = -Inf, xmax = Inf, ymin = 5, ymax = 25),
-            fill = "lightblue", alpha = 0.6) +
-  geom_hline(yintercept = 5, linetype = "dotted", size = 3) +
-  geom_hline(yintercept = 25, linetype = "dotted", size = 3) +
-  geom_ribbon(data = CalvesRibbon_df,
-              aes(x = Body_Length_m, ymin = Lmin, ymax = Lmax),
-              fill = "gray80", alpha = 0.4) +
-  geom_line(data = CalvesRibbon_df, aes(x = Body_Length_m, y = Lmin),
-            color = "black", linetype = "dashed", size = 2) +
-  geom_line(data = CalvesRibbon_df, aes(x = Body_Length_m, y = Lmax),
-            color = "black", linetype = "dashed", size = 2) +
-  geom_smooth(data = Calves, aes(x = Body_Length_m, y = L_Crit_Temp_Tlc_fp_C_Watts),
-              method = "lm", se = FALSE, color = "black", size = 4, fullrange = TRUE) +
-  geom_point(data = Calves, aes(x = Body_Length_m, y = L_Crit_Temp_Tlc_fp_C_Watts, 
-                                shape = Region, fill = Region, size = Calf_Age_Days), 
-             color = "black", alpha = 0.5, stroke = 1.2) +
-  scale_shape_manual(values = c("HI" = 21, "AK" = 24)) +
-  scale_fill_manual(values = c("HI" = "red", "AK" = "red"), guide = "none") +
-  scale_size_continuous(range = c(4, 20), name = "Calf Age (days)") +
-  scale_x_continuous(limits = c(3.5, 9.5), 
-                     breaks = seq(3, 9, by = 1), 
-                     labels = seq(3, 9, by = 1), 
-                     expand = c(0, 0)) +
-  scale_y_continuous(breaks = seq(-60, 40, by = 20)) +
-  coord_cartesian(xlim = c(3.5, 9.5), ylim = c(-60, 40)) +
-  labs(x = "Body Length (m)",
-       y = "Lower Critical Temperature (°C)",
-       shape = "Geographic Region") +
-  theme_classic(base_size = 8) +
-  theme(axis.text = element_text(size = 40),
-        axis.title.x = element_text(size = 60, margin = margin(t = 30)),
-        axis.title.y = element_text(size = 60, margin = margin(r = 10)),
-        axis.line = element_line(color = "black", size = 1),
-        legend.position = c(0.99, 0.92),
-        legend.justification = c(1, 0),
-        legend.title = element_text(size = 40),
-        legend.text = element_text(size = 45),
-        legend.key.width = unit(30, "mm"),
-        panel.grid.minor = element_blank()) +
-  guides(shape = guide_legend(title = "Geographic Region", 
-                              nrow = 2, byrow = TRUE, 
-                              override.aes = list(
-                                shape = c(21, 24), size = c(14, 10), 
-                                fill = c("red", "red"), color = c("black", "black"))))
-
-ggsave("figs/CalfLowerCritTempRibbon.pdf", height = 720, width = 960, units = "mm", dpi = 300)
-
-convert_pdf_to_png("figs/CalfLowerCritTempRibbon.pdf", "figs/CalfLowerCritTempRibbon.png", dpi = 300)
-
-```
-
 ```{r Figure - Morphometrics Dataset - FMR "Sensible Range" vs Body Length, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide', fig.keep = 'none', fig.align = 'center', fig.dim = c(8, 8)}
+CATSMomCalfFMR_means <- HumpbackHeatLoss::CATSMomCalfFMR %>%
+  group_by(ID) %>%
+  summarise(Body_Length_m = mean(Body_Length_m, na.rm = TRUE),
+            MeanFMRoverBMR = mean(PerSecondDeploymentCostFMR / KleiberBMR_W, na.rm = TRUE))
+
 pRangeFMRvsBL <- ggplot(Morphometrics, aes(x = Body_Length_m)) +
   geom_ribbon(aes(ymin = Alaska_Lower_Realistic_BMR_Met_Beta_Factor,
                   ymax = Alaska_Upper_Realistic_BMR_Met_Beta_Factor,
@@ -1005,14 +798,17 @@ pRangeFMRvsBL <- ggplot(Morphometrics, aes(x = Body_Length_m)) +
   geom_ribbon(aes(ymin = Hawaii_Lower_Realistic_BMR_Met_Beta_Factor,
                   ymax = Hawaii_Upper_Realistic_BMR_Met_Beta_Factor,
                   fill = "Hawaii"), alpha = 0.4) +
-  #geom_point(aes(y = (FMR_Respiration_W/KleiberBMR_W), shape = Region, fill = Region), 
-  #           color = "black", alpha = 0.5, stroke = 1.2) +
+  geom_point(aes(y = (FMR_Respiration_W / KleiberBMR_W)), 
+             shape = 21, fill = "gray60", color = "gray40", size = 3, show.legend = FALSE) +
+  geom_point(data = CATSMomCalfFMR_means, 
+             aes(x = Body_Length_m, y = MeanFMRoverBMR), 
+             color = "black", alpha = 0.5, stroke = 1.2, size = 8, shape = 21, fill = "darkgreen") +
   geom_hline(yintercept = 1, linetype = "dotted", size = 3) +
   scale_fill_manual(values = c("Alaska" = "steelblue", "Hawaii" = "orange")) +
   scale_x_continuous(expand = c(0, 0)) +
-  scale_y_continuous(limits = c(0, 10.1), 
-                     breaks = seq(0, 10, by = 1), 
-                     labels = seq(0, 10, by = 1), 
+  scale_y_continuous(limits = c(0, 14.1), 
+                     breaks = seq(0, 14, by = 1), 
+                     labels = seq(0, 14, by = 1), 
                      expand = c(0, 0)) +
   labs(x = "Body Length (m)",
        y = "Estimated Range of Possible Metabolic Rate (Multiples of BMR)",
@@ -1024,168 +820,44 @@ pRangeFMRvsBL <- ggplot(Morphometrics, aes(x = Body_Length_m)) +
         axis.line = element_line(color = "black", size = 1),
         legend.position = c(0.99, 0.92),
         legend.justification = c(1, 0),
-        legend.title = element_text(size = 40),
+        legend.title = element_text(size = 50),
         legend.text = element_text(size = 45),
         legend.key.width = unit(30, "mm"),
-        panel.grid.minor = element_blank()) +
-  guides(shape = guide_legend(title = "Geographic Region", 
-                              nrow = 2, byrow = TRUE, 
-                              override.aes = list(
-                                shape = c(21, 24), size = c(14, 10), 
-                                fill = c("red", "red"), color = c("black", "black"))))
+        panel.grid.minor = element_blank())
 
 ggsave("figs/SensibleFMRrange.pdf", height = 720, width = 960, units = "mm", dpi = 300)
 
 convert_pdf_to_png("figs/SensibleFMRrange.pdf", "figs/SensibleFMRrange.png", dpi = 300)
 ```
 
-```{r FIGURE - Heat Loss Between Hawaii and Alaska - Sensitivity, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide', fig.keep = 'none', fig.align = 'center', fig.dim = c(8, 8)}
-pHeatLossSense <- ggplot(Heat_Loss_Sensitivity, aes(x = factor(BodyLength), y = ((HeatLoss/1e6)*86400), fill = TemperatureRegion)) +
-  geom_boxplot(outlier.shape = NA, alpha = 0.85) +
-  scale_fill_manual(values = c("Alaska" = "aquamarine3", "Hawaii" = "coral3")) +
-  labs(x = "Body Length (m)",
-       y = bquote("Heat Loss (MJ "*day^-1*")"),
-       fill = "Water Temperature"
-  ) +
-  theme_classic(base_size = 8) +
-  theme(axis.text = element_text(size = 40),
-        axis.title.x = element_text(size = 45, margin = margin(t = 30, r = 0, b = 0, l = 0)),
-        axis.title.y = element_text(size = 35, margin = margin(t = 0, r = 10, b = 0, l = 0)),
-        axis.line = element_line(color = "black", size = 1),
-        legend.position = "none",
-        panel.grid.minor = element_blank())
-
-ggsave("figs/HeatLossSensitivity.pdf", height = 720, width = 960, units = "mm", dpi = 300)
-
-convert_pdf_to_png("figs/HeatLossSensitivity.pdf", "figs/HeatLossSensitivity.png", dpi = 300)
-```
-
 ```{r FIGURE - Heat Loss Between Hawaii and Alaska - Monte Carlo, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide', fig.keep = 'none', fig.align = 'center', fig.dim = c(8, 8)}
-pHeatLossMC <- ggplot(Heat_Loss_Monte_Carlo, aes(x = BodyLength, y = (HeatLoss/1e6)*86400, color = TemperatureRegion)) +
-  geom_point(alpha = 0.5, size = 2) +
-  geom_smooth(method = "lm", se = TRUE, linewidth = 4) +
-  scale_color_manual(values = c("Alaska" = "aquamarine3", "Hawaii" = "coral3")) +
-  scale_fill_manual(values = c("Alaska" = "aquamarine3", "Hawaii" = "coral3")) +
-  scale_x_log10(breaks = seq(3,12),
-                limits = c(3, 12.2),
-                expand = c(0, 0),
-                guide = guide_axis_logticks(short = 1, mid = 2, long = 3)) +
-  scale_y_log10(breaks = c(0, 50, 100, 500, 1000, 5000),
-                guide = guide_axis_logticks(short = 1, mid = 2, long = 3)) +
-  labs(x = expression(log[10]("Body Length")~"(m)"),
-       y = expression(log[10]("Heat Loss")~"(MJ "*day^-1*")")) +
-  theme_classic(base_size = 8) +
-  theme(axis.text.x = element_text(size = 40, margin = margin(t = 15)),
-        axis.text.y = element_text(size = 40, margin = margin(r = 15)),
-        axis.title.x = element_text(size = 45, margin = margin(t = 40)),
-        axis.title.y = element_text(size = 35, margin = margin(r = 20)),
-        axis.ticks.length = unit(10, "pt"),
-        axis.ticks = element_line(size = 2),
-        axis.line = element_line(color = "black", size = 1),
-        legend.position = "none",
-        panel.grid.minor = element_blank())
-
-ggsave("figs/HeatLossMonteCarlo.pdf", height = 720, width = 960, units = "mm", dpi = 300)
-
-convert_pdf_to_png("figs/HeatLossMonteCarlo.pdf", "figs/HeatLossMonteCarlo.png", dpi = 300)
-```
-
-``` {r FIGURE - Model Annual Cycle of Heat Loss, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide', fig.keep = 'none', fig.align = 'center', fig.dim = c(8, 8)}
-# Plot heat loss
-p_heat <- ggplot(heat_loss_summary, aes(x = DayOfYear)) +
-  geom_rect(aes(xmin = 152, xmax = 273, ymin = (HeatLower-100), ymax = (HeatUpper+100)),
-            fill = "lightgreen", alpha = 0.2) +
-  geom_rect(aes(xmin = 335, xmax = 365, ymin = (HeatLower-100), ymax = (HeatUpper+100)),
-            fill = "pink", alpha = 0.2) +
-  geom_rect(aes(xmin = 1, xmax = 90, ymin = (HeatLower-100), ymax = (HeatUpper+100)),
-            fill = "pink", alpha = 0.2) +
-  geom_ribbon(aes(ymin = HeatLower, ymax = HeatUpper), fill = "lightblue", alpha = 0.5) +
-  geom_line(aes(y = HeatMean), color = "blue", size = 1) +
-  labs(
-    x = "Day of Year",
-    y = "Daily Heat Loss (Watts)") +
-  theme_classic(base_size = 8) +
-  theme(axis.text.x = element_text(size = 40, margin = margin(t = 15)),
-        axis.text.y = element_text(size = 40, margin = margin(r = 15)),
-        axis.title.x = element_text(size = 45, margin = margin(t = 40)),
-        axis.title.y = element_text(size = 35, margin = margin(r = 20)),
-        axis.ticks.length = unit(10, "pt"),
-        axis.ticks = element_line(size = 2),
-        axis.line = element_line(color = "black", size = 1),
-        legend.position = "none",
-        panel.grid.minor = element_blank())
-
-# Plot mass-specific heat loss
-p_heat_ms <- ggplot(heat_loss_MS_summary, aes(x = DayOfYear)) +
-  geom_rect(aes(xmin = 152, xmax = 273, ymin = (HeatMassSpecLower-0.01), ymax = (HeatMassSpecUpper+0.01)),
-            fill = "lightgreen", alpha = 0.2) +
-  geom_rect(aes(xmin = 335, xmax = 365, ymin = (HeatMassSpecLower-0.01), ymax = (HeatMassSpecUpper+0.01)),
-            fill = "pink", alpha = 0.2) +
-  geom_rect(aes(xmin = 1, xmax = 90, ymin = (HeatMassSpecLower-0.01), ymax = (HeatMassSpecUpper+0.01)),
-            fill = "pink", alpha = 0.2) +
-  geom_ribbon(aes(ymin = HeatMassSpecLower, ymax = HeatMassSpecUpper), fill = "lightblue", alpha = 0.5) +
-  geom_line(aes(y = HeatMassSpecMean), color = "blue", size = 1) +
-  labs(x = "Day of Year",
-       y = bquote("Mass-Specific Daily Heat Loss (Watts "*kg^-1*")")) +
-  theme_classic(base_size = 8) +
-  theme(axis.text.x = element_text(size = 40, margin = margin(t = 15)),
-        axis.text.y = element_text(size = 40, margin = margin(r = 15)),
-        axis.title.x = element_text(size = 45, margin = margin(t = 40)),
-        axis.title.y = element_text(size = 35, margin = margin(r = 20)),
-        axis.ticks.length = unit(10, "pt"),
-        axis.ticks = element_line(size = 2),
-        axis.line = element_line(color = "black", size = 1),
-        legend.position = "none",
-        panel.grid.minor = element_blank())
-
-# Plot SST
-p_sst <- ggplot(sst_summary, aes(x = DayOfYear)) +
-  geom_ribbon(aes(ymin = SSTLower, ymax = SSTUpper), fill = "skyblue", alpha = 0.4) +
-  geom_line(aes(y = SSTMean), color = "navy", size = 1) +
-  labs(y = "SST (°C)",
-       x = "Day of Year") +
-  theme_classic(base_size = 8) +
-  theme(axis.text.x = element_text(size = 40, margin = margin(t = 15)),
-        axis.text.y = element_text(size = 40, margin = margin(r = 15)),
-        axis.title.x = element_text(size = 45, margin = margin(t = 40)),
-        axis.title.y = element_text(size = 35, margin = margin(r = 20)),
-        axis.ticks.length = unit(10, "pt"),
-        axis.ticks = element_line(size = 2),
-        axis.line = element_line(color = "black", size = 1),
-        legend.position = "none",
-        panel.grid.minor = element_blank())
-
-sa_long <- as.data.frame(sa_matrix) %>%
-  mutate(DayOfYear = 1:365) %>%
-  pivot_longer(
-    cols = -DayOfYear,
-    names_to = "Simulation",
-    values_to = "SurfaceArea"
-  )
-
-p_sa <- ggplot(filter(sa_long, Simulation == "V4"), 
-               aes(x = DayOfYear, y = SurfaceArea)) +
-  geom_line(alpha = 1, color = "navy") +
-  labs(x = "Day of Year",
-       y = expression("Surface Area ("*m^2*")")) +
-  theme_classic(base_size = 8) +
-  theme(axis.text.x = element_text(size = 40, margin = margin(t = 15)),
-        axis.text.y = element_text(size = 40, margin = margin(r = 15)),
-        axis.title.x = element_text(size = 45, margin = margin(t = 40)),
-        axis.title.y = element_text(size = 35, margin = margin(r = 20)),
-        axis.ticks.length = unit(10, "pt"),
-        axis.ticks = element_line(size = 2),
-        axis.line = element_line(color = "black", size = 1),
-        legend.position = "none",
-        panel.grid.minor = element_blank())
-print(p_sa)
-
-# Combine plots
-pAnnualCycle <- p_heat / p_heat_ms / p_sst / p_sa + 
-  plot_layout(ncol = 1, heights = c(2, 2, 1, 1))
-
-ggsave("figs/AnnualCycle.pdf", height = 720, width = 960, units = "mm", dpi = 300)
-convert_pdf_to_png("figs/AnnualCycle.pdf", "figs/AnnualCycle.png", dpi = 300)
+# pHeatLossMC <- ggplot(Heat_Loss_Monte_Carlo, aes(x = BodyLength, y = (HeatLoss/1e6)*86400, color = TemperatureRegion)) +
+#   geom_point(alpha = 0.5, size = 2) +
+#   geom_smooth(method = "lm", se = TRUE, linewidth = 4) +
+#   scale_color_manual(values = c("Alaska" = "aquamarine3", "Hawaii" = "coral3")) +
+#   scale_fill_manual(values = c("Alaska" = "aquamarine3", "Hawaii" = "coral3")) +
+#   scale_x_log10(breaks = seq(3,12),
+#                 limits = c(3, 12.2),
+#                 expand = c(0, 0),
+#                 guide = guide_axis_logticks(short = 1, mid = 2, long = 3)) +
+#   scale_y_log10(breaks = c(0, 50, 100, 500, 1000, 5000),
+#                 guide = guide_axis_logticks(short = 1, mid = 2, long = 3)) +
+#   labs(x = expression(log[10]("Body Length")~"(m)"),
+#        y = expression(log[10]("Heat Loss")~"(MJ "*day^-1*")")) +
+#   theme_classic(base_size = 8) +
+#   theme(axis.text.x = element_text(size = 40, margin = margin(t = 15)),
+#         axis.text.y = element_text(size = 40, margin = margin(r = 15)),
+#         axis.title.x = element_text(size = 45, margin = margin(t = 40)),
+#         axis.title.y = element_text(size = 35, margin = margin(r = 20)),
+#         axis.ticks.length = unit(10, "pt"),
+#         axis.ticks = element_line(size = 2),
+#         axis.line = element_line(color = "black", size = 1),
+#         legend.position = "none",
+#         panel.grid.minor = element_blank())
+# 
+# ggsave("figs/HeatLossMonteCarlo.pdf", height = 720, width = 960, units = "mm", dpi = 300)
+# 
+# convert_pdf_to_png("figs/HeatLossMonteCarlo.pdf", "figs/HeatLossMonteCarlo.png", dpi = 300)
 ```
 
 # Affiliations
@@ -1206,13 +878,19 @@ convert_pdf_to_png("figs/AnnualCycle.pdf", "figs/AnnualCycle.png", dpi = 300)
 
 Maintaining a favorable balance between energetic gain and expenditure is critical for life. While energetic gain comes from a singular source (prey intake), costs are varied and have historically been difficult to quantify, especially for marine species such as cetaceans that cannot be maintained or studied in controlled environments. Among these is the cost of maintaining a stable core body temperature. Cetaceans live in a highly thermally conductive medium, requiring special adaptations to reduce heat loss and maintain homeothermy. Many cetacean species also partake in annual long-distance migrations between cold foraging grounds and warm breeding grounds. How these thermal shifts affect the annual energetic expenditure of these species has not been studied in great detail. Using a species and population for which we have a significant quantity of morphometric, behavioral, and environmental data (i.e., humpback whales in Hawaii and Southeast Alaska), we plan to use a recently published heat loss model (Glarou et al. 2025) to estimate the costs associated with thermoregulation for humpbacks ranging in size from calves to adults in both geographic regions...
 
-# Introduction - Needs More on Heat Loss
+# Introduction
 
-Maintaining a favorable balance between energetic gain and expenditure is critical for life. For animals, intake comes from a singular source (foraging intake), but costs are often varied and include complex behavioral and physiological processes such as locomotion (for motile species), prey capture, digestion, growth, reproduction, thermoregulation, and basal metabolism (citations). For species that can be housed in captive settings, these costs can oftentimes be quantified holistically or separated out into their component processes (citations). For larger species that cannot be safely housed under human care, energetic calculations are often best-guess modeling exercises that consist of a patchwork of quantifiable parameters and up-to-date approximations from smaller species or historical records (Gough et al. 2022; Gough et al. 2025 - pilot whale paper; any other citations).
+Maintaining a favorable balance between energetic gain and expenditure is critical for the continuation of life. For animals, energetic intake comes from a singular source (foraging), but costs are often varied and include complex behavioral and physiological processes such as locomotion (for motile species) [@alexander05; @schmidt-nielsen72], prey capture [@bolnick_ferry-graham02; @griffiths80], digestion [@armstrong_blaxter56], growth [@millward_etal76], reproduction [@bell80; @remick92], thermoregulation [@scholander_etal50], and basal metabolism [@kleiber75; @spaargaren94]. For species that can be housed in captive settings, these costs can oftentimes be quantified holistically or separated out into their component processes [@allen_etal22; @lindstrom_etal99; @williams_davis24]. For larger or cryptic species that cannot be safely housed under human care, or for situations where species cannot be reliably observed without significant changes to behavior, energetic estimates are often modeled through a patchwork of quantifiable parameters and up-to-date approximations from more tractable species or historical records [@boyles_brack09; @pirotta_etal18; @gough_etal22].
 
-Cetaceans (i.e., whales and dolphins) are a textbook example for this kind of group, with larger species well-and-truly beyond the current or near-future abilities of researchers to attempt confinement. Controlled experiments on large free-swimming cetaceans have required precise conditions, large swaths of open ocean, and cutting-edge technology (e.g., biologging tags, UAS drones) to interpret changes in behavior (citations - BRS studies - 2009?; also look at minke confinement studies). In their absence, researchers have attempted to independently model the various costs associated with normal daily activities such as locomotion (citations), prey capture (citations), growth (citations), reproduction (citations), thermoregulation, and basal metabolism (citations). As some of the largest species to ever evolve, significant interest has been paid to the behavior and energetics of large cetaceans as a case-study in gigantism and the constraints of mammalian life.
+Cetaceans (i.e., whales and dolphins) are a textbook example of this kind of group, with larger species well-and-truly beyond the current or near-future abilities of researchers to attempt confinement. Controlled experiments on large free-swimming cetaceans have required precise conditions, large swaths of open ocean, and cutting-edge technology (e.g., biologging tags, UAS drones, acoustic monitors) to interpret changes in behavior [@castellote_etal12; @cure_etal13; @cure_etal15; @southall_etal16]. In the absence of these factors, researchers have attempted to model energetic baselines [@goldbogen_etal19; @gough_etal22; @christiansen_etal23] as well as the potential costs associated with disturbance [@czapanskiy_etal21; @hin_etal19; @pirotta_etal18; @christiansen_etal25]. As some of the largest species to ever evolve, significant interest has been paid to the behavior and energetics of large cetaceans as a case-study in gigantism and the constraints of mammalian life [@cade_etal23; @fordyce_marx18; @goldbogen_madsen18a; @gough_etal22].
 
-Many of these large cetaceans species migrate long distances across ocean basins between cold foraging grounds and warm breeding grounds. Many reasons have been posited for this lifestyle, from predator avoidance in the early stages of life (citations) to a more favorable thermodynamic environment for early development (citations), but studies have thus far not provided quantitative evidence backing up any singular claim. In this study, we suggest that adult cetaceans (focusing on humpback whales [<i>Megaptera Novaeangliae</i>] traveling between Hawaii and Southeast Alaska) have sufficient blubber stores to handle the cold temperatures (2-5 degrees C) on their summer feeding grounds without losing excess energy, but the relatively thin blubber layer and small average body size of newborn calves puts them at, or below, the lower end of their thermoneutral zone in a cold environment such as Alaska. We also explore how body condition score affects heat loss for both calves and adults in Hawaii and Alaska.
+A complicating factor in the energetic modeling of large whales is the fact that many species migrate long distances across ocean basins between cold foraging grounds and warm breeding grounds. Understanding the annual energetic cycle of these species requires empirical data or accurate estimations of various costs for both sides of the migratory route. Given the large shifts in water temperature experienced between the two locations (as much as ~30 degrees), thermoregulation is one of the likeliest costs to be heavily impacted by migration, requiring a suite of adaptations to both retain or off-load heat, as necessitated by environmental conditions [@favilla_etal24]. Researchers have posited multiple behavioral reasons for the migratory life history of large whales (e.g., predator avoidance in the early stages of life, enhanced parasite removal), but there is also the possibility of a more favorable thermodynamic environment for early development [@corkeron_connor99]. If this is true, it sets up a significant trade-off, with adults forgoing months of foraging to give their calves an energetic advantage.
+
+Previous studies on the thermodynamics of large whale migration have concluded that the heat loss of newborn calves is well below their estimated field metabolic rates, suggesting that thermoregulation would not be a significant driver of migration, so long as the animals are able to off-load the excess metabolic heat [@sumich21]. This would be done through a counter-current heat exchange system that brings significant quantities of warm blood near to the skin's surface at dedicated "thermal windows" (i.e., flippers, fins, and dorsal fin) during exercise or while swimming through warmer waters [@scholander_schevill55]. Body and appendage sizes should, therefore, have a significant impact on thermoregulation. Bergmann's rule suggests that larger animals with lower surface-to-volume ratios will inhabit colder environments at higher latitudes, while Allen's rule suggests that species living in colder environments will have smaller appendages to decrease excess heat loss [@ray60]. Among the large whales, the humpback whale (*Megaptera noveaengliae*) exist at an interesting intersection of these two rules, having large body sizes (~30,000 kg; ~12-14 m in length), but also disproportionately large flippers (~30% of body length) [@kahane-rapport_goldbogen18]. 
+
+Models of thermoregulatory costs in large whales typically focus on the heat loss potential of the body relative to metabolic rate, with the thermal windows modeled as "closed" [@glarou_etal25; @sumich21]. In these scenarios, so long as the heat loss potential of the body is below the estimated metabolic rate, the heat loss potential of the thermal windows is seen as infinite and any extra heat can be effectively off-loaded through these thermal windows, allowing the animal to maintain thermoneutrality. Adding an estimation of heat loss for the thermal windows onto these models of thermoregulatory costs would allow for an estimation of maximal potential heat loss. If we assume that heat loss must equal the amount of heat generated in a given period of time, then this maximal heat loss potential should be a proxy for the maximal sustainable metabolic rate. For a species with large thermal windows such as the humpback whale, this increased surface area for heat loss may allow for higher metabolic rates than similarly-sized species with smaller appendages.
+
+In this study, we combined morphometric data from UAS and behavioral data from biologging tags into a model of whole-body heat loss potential for humpback adults and calves in both a warm-water breeding ground (Hawaii) and a cold-water foraging ground (Southeastern Alaska). Our results suggest that adult have sufficient blubber stores to handle the cold temperatures (2-5 degrees C) on their summer feeding grounds without difficulty, but may have to lower their activity level on the winter breeding grounds to avoid overheating, even with their large appendages. We also found that the relatively thin blubber layer and small average body size of newborn calves would necessitate a higher minimum metabolic rate in cold Alaskan waters, but not in warmer Hawaiian waters. We also explore how body condition score affects heat loss for both calves and adults in Hawaii and Alaska.
 
 # Methods
 

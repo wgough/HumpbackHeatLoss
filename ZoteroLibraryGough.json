@@ -39927,45 +39927,6 @@
 		}
 	},
 	{
-		"id": "burgess_etal98a",
-		"type": "article-journal",
-		"abstract": "Abstract   A hydrophone-equipped tag recorded exposure to noise, as well as physiological and behavioral sounds, on free-ranging northern elephant seals (Mirounga angustirostris). The compact acoustic probe (CAP) consisted of the hydrophone, a thermistor, and a pressure transducer in a 36cm long, 10cm diameter cylindrical hydrodynamic housing capable of withstanding 2000m depth. The enclosed logging electronics included a programmable “TattleTale 7” data acquisition engine and a 340Mb hard disk. A custom low-power operating system supported multi-channel interrupt-driven sampling at 5kHz. The complete tag weighed 0.9 kg in water and displaced 2.1l. During five deployments on juveniles translocated from and returning to Ano Nuevo, California, CAP tags measured dive pattern, ambient and vessel noise exposure, oceanographic ranging (RAFOS) and thermometry (ATOC) beacons, acoustic signatures of swim stroke, surface respiration, and cardiac function, and possible vocalizations.",
-		"container-title": "Deep-sea Research Part Ii-topical Studies in Oceanography",
-		"DOI": "10.1016/s0967-0645(98)00032-0",
-		"issue": "7",
-		"note": "DOI: 10.1016/s0967-0645(98)00032-0\nMAG ID: 2025685747",
-		"page": "1327-1351",
-		"title": "A programmable acoustic recording tag and first results from free-ranging northern elephant seals",
-		"volume": "45",
-		"author": [
-			{
-				"family": "Burgess",
-				"given": "William C."
-			},
-			{
-				"family": "Tyack",
-				"given": "Peter L."
-			},
-			{
-				"family": "Le Boeuf",
-				"given": "B. J."
-			},
-			{
-				"family": "Costa",
-				"given": "Daniel P."
-			}
-		],
-		"issued": {
-			"date-parts": [
-				[
-					"1998",
-					7,
-					1
-				]
-			]
-		}
-	},
-	{
 		"id": "gremillet_descamps23",
 		"type": "article-journal",
 		"abstract": "Global warming affects the Arctic more than any other region. Mass media constantly relay apocalyptic visions of climate change threatening Arctic wildlife, especially emblematic megafauna such as polar bears, whales, and seabirds. Yet, we are just beginning to understand such ecological impacts on marine megafauna at the scale of the Arctic. This knowledge is geographically and taxonomically biased, with striking deficiencies in the Russian Arctic and strong focus on exploited species such as cod. Beyond a synthesis of scientific advances in the past 5 years, we provide ten key questions to be addressed by future work and outline the requested methodology. This framework builds upon long-term Arctic monitoring inclusive of local communities whilst capitalising on high-tech and big data approaches.",
@@ -47397,61 +47358,6 @@
 		}
 	},
 	{
-		"id": "favilla_etal24",
-		"type": "chapter",
-		"abstract": "The aquatic environment poses unique thermoregulatory challenges for marine mammals due to its high thermal conductivity. Despite these challenges, dolphins have adapted to a multitude of thermal regimes across their cosmopolitan distribution. This chapter addresses the thermoregulatory adaptations of dolphins, and other whale species, that allow them to inhabit such a wide range of habitats. We discuss the role of blubber, body size, and morphology in maintaining thermal balance, as well as associated physiological adaptations (e.g., countercurrent heat exchangers, peripheral vasoconstriction). Additionally, we discuss the importance of behavior for thermoregulation, such as the role of exercise and diving. We demonstrate the importance of morphological, physiological, and behavioral adaptations that enable dolphins to survive in their respective thermal habitats. We show that thermoregulatory demands often conflict with other physiological processes such as reproduction, integument repair, and energy storage. This chapter provides a holistic view of the thermoregulatory adaptations of a widely distributed species, the bottlenose dolphin.",
-		"container-title": "The Physiology of Dolphins",
-		"ISBN": "978-0-323-90516-9",
-		"note": "DOI: 10.1016/B978-0-323-90516-9.00009-9",
-		"page": "29-47",
-		"publisher": "Academic Press",
-		"source": "ScienceDirect",
-		"title": "Thermoregulation",
-		"URL": "https://www.sciencedirect.com/science/article/pii/B9780323905169000099",
-		"author": [
-			{
-				"family": "Favilla",
-				"given": "Arina B."
-			},
-			{
-				"family": "Adamczak",
-				"given": "Stephanie K."
-			},
-			{
-				"family": "Costa",
-				"given": "Daniel P."
-			}
-		],
-		"editor": [
-			{
-				"family": "Fahlman",
-				"given": "Andreas"
-			},
-			{
-				"family": "Hooker",
-				"given": "Sascha K."
-			}
-		],
-		"accessed": {
-			"date-parts": [
-				[
-					"2024",
-					6,
-					26
-				]
-			]
-		},
-		"issued": {
-			"date-parts": [
-				[
-					"2024",
-					1,
-					1
-				]
-			]
-		}
-	},
-	{
 		"id": "ponganis_mcdonald24",
 		"type": "chapter",
 		"abstract": "The cardiovascular system in cetaceans follows the general mammalian model but is custom designed for individual species. Notable features include (a) a compliant, elastic ascending aorta and aortic arch, (b) the retia mirabilia, (c) venous plexuses in the head and tracheo-bronchial tree, (d) prominent epidural veins, (e) diaphragmatic caval slings, and (f) thermoregulatory plexuses. During high-speed surface and subsurface swimming of more active porpoises and dolphins, high heart rates, enlarged hearts, and higher affinities of hemoglobin for oxygen (O2) are postulated to maximize lung-to-muscle O2 transport just as during exercise of terrestrial mammals. However, during dives, the cardiovascular dive response (bradycardia and vasoconstriction) is variable and serves to regulate the depletion of O2 stores according to the nature of a given dive. Depth, dive duration, exercise, lung volume reflexes, and cognitive control have all been postulated to influence heart rate during the dive.",
@@ -50086,57 +49992,6 @@
 		}
 	},
 	{
-		"id": "williams_davis24a",
-		"type": "chapter",
-		"abstract": "Cetaceans, like other mammals, maintain energy balance for growth and reproduction through the regulation of metabolic processes. Energy obtained from the catabolism of food supports these processes, which in dolphins and whales can range sevenfold from rest to maximum exertion. In this chapter, we focus on the energetic costs of dolphins, discussing their metabolic versatility. On the low end of their metabolic range, dolphins maintain an elevated resting metabolic rate (RMR) characteristic of most marine mammals. At the opposite end are the high metabolic costs of swimming and diving that are dictated by speed, hydrodynamics, gliding, and stroking mechanics. Here, we provide allometric comparisons for RMR, swimming metabolism, cost of transport, and field metabolic rate (FMR) for cetaceans ranging in size from 30kg harbor porpoises to 5000kg killer whales. Importantly, these mass-specific relationships for dolphins and whales can be used to estimate the potential effects of environmental change and anthropogenic disturbances on energetics, performance, and ultimately the fitness of individuals and populations.",
-		"container-title": "The Physiology of Dolphins",
-		"ISBN": "978-0-323-90516-9",
-		"note": "DOI: 10.1016/B978-0-323-90516-9.00001-4",
-		"page": "9-28",
-		"publisher": "Academic Press",
-		"source": "ScienceDirect",
-		"title": "Chapter 2 - Energetic costs of rest and locomotion in dolphins",
-		"URL": "https://www.sciencedirect.com/science/article/pii/B9780323905169000014",
-		"author": [
-			{
-				"family": "Williams",
-				"given": "Terrie M."
-			},
-			{
-				"family": "Davis",
-				"given": "Randall W."
-			}
-		],
-		"editor": [
-			{
-				"family": "Fahlman",
-				"given": "Andreas"
-			},
-			{
-				"family": "Hooker",
-				"given": "Sascha K."
-			}
-		],
-		"accessed": {
-			"date-parts": [
-				[
-					"2024",
-					9,
-					27
-				]
-			]
-		},
-		"issued": {
-			"date-parts": [
-				[
-					"2024",
-					1,
-					1
-				]
-			]
-		}
-	},
-	{
 		"id": "zimmer_etal03",
 		"type": "article-journal",
 		"abstract": "Reports on the diving behavior of a sperm whale tagged and tracked on September 6, 2000 during the Sirena 2000 cruise in the Ligurian Sea. A total of about 4.5 h of acoustic and nonacoustic sensor data were recorded when a sperm whale was tagged with a Woods Hole Oceanographic Institution developed tag with a hydrophone, motion, and pressure sensors. The animal was simultaneously tracked with a passive sonar system deployed from the NATO research vessel NRV Alliance. By combining data from the tag and passive sonar, we were able to reconstruct a three-dimensional track of the whale, along with its orientation and vocal behavior. While it was tagged, the whale carried out three deep dives to a depth of about 900 m in an area with a bottom depth of about 2600 m. The inter-click intervals of the diving whale were not consistent with ranging on the bottom, but were consistent with the hypothesis that the whale was possibly echolocating on some target(s) near the depth at which it dove to feed. This study demonstrated an ability to track subtle changes in the behavior of diving whales. This ability is important for three areas: 1) basic research, 2) studies of the responses of these animals to controlled exposures of man-made noise, and 3) studies to infer the biological significance of behavioral disruption.",
@@ -51878,7 +51733,6 @@
 		"container-title": "The Journal of Physiology",
 		"DOI": "10.1113/JP287379",
 		"ISSN": "1469-7793",
-		"issue": "n/a",
 		"journalAbbreviation": "J. Physiol.",
 		"language": "en",
 		"license": "© 2024 The Authors. The Journal of Physiology © 2024 The Physiological Society.",
@@ -51886,7 +51740,6 @@
 		"source": "Wiley Online Library",
 		"title": "Maternal investment, body condition and calf growth in humpback whales",
 		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1113/JP287379",
-		"volume": "n/a",
 		"author": [
 			{
 				"family": "Aswegen",
@@ -53447,6 +53300,3327 @@
 					"1978",
 					6,
 					1
+				]
+			]
+		}
+	},
+	{
+		"id": "evans_etal03",
+		"type": "article-journal",
+		"abstract": "Blubber thickness (n=102) and lipid content (n=37) were measured in sperm whales from three mass stranding events on the west and north-west coasts of Tasmania, Australia in February 1998. Blubber thickness was highly variable, ranging from 43.0 to 168.0 mm (mean 98.4+/-18.4 mm) while lipid fat content, also highly variable, ranged from 16.19 to 89.34% (mean 49.2+/-17.9%). Blubber thickness was significantly and positively related to total length, but a blubber thickness index based on the residuals of this relationship was not related to age, sex or reproductive condition. No relationship was found between blubber thickness index and blubber lipid content, indicating that blubber thickness may not provide a comprehensive indication of body fat condition in sperm whales when only measured at a single site. Blubber lipid content was not related to total length, age or sex. Blubber lipid content was stratified vertically throughout the blubber layer, suggesting that the inner blubber layer may be a more active site for lipid deposition and mobilisation, while the outer blubber layer may serve in a structural or thermoregulatory role. The social structure and foraging ecology of this species may serve to minimise the need to rely on stored energy reserves to meet reproductive energy requirements. In addition, the broader role of blubber for structural, buoyancy and insulative functions coupled with high individual variability may cause a lack of obvious relationships between these variables and body size, age, sex and reproductive state in this species.",
+		"container-title": "Comparative Biochemistry and Physiology. Part A, Molecular & Integrative Physiology",
+		"DOI": "10.1016/s1095-6433(03)00045-x",
+		"ISSN": "1095-6433",
+		"issue": "4",
+		"journalAbbreviation": "Comp Biochem Physiol A Mol Integr Physiol",
+		"language": "eng",
+		"note": "PMID: 12814793",
+		"page": "847-862",
+		"source": "PubMed",
+		"title": "Body fat and condition in sperm whales, Physeter macrocephalus, from southern Australian waters",
+		"volume": "134",
+		"author": [
+			{
+				"family": "Evans",
+				"given": "Karen"
+			},
+			{
+				"family": "Hindell",
+				"given": "Mark A."
+			},
+			{
+				"family": "Thiele",
+				"given": "Deborah"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2003",
+					4
+				]
+			]
+		}
+	},
+	{
+		"id": "evans_etal03a",
+		"type": "article-journal",
+		"abstract": "Blubber thickness (n=102) and lipid content (n=37) were measured in sperm whales from three mass stranding events on the west and north-west coasts of Tasmania, Australia in February 1998. Blubber thickness was highly variable, ranging from 43.0 to 168.0 mm (mean 98.4±18.4 mm) while lipid fat content, also highly variable, ranged from 16.19 to 89.34% (mean 49.2±17.9%). Blubber thickness was significantly and positively related to total length, but a blubber thickness index based on the residuals of this relationship was not related to age, sex or reproductive condition. No relationship was found between blubber thickness index and blubber lipid content, indicating that blubber thickness may not provide a comprehensive indication of body fat condition in sperm whales when only measured at a single site. Blubber lipid content was not related to total length, age or sex. Blubber lipid content was stratified vertically throughout the blubber layer, suggesting that the inner blubber layer may be a more active site for lipid deposition and mobilisation, while the outer blubber layer may serve in a structural or thermoregulatory role. The social structure and foraging ecology of this species may serve to minimise the need to rely on stored energy reserves to meet reproductive energy requirements. In addition, the broader role of blubber for structural, buoyancy and insulative functions coupled with high individual variability may cause a lack of obvious relationships between these variables and body size, age, sex and reproductive state in this species.",
+		"container-title": "Comparative Biochemistry and Physiology Part A: Molecular & Integrative Physiology",
+		"DOI": "10.1016/S1095-6433(03)00045-X",
+		"ISSN": "1095-6433",
+		"issue": "4",
+		"journalAbbreviation": "Comparative Biochemistry and Physiology Part A: Molecular & Integrative Physiology",
+		"page": "847-862",
+		"source": "ScienceDirect",
+		"title": "Body fat and condition in sperm whales, <i>Physeter macrocephalus</i>, from southern Australian waters",
+		"URL": "https://www.sciencedirect.com/science/article/pii/S109564330300045X",
+		"volume": "134",
+		"author": [
+			{
+				"family": "Evans",
+				"given": "Karen"
+			},
+			{
+				"family": "Hindell",
+				"given": "Mark A"
+			},
+			{
+				"family": "Thiele",
+				"given": "Deborah"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					4,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2003",
+					4,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "phipps_etal23",
+		"type": "article-journal",
+		"abstract": "Blubber is a multifunctional tissue essential to the survival of cetaceans. Histological assessment of blubber may be useful in determining odontocete nutritional state but a greater understanding of specific variation across the body is needed. We report on morphological variation of the blubber according to girth axes and sampling planes in a sub-adult male, bycaught false killer whale (Pseudorca crassidens) using metrics of blubber thickness (BT), adipocyte area (AA), and adipocyte index (AI). 48 full depth blubber samples were taken along 6 girth axes at 5 equidistant sampling points on both sides of the body. At these sampling locations BT was recorded, and AA and AI were determined for three distinct blubber layers. Linear mixed effect models were used to assess variation of the blubber across layers and body topography. BT was somewhat non-uniform across the body but was generally thicker in the dorsal region and thinner laterally. AA was greater cranially and AI was greater caudally. The middle and inner layer blubber showed significant differences dorsoventrally with larger AA and smaller AI in the ventral region of the body. Variation of the blubber metrics across the body are indicative of variable functions of the blubber within an individual. Due to the variability observed, we expect that AI of the dynamic inner layer blubber is most informative of overall body condition and that biopsy samples of the outer and middle blubber may still be useful in determining the nutritional status of live false killer whales.",
+		"container-title": "Frontiers in Physiology",
+		"DOI": "10.3389/fphys.2023.1001734",
+		"ISSN": "1664-042X",
+		"journalAbbreviation": "Front. Physiol.",
+		"language": "English",
+		"note": "publisher: Frontiers",
+		"source": "Frontiers",
+		"title": "Variation in blubber thickness and histology metrics across the body topography of a false killer whale (Pseudorca crassidens)",
+		"URL": "https://www.frontiersin.orghttps://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2023.1001734/full",
+		"volume": "14",
+		"author": [
+			{
+				"family": "Phipps",
+				"given": "Jana E."
+			},
+			{
+				"family": "Silva-Krott",
+				"given": "Ilse"
+			},
+			{
+				"family": "Marchetti",
+				"given": "Jamie"
+			},
+			{
+				"family": "West",
+				"given": "Kristi L."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					4,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2023",
+					4,
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "glarou_etal25",
+		"type": "article-journal",
+		"abstract": "Maintaining a stable core body temperature is essential for endotherms. Cetaceans live in a highly thermally conductive medium, requiring special adaptations to reduce heat loss and maintain homeothermy. We employed a combination of aerial photogrammetry and existing data sources to estimate heat loss rates in five sympatric cetaceans of varying sizes, inhabiting the sub-arctic waters (∼3.7°C) of NE-Iceland: harbour porpoises (Phocoena phocoena, 1.0-1.6 m, n=50), white-beaked dolphins (Lagenorhynchus albirostris, 1.1-2.9 m, n=294), minke whales (Balaenoptera acutorostrata, 4.4-8.6 m, n=30), humpback whales (Megaptera novaeangliae, 6.0-14.2 m, n=282) and blue whales (Balaenoptera musculus, 13.2-24.2 m, n=29). Further, we investigated the effect of body size (length), body shape (surface-area-to-volume ratio, SVR), body temperature and blubber thermal conductivity and thickness on heat loss for all species. Smaller species had higher volume-specific heat loss compared with larger species due to their higher SVRs, a fundamental consequence of scaling. Apart from body size, blubber thickness had the largest effect on heat loss, followed by thermal conductivity. Smaller cetaceans seem to rely primarily on physiological and morphological adaptations to reduce heat loss, such as increased blubber thickness and lower thermal conductivity, whereas larger species offset heat loss by having larger bodies and lower SVRs. Our findings provide valuable insights into the thermal biology of these species and its implications for habitat use and prey requirements.",
+		"container-title": "The Journal of Experimental Biology",
+		"DOI": "10.1242/jeb.249356",
+		"ISSN": "1477-9145",
+		"issue": "6",
+		"journalAbbreviation": "J Exp Biol",
+		"language": "eng",
+		"note": "PMID: 39916604",
+		"page": "jeb249356",
+		"source": "PubMed",
+		"title": "Size-specific strategies of sympatric cetaceans to reduce heat loss",
+		"volume": "228",
+		"author": [
+			{
+				"family": "Glarou",
+				"given": "Maria"
+			},
+			{
+				"family": "Rasmussen",
+				"given": "Marianne Helene"
+			},
+			{
+				"family": "Poldner",
+				"given": "Alyssa"
+			},
+			{
+				"family": "Ruppert",
+				"given": "Silva Naomi Sophie"
+			},
+			{
+				"family": "Sotiropoulou",
+				"given": "Dido"
+			},
+			{
+				"family": "Sadozai",
+				"given": "Zaynab"
+			},
+			{
+				"family": "Jarzynowska",
+				"given": "Małgorzata"
+			},
+			{
+				"family": "Iversen",
+				"given": "Maria Refsgaard"
+			},
+			{
+				"family": "Sigurðsson",
+				"given": "Guðjón Már"
+			},
+			{
+				"family": "Halldórsson",
+				"given": "Sverrir Daníel"
+			},
+			{
+				"family": "Chosson",
+				"given": "Valerie"
+			},
+			{
+				"family": "Clapham",
+				"given": "Phillip J."
+			},
+			{
+				"family": "Ivashchenko",
+				"given": "Yulia"
+			},
+			{
+				"family": "Tormosov",
+				"given": "Dmitry"
+			},
+			{
+				"family": "Christiansen",
+				"given": "Fredrik"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2025",
+					3,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "favilla_etal24",
+		"type": "chapter",
+		"abstract": "The aquatic environment poses unique thermoregulatory challenges for marine mammals due to its high thermal conductivity. Despite these challenges, dolphins have adapted to a multitude of thermal regimes across their cosmopolitan distribution. This chapter addresses the thermoregulatory adaptations of dolphins, and other whale species, that allow them to inhabit such a wide range of habitats. We discuss the role of blubber, body size, and morphology in maintaining thermal balance, as well as associated physiological adaptations (e.g., countercurrent heat exchangers, peripheral vasoconstriction). Additionally, we discuss the importance of behavior for thermoregulation, such as the role of exercise and diving. We demonstrate the importance of morphological, physiological, and behavioral adaptations that enable dolphins to survive in their respective thermal habitats. We show that thermoregulatory demands often conflict with other physiological processes such as reproduction, integument repair, and energy storage. This chapter provides a holistic view of the thermoregulatory adaptations of a widely distributed species, the bottlenose dolphin.",
+		"container-title": "The Physiology of Dolphins",
+		"ISBN": "978-0-323-90516-9",
+		"language": "en",
+		"license": "https://www.elsevier.com/tdm/userlicense/1.0/",
+		"note": "DOI: 10.1016/B978-0-323-90516-9.00009-9",
+		"page": "29-47",
+		"publisher": "Elsevier",
+		"source": "DOI.org (Crossref)",
+		"title": "Thermoregulation",
+		"URL": "https://linkinghub.elsevier.com/retrieve/pii/B9780323905169000099",
+		"author": [
+			{
+				"family": "Favilla",
+				"given": "Arina B."
+			},
+			{
+				"family": "Adamczak",
+				"given": "Stephanie K."
+			},
+			{
+				"family": "Costa",
+				"given": "Daniel P."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					4,
+					29
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2024"
+				]
+			]
+		}
+	},
+	{
+		"id": "germanov_etal18",
+		"type": "article-journal",
+		"container-title": "Trends in Ecology & Evolution",
+		"DOI": "10.1016/j.tree.2018.01.005",
+		"ISSN": "0169-5347",
+		"issue": "4",
+		"journalAbbreviation": "Trends in Ecology & Evolution",
+		"language": "English",
+		"note": "publisher: Elsevier\nPMID: 29422348",
+		"page": "227-232",
+		"source": "www.cell.com",
+		"title": "Microplastics: No Small Problem for Filter-Feeding Megafauna",
+		"title-short": "Microplastics",
+		"URL": "https://www.cell.com/trends/ecology-evolution/abstract/S0169-5347(18)30009-0",
+		"volume": "33",
+		"author": [
+			{
+				"family": "Germanov",
+				"given": "Elitza S."
+			},
+			{
+				"family": "Marshall",
+				"given": "Andrea D."
+			},
+			{
+				"family": "Bejder",
+				"given": "Lars"
+			},
+			{
+				"family": "Fossi",
+				"given": "Maria Cristina"
+			},
+			{
+				"family": "Loneragan",
+				"given": "Neil R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					4,
+					29
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					4,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "ahlborn_blake99",
+		"type": "article-journal",
+		"abstract": "Warm blooded aquatic mammals require a minimum diameter of about 15 cm in order to survive in cold oceans. This follows from the thermal balance and the diamete",
+		"container-title": "American Journal of Physics",
+		"DOI": "10.1119/1.19150",
+		"ISSN": "0002-9505",
+		"issue": "10",
+		"journalAbbreviation": "Am. J. Phys.",
+		"language": "en",
+		"note": "publisher: AIP Publishing",
+		"page": "920-922",
+		"source": "pubs.aip.org",
+		"title": "Lower size limit of aquatic mammals",
+		"URL": "https://pubs.aip.org/aapt/ajp/article/67/10/920/1038337/Lower-size-limit-of-aquatic-mammals",
+		"volume": "67",
+		"author": [
+			{
+				"family": "Ahlborn",
+				"given": "Boye K."
+			},
+			{
+				"family": "Blake",
+				"given": "Robert W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					5,
+					15
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					10,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "svard_etal09",
+		"type": "article-journal",
+		"abstract": "Changes in metabolic rates were measured in 3 captive female Steller sea lions Eumetopias jubatus that experienced fasts during summer and winter. We measured metabolic rates (via...",
+		"container-title": "Aquatic Biology",
+		"DOI": "10.3354/ab00211",
+		"ISSN": "1864-7790, 1864-7782",
+		"language": "en",
+		"page": "71-82",
+		"source": "www.int-res.com",
+		"title": "Fasting affects the surface and diving metabolic rates of Steller sea lions Eumetopias jubatus",
+		"URL": "https://www.int-res.com/abstracts/ab/v8/ab00211",
+		"volume": "8",
+		"author": [
+			{
+				"family": "Svärd",
+				"given": "C."
+			},
+			{
+				"family": "Fahlman",
+				"given": "A."
+			},
+			{
+				"family": "Rosen",
+				"given": "D. a. S."
+			},
+			{
+				"family": "Joy",
+				"given": "R."
+			},
+			{
+				"family": "Trites",
+				"given": "A. W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					5,
+					30
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2009",
+					12,
+					28
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/users/6889865/items/RF2S8XPX",
+		"type": "document",
+		"title": "Blake & Yates implementation of Chopra-Kambe"
+	},
+	{
+		"id": "skrovan_etal99",
+		"type": "article-journal",
+		"abstract": "During diving, marine mammals must balance the conservation of limited oxygen reserves with the metabolic costs of swimming exercise. As a result, energetically efficient modes of locomotion provide an advantage during periods of submergence and will presumably increase in importance as the animals perform progressively longer dives. To determine the effect of a limited oxygen supply on locomotor performance, we compared the kinematics and behavior of swimming and diving bottlenose dolphins. Adult bottlenose dolphins (Tursiops truncatus) were trained to swim horizontally near the water surface or submerged at 5 m and to dive to depths ranging from 12 to 112 m. Swimming kinematics (preferred swimming mode, stroke frequency and duration of glides) were monitored using submersible video cameras (Sony Hi-8) held by SCUBA divers or attached to a pack on the dorsal fin of the animal. Drag and buoyant forces were calculated from patterns of deceleration for horizontally swimming and vertically diving animals. The results showed that dolphins used a variety of swimming gaits that correlated with acceleration. The percentage of time spent gliding during the descent phase of dives increased with depth. Glide distances ranged from 7.1±1.9 m for 16 m dives to 43.6±7.0 m (means ± S.E.M.) for 100 m dives. These gliding patterns were attributed to changes in buoyancy associated with lung compression at depth. By incorporating prolonged glide periods, the bottlenose dolphin realized a theoretical 10–21 % energetic savings in the cost of a 100 m dive in comparison with dives based on neutral buoyancy models. Thus, modifying locomotor patterns to account for physical changes with depth appears to be one mechanism that enables diving mammals with limited oxygen stores to extend the duration of a dive.",
+		"container-title": "Journal of Experimental Biology",
+		"DOI": "10.1242/jeb.202.20.2749",
+		"ISSN": "0022-0949",
+		"issue": "20",
+		"journalAbbreviation": "Journal of Experimental Biology",
+		"page": "2749-2761",
+		"source": "Silverchair",
+		"title": "The diving physiology of bottlenose dolphins (Tursiops truncatus): II. Biomechanics and changes in buoyancy at depth",
+		"title-short": "The diving physiology of bottlenose dolphins (Tursiops truncatus)",
+		"URL": "https://doi.org/10.1242/jeb.202.20.2749",
+		"volume": "202",
+		"author": [
+			{
+				"family": "Skrovan",
+				"given": "Randolph C."
+			},
+			{
+				"family": "Williams",
+				"given": "T. M."
+			},
+			{
+				"family": "Berry",
+				"given": "P. S."
+			},
+			{
+				"family": "Moore",
+				"given": "P. W."
+			},
+			{
+				"family": "Davis",
+				"given": "R. W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					9
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					10,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "curren92",
+		"type": "thesis",
+		"abstract": "Swimming is the only mode of locomotion available to whales and dolphins. Although all cetaceans live in an aquatic environment, large differences exist between the behavioural ecologies of different species: corresponding variation in morphology and in dynamical swimming characteristics is expected between species. -- Morphological variation was examined within a sample (n=35) of harbour porpoise (Phocoena phocoena) to determine the values of several geometric parameters (including body volume, body surface area, volumetric coefficient, fineness ratio, fluke surface area, fluke aspect ratio and fluke sweep angle) for mature animals. Harbour porpoise showed significant variation in several non-dimensional parameters with age, suggesting that other cetacean species may display similar variation. In general, juvenile harbour porpoise displayed lower fineness ratios and lower fluke aspect ratios than adult harbour porpoise: these results imply a lower propulsive efficiency for juvenile porpoise. -- The morphologies of sexually mature harbour porpoise were statistically compared with a sample (n=3) of Atlantic white-sided dolphins (Lagenorhynchus acutus). Harbour porpoise were found to have  significantly lower fineness ratios than Atlantic white-sided dolphins, indicating a fatter body and a higher drag coefficient. Harbour porpoise also displayed higher fluke aspect ratios. This suggests that the flukes of the harbour porpoise may have a higher propulsive efficiency than those of Atlantic white-sided dolphins, although the white-sided dolphins' high fluke sweep angles may compensate for their lower aspect ratio. -- The morphologies of harbour porpoise and Atlantic white-sided dolphins were qualitatively compared with several other cetacean species. The largest between-species differences were observed for volumetric coefficient, fluke aspect ratio and the ratio of body surface area : fluke area. These morphological differences may reflect differences in relative swimming performance. -- Dynamical swimming parameters, including swimming speed, fluke oscillation frequency, and stride length, were measured from videotape for a harbour porpoise, an Atlantic white-sided dolphin and two long-finned pilot whales (Globicephala melas). Limited data on heave amplitude and maximum pitch angle of the flukes were also measured for the harbour porpoise and the white-sided dolphin. The results were compared with data from fish and cetacean swimming studies. The observed animals displayed a linear relationship between swimming speed and fluke oscillation frequency. Stride lengths were found to remain constant within species, and to vary significantly between species. The upstroke and downstroke of the flukes were found to be equally long for all speeds measured. -- Finally, a statistical method to test the hypothesis of wave energy absorption by whales was developed, and the method was applied to the track of a long-finned pilot whale when corresponding wave conditions were known. The whale was not found to increase its swimming speed or to adjust its heading with respect to wave direction in response to favourable wave conditions. Possible reasons for these results are reviewed.",
+		"genre": "masters",
+		"language": "en",
+		"license": "thesis_license",
+		"publisher": "Memorial University of Newfoundland",
+		"source": "research.library.mun.ca",
+		"title": "Designs for swimming : morphometrics and swimming dynamics of several cetacean species",
+		"title-short": "Designs for swimming",
+		"URL": "https://research.library.mun.ca/4219/",
+		"author": [
+			{
+				"family": "Curren",
+				"given": "Kristina Charlotte"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					9
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1992"
+				]
+			]
+		}
+	},
+	{
+		"id": "virtanen_etal20",
+		"type": "article-journal",
+		"abstract": "SciPy is an open-source scientific computing library for the Python programming language. Since its initial release in 2001, SciPy has become a de facto standard for leveraging scientific algorithms in Python, with over 600 unique code contributors, thousands of dependent packages, over 100,000 dependent repositories and millions of downloads per year. In this work, we provide an overview of the capabilities and development practices of SciPy 1.0 and highlight some recent technical developments.",
+		"container-title": "Nature Methods",
+		"DOI": "10.1038/s41592-019-0686-2",
+		"ISSN": "1548-7105",
+		"issue": "3",
+		"journalAbbreviation": "Nat Methods",
+		"language": "en",
+		"license": "2020 The Author(s)",
+		"note": "publisher: Nature Publishing Group",
+		"page": "261-272",
+		"source": "www.nature.com",
+		"title": "SciPy 1.0: fundamental algorithms for scientific computing in Python",
+		"title-short": "SciPy 1.0",
+		"URL": "https://www.nature.com/articles/s41592-019-0686-2",
+		"volume": "17",
+		"author": [
+			{
+				"family": "Virtanen",
+				"given": "Pauli"
+			},
+			{
+				"family": "Gommers",
+				"given": "Ralf"
+			},
+			{
+				"family": "Oliphant",
+				"given": "Travis E."
+			},
+			{
+				"family": "Haberland",
+				"given": "Matt"
+			},
+			{
+				"family": "Reddy",
+				"given": "Tyler"
+			},
+			{
+				"family": "Cournapeau",
+				"given": "David"
+			},
+			{
+				"family": "Burovski",
+				"given": "Evgeni"
+			},
+			{
+				"family": "Peterson",
+				"given": "Pearu"
+			},
+			{
+				"family": "Weckesser",
+				"given": "Warren"
+			},
+			{
+				"family": "Bright",
+				"given": "Jonathan"
+			},
+			{
+				"family": "Walt",
+				"given": "Stéfan J.",
+				"non-dropping-particle": "van der"
+			},
+			{
+				"family": "Brett",
+				"given": "Matthew"
+			},
+			{
+				"family": "Wilson",
+				"given": "Joshua"
+			},
+			{
+				"family": "Millman",
+				"given": "K. Jarrod"
+			},
+			{
+				"family": "Mayorov",
+				"given": "Nikolay"
+			},
+			{
+				"family": "Nelson",
+				"given": "Andrew R. J."
+			},
+			{
+				"family": "Jones",
+				"given": "Eric"
+			},
+			{
+				"family": "Kern",
+				"given": "Robert"
+			},
+			{
+				"family": "Larson",
+				"given": "Eric"
+			},
+			{
+				"family": "Carey",
+				"given": "C. J."
+			},
+			{
+				"family": "Polat",
+				"given": "İlhan"
+			},
+			{
+				"family": "Feng",
+				"given": "Yu"
+			},
+			{
+				"family": "Moore",
+				"given": "Eric W."
+			},
+			{
+				"family": "VanderPlas",
+				"given": "Jake"
+			},
+			{
+				"family": "Laxalde",
+				"given": "Denis"
+			},
+			{
+				"family": "Perktold",
+				"given": "Josef"
+			},
+			{
+				"family": "Cimrman",
+				"given": "Robert"
+			},
+			{
+				"family": "Henriksen",
+				"given": "Ian"
+			},
+			{
+				"family": "Quintero",
+				"given": "E. A."
+			},
+			{
+				"family": "Harris",
+				"given": "Charles R."
+			},
+			{
+				"family": "Archibald",
+				"given": "Anne M."
+			},
+			{
+				"family": "Ribeiro",
+				"given": "Antônio H."
+			},
+			{
+				"family": "Pedregosa",
+				"given": "Fabian"
+			},
+			{
+				"family": "Mulbregt",
+				"given": "Paul",
+				"non-dropping-particle": "van"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					12
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2020",
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "vanderhoop_etal16a",
+		"type": "article-journal",
+		"abstract": "Lethal and sublethal fishing gear entanglement is pervasive in North Atlantic right whales (Eubalaena glacialis). Entanglement can lead to direct injury and is likely to incur substantial energetic costs. This study (1) evaluates drag characteristics of entangled right whales, (2) contextualizes gear drag measurements for individual whales, and (3) quantifies the benefits of partial disentanglement. A load cell measured drag forces on 15 sets of fishing gear removed from entangled right whales, a towed satellite telemetry buoy, and 200 m of polypropylene line as it was shortened to 25 m, as they were towed behind a vessel at 0.77, 1.3, and 2.1 m/s ( 1.5, 2.5, and 4 knots) and 0, 3, and 6 m depth. Mean drag ranges from 8.5 N to 315 N, and can be predicted from the dry weight or length of the gear. Combining gear drag measurements with theoretical estimates of drag on whales' bodies suggests that on average, entanglement increases drag and propulsive power by 1.47 fold. Reducing trailing line length by 75% can reduce parasitic gear drag by 85%, reinforcing current disentanglement response practices. These drag measurements can be incorporated into disentanglement response, serious injury determination, and evaluation of sublethal effects on population dynamics.",
+		"container-title": "Marine Mammal Science",
+		"DOI": "10.1111/mms.12292",
+		"ISSN": "1748-7692",
+		"issue": "2",
+		"language": "en",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/mms.12292",
+		"page": "619-642",
+		"source": "Wiley Online Library",
+		"title": "Drag from fishing gear entangling North Atlantic right whales",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/mms.12292",
+		"volume": "32",
+		"author": [
+			{
+				"family": "Hoop",
+				"given": "Julie M.",
+				"non-dropping-particle": "van der"
+			},
+			{
+				"family": "Corkeron",
+				"given": "Peter"
+			},
+			{
+				"family": "Kenney",
+				"given": "John"
+			},
+			{
+				"family": "Landry",
+				"given": "Scott"
+			},
+			{
+				"family": "Morin",
+				"given": "David"
+			},
+			{
+				"family": "Smith",
+				"given": "Jamison"
+			},
+			{
+				"family": "Moore",
+				"given": "Michael J."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2016"
+				]
+			]
+		}
+	},
+	{
+		"id": "fu_etal13",
+		"type": "article-journal",
+		"abstract": "In nature, the caudal fins of fish species are frequently lost to some extent by aggressive behaviour, predation and diseases. To test whether the swimming performance of fish with different swimming capacities would be differentially affected due to caudal fin loss and regeneration, we investigated the critical swimming speed (Ucrit), swimming metabolic rate (), tail beat frequency (fTB) and tail beat amplitude (ATB) after caudal fin loss and regeneration (20 days) in juveniles of three cyprinid fish species: the qingbo (Spinibarbus sinensis; strong swimmer), the common carp (Cyprinus carpio; intermediate swimmer) and the goldfish (Carassius auratus; poor swimmer). The Ucrit values of the caudal-fin-lost qingbo, common carp and goldfish were 49, 32 and 35% significantly lower than those of the control groups, respectively. The maximum tail beat amplitude (ATBmax) (all three fishes), the maximum tail beat frequency (fTBmax) (only the common carp and the goldfish) and/or the active metabolic rate () (only the common carp) of the caudal-fin-lost fish were significantly higher than those of the control groups. After 20 days of recovery, the caudal fins recovered to 41, 47 and 24% of those of the control groups for the qingbo, the common carp and the goldfish, respectively. However, the Ucrit values of the fin-regenerated qingbo, common carp and goldfish recovered to 86, 91 and 95% of those of the control group, respectively. The caudal-fin-regenerated qingbo and common carp showed a significantly higher ATBmax and fTBmax, respectively, compared with those of the control groups. The qingbo had a higher fTBmax but a lower ATBmax than the common carp and the goldfish, which suggested that a strong swimmer may maintain swimming speed primarily by maintaining a greater fTBmax, for which the caudal fin plays a more important role during swimming, than a poor swimmer. The  of fish (common carp) with a redundant respiratory capacity could increase due to caudal fin loss to meet the increase in energy expenditure required by an increase in fTBmax. In addition, the sustained swimming performance may not be the only selective pressure acting on caudal fin size in these three species, and the present caudal fin size may be a trade-off between sustain swimming performance and other factors (e.g. sexual selection, escape responses).",
+		"container-title": "Journal of Experimental Biology",
+		"DOI": "10.1242/jeb.084244",
+		"ISSN": "0022-0949",
+		"issue": "16",
+		"journalAbbreviation": "Journal of Experimental Biology",
+		"page": "3164-3174",
+		"source": "Silverchair",
+		"title": "The effects of caudal fin loss and regeneration on the swimming performance of three cyprinid fish species with different swimming capacities",
+		"URL": "https://doi.org/10.1242/jeb.084244",
+		"volume": "216",
+		"author": [
+			{
+				"family": "Fu",
+				"given": "Cheng"
+			},
+			{
+				"family": "Cao",
+				"given": "Zhen-Dong"
+			},
+			{
+				"family": "Fu",
+				"given": "Shi-Jian"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2013",
+					8,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "plaut00",
+		"type": "article-journal",
+		"abstract": "The zebrafish Danio rerio exhibits substantial morphological variability in the sizes and shapes of the body and the caudal fin. The present study describes swimming performance, swimming behaviour and routine locomotor activity patterns in three of the major morphotypes: wild-type, long-finned and no-tail. Wild-type and long-finned differ in total length (TL), fork length (FL), caudal fin length (CFL) and caudal fin height (CFH). No-tail has no caudal fin and is significantly smaller in standard length (SL) than the other types. Critical swimming speeds (Ucrit) were measured at 28 °C in a modified Brett-type water tunnel. Ucrit of wild-type fish was 56.0±4.8 cm s−1 or 15.5 SL s−1 (mean ± S.D., N=21), significantly faster than the Ucrit of long-finned fish (43.7±6.8 cm s−1 or 12.5 SL s−1, N=17); both were significantly faster than the Ucrit of no-tail fish (19.8±4.7 cm s−1 or 6.9 SL s−1, N=15). When forced to swim in the water tunnel, zebrafish tended to turn and swim downstream for short periods at slow water velocities. Turning frequencies (turns per minute, fT) at the slowest velocity (4 cm s−1) were 10.1±6.5 min−1 (N=63) and 8.6±4.7 min−1 (N=51) for wild-type and long-finned, respectively, significantly different from that of the no-tail fish, 4.7±2.8 min−1 (N=45). These frequencies decreased below 1 min−1 at 56 %, 64 % and 61 % of Ucrit in wild-type, long-finned and no-tail fish, respectively. Activity levels of wild-type fish were generally significantly higher than those of long-finned fish, and the levels of both were significantly higher than those of no-tail fish. The pattern of differences in relative activity levels between types was similar to that for Ucrit. The results show that the wild-type fish, on a size-scaled basis, is one of the fastest-swimming fishes ever measured, reaching the maximum predicted theoretical sustained swimming speed. Ucrit of long-finned fish was 22 % lower than that of wild-type fish, and Ucrit of no-tail fish was 65 % lower. Similar differences were found in turning frequencies and routine activity level.",
+		"container-title": "Journal of Experimental Biology",
+		"DOI": "10.1242/jeb.203.4.813",
+		"ISSN": "0022-0949",
+		"issue": "4",
+		"journalAbbreviation": "Journal of Experimental Biology",
+		"page": "813-820",
+		"source": "Silverchair",
+		"title": "Effects of Fin Size on Swimming Performance, Swimming Behaviour and Routine Activity of Zebrafish Danio Rerio",
+		"URL": "https://doi.org/10.1242/jeb.203.4.813",
+		"volume": "203",
+		"author": [
+			{
+				"family": "Plaut",
+				"given": "Itai"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2000",
+					2,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "popson_etal25",
+		"type": "chapter",
+		"abstract": "Humans are endotherms, animals that keep their body temperature within a stable range using heat production and heat dissipation. The ability to produce heat from calories is an essential mechanism required for life-sustaining cellular reactions that need a sufficient intake of calories. The molecules in food contain energy, or calories, stored in chemical bonds. Metabolic reactions can extract energy from these chemical bonds and use them to power various metabolic reactions that maintain the body's homeostasis. Energy metabolism is a highly regulated process to meet the energy demands of our body under variable conditions at rest and during work or exercise.",
+		"call-number": "NBK538294",
+		"container-title": "StatPearls",
+		"event-place": "Treasure Island (FL)",
+		"language": "eng",
+		"license": "Copyright © 2025, StatPearls Publishing LLC.",
+		"note": "PMID: 30855878",
+		"publisher": "StatPearls Publishing",
+		"publisher-place": "Treasure Island (FL)",
+		"source": "PubMed",
+		"title": "Biochemistry, Heat and Calories",
+		"URL": "http://www.ncbi.nlm.nih.gov/books/NBK538294/",
+		"author": [
+			{
+				"family": "Popson",
+				"given": "Michael S."
+			},
+			{
+				"family": "Dimri",
+				"given": "Manjari"
+			},
+			{
+				"family": "Borger",
+				"given": "Judith"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2025"
+				]
+			]
+		}
+	},
+	{
+		"id": "khaliq_hof18",
+		"type": "article-journal",
+		"abstract": "Metabolic critical temperatures define the range of ambient temperatures where endotherms are able to minimize energy allocation to thermogenesis. Examining the relationship between metabolic critical temperatures and basal metabolic rates (BMR) provides a unique opportunity to gain a better understanding of how animals respond to varying ambient climatic conditions, especially in times of ongoing and projected future climate change. We make use of this opportunity by testing the heat dissipation limit (HDL) theory, which hypothesizes that the maximum amount of heat a species can dissipate constrains its energetics. Specifically, we test the theory’s implicit prediction that BMR should be lower under higher metabolic critical temperatures. We analysed the relationship of BMR with upper and lower critical temperatures for a large dataset of 146 endotherm species using regression analyses, carefully accounting for phylogenetic relationships and body mass. We show that metabolic critical temperatures are negatively related with BMR in both birds and mammals. Our results confirm the predictions of the HDL theory, suggesting that metabolic critical temperatures and basal metabolic rates respond in concert to ambient climatic conditions. This implies that heat dissipation capacities of endotherms may be an important factor to take into account in assessments of species’ vulnerability to climate change.",
+		"container-title": "PeerJ",
+		"DOI": "10.7717/peerj.5725",
+		"ISSN": "2167-8359",
+		"journalAbbreviation": "PeerJ",
+		"language": "en",
+		"note": "publisher: PeerJ Inc.",
+		"page": "e5725",
+		"source": "peerj.com",
+		"title": "Testing the heat dissipation limitation hypothesis: basal metabolic rates of endotherms decrease with increasing upper and lower critical temperatures",
+		"title-short": "Testing the heat dissipation limitation hypothesis",
+		"URL": "https://peerj.com/articles/5725",
+		"volume": "6",
+		"author": [
+			{
+				"family": "Khaliq",
+				"given": "Imran"
+			},
+			{
+				"family": "Hof",
+				"given": "Christian"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					10,
+					31
+				]
+			]
+		}
+	},
+	{
+		"id": "hof_etal17",
+		"type": "article-journal",
+		"container-title": "Proceedings of the Royal Society B: Biological Sciences",
+		"DOI": "10.1098/rspb.2017.0232",
+		"issue": "1855",
+		"note": "publisher: Royal Society",
+		"page": "20170232",
+		"source": "royalsocietypublishing.org (Atypon)",
+		"title": "Global patterns of thermal tolerances and vulnerability of endotherms to climate change remain robust irrespective of varying data suitability criteria",
+		"URL": "https://royalsocietypublishing.org/doi/10.1098/rspb.2017.0232",
+		"volume": "284",
+		"author": [
+			{
+				"family": "Hof",
+				"given": "Christian"
+			},
+			{
+				"family": "Khaliq",
+				"given": "Imran"
+			},
+			{
+				"family": "Prinzinger",
+				"given": "Roland"
+			},
+			{
+				"family": "Böhning-Gaese",
+				"given": "Katrin"
+			},
+			{
+				"family": "Pfenninger",
+				"given": "Markus"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017",
+					5,
+					24
+				]
+			]
+		}
+	},
+	{
+		"id": "khaliq_etal15a",
+		"type": "article-journal",
+		"abstract": "Aim Physiological traits that approximate the fundamental climatic niche – the climatic conditions where a species can survive – are the outcome of adaptation to the environment under historical and current environmental constraints. If a large amount of the variation in physiological traits among species can be explained by their phylogeny rather than by contemporary environmental conditions, this would indicate phylogenetic conservatism in physiological traits, i.e. the tendency of species to retain their ancestral physiology over time. Here, we evaluate the relative contributions of phylogeny and environment to explain the variation in physiological traits of birds and mammals at the global level, as well as separately for tropical versus temperate species. Location Global. Methods We compiled a large data set from the literature, on the thermal traits and basal metabolic rates of 552 endotherms (255 bird and 297 mammal species) as measured in physiological experiments, along with phylogenetic, geographical and climatic data. Our analyses, which were performed separately for birds and mammals, partitioned the variation in comparative physiological data into the relative contributions of phylogenetic and environmental distance matrices. Results Overall, the current environment explained a larger amount of variation in thermal traits among species than the phylogeny. However, we found that phylogeny was much more important than current environment for explaining the variation in physiological traits in the tropics, whereas environment was more important than phylogeny in temperate species. Main conclusions While evidence for phylogenetic conservatism in physiological traits at the global level was weak, results for tropical species suggest phylogenetic conservatism in their physiological traits. These results indicate a stronger tendency in tropical species to retain their ancestral thermal traits, which might in turn imply a lower physiological adaptability of tropical species to ongoing and future climate change.",
+		"container-title": "Journal of Biogeography",
+		"DOI": "10.1111/jbi.12573",
+		"ISSN": "1365-2699",
+		"issue": "11",
+		"language": "en",
+		"license": "© 2015 John Wiley & Sons Ltd",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/jbi.12573",
+		"page": "2187-2196",
+		"source": "Wiley Online Library",
+		"title": "Global variation in thermal physiology of birds and mammals: evidence for phylogenetic niche conservatism only in the tropics",
+		"title-short": "Global variation in thermal physiology of birds and mammals",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/jbi.12573",
+		"volume": "42",
+		"author": [
+			{
+				"family": "Khaliq",
+				"given": "Imran"
+			},
+			{
+				"family": "Fritz",
+				"given": "Susanne A."
+			},
+			{
+				"family": "Prinzinger",
+				"given": "Roland"
+			},
+			{
+				"family": "Pfenninger",
+				"given": "Markus"
+			},
+			{
+				"family": "Böhning-Gaese",
+				"given": "Katrin"
+			},
+			{
+				"family": "Hof",
+				"given": "Christian"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2015"
+				]
+			]
+		}
+	},
+	{
+		"id": "sanz18",
+		"type": "article-journal",
+		"abstract": "The definition of homeotherm animal responses to temperature has traditionally based on metabolic and thermal physiology studies. The thermoneutral zone is defined as the range of ambient temperature within which metabolic rate is at a minimum, and within which temperature regulation is achieved by non-evaporative physical processes alone. As temperature raises, animals the upper critical temperature is reached, which is the ambient temperature above which thermoregulatory evaporative heat loss processes of a resting thermoregulating animal are recruited. These temperatures depend on a variety of factors including animal species and breed, age, adaptation or animal status, among others. These are influenced by other environmental conditions such as relative humidity and wind velocity. Determining upper critical temperatures seems essential to establish effective climate control strategies. However, evidence of research during the last decades shows that animal responses to heat stress are varied, as briefly reviewed in this article. These responses and include both short and long term responses depending on the magnitude and duration of the stress. Furthermore, as temperature raises a wide and complex range of behavioural, physiological and productive responses are triggered. Thus, the effects of heat stress may relate to animal welfare, health, productivity and sustainability concerns, and seem difficult to assess with critical temperatures only. Currently, major interest is devoted to develop indicators for heat stress, particularly early indicators. These indicators may vary among animal species, but are the basis for a better environmental control. In this sense, the advances of precision livestock farming are a sound basis for heat stress control. Therefore, apart from thermal indicators, animal-based information may supply very relevant information to decide about heat stress abatement strategies. This technology is more and more available for farmers, and very relevant developments are currently developed and will also be developed in the future. In summary, an information-based decision system related to animal indicators may be effective for a practical climate control in livestock farms.",
+		"container-title": "Agricultural Engineering International: CIGR Journal",
+		"ISSN": "1682-1130",
+		"language": "en",
+		"license": "Copyright (c) 2018 Agricultural Engineering International: CIGR Journal",
+		"source": "cigrjournal.org",
+		"title": "Defining upper critical temperatures for an effective climate control to reduce heat stress",
+		"URL": "https://cigrjournal.org/index.php/Ejounral/article/view/4782",
+		"author": [
+			{
+				"family": "Sanz",
+				"given": "Salvador Calvet"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					9,
+					18
+				]
+			]
+		}
+	},
+	{
+		"id": "paschke_etal18",
+		"type": "article-journal",
+		"abstract": "Considering that swim-flume or chasing methods fail in the estimation of maximum metabolic rate and in the estimation of Aerobic Scope (AS) of sedentary or sluggish aquatic ectotherms, we propose a novel conceptual approach in which high metabolic rates can be obtained through stimulation of organism metabolic activity using high and low non-lethal temperatures that induce high (HMR) and low metabolic rates (LMR), This method was defined as TIMR: Temperature Induced Metabolic Rate, designed to obtain an aerobic power budget based on temperature-induced metabolic scope which may mirror thermal metabolic scope (TMS = HMR—LMR). Prior to use, the researcher should know the critical thermal maximum (CT max) and minimum (CT min) of animals, and calculate temperature TIMR max (at temperatures −5–10% below CT max) and TIMR min (at temperatures +5–10% above CT min), or choose a high and low non-lethal temperature that provoke a higher and lower metabolic rate than observed in routine conditions. Two sets of experiments were carried out. The first compared swim-flume open respirometry and the TIMR protocol using Centropomus undecimalis (snook), an endurance swimmer, acclimated at different temperatures. Results showed that independent of the method used and of the magnitude of the metabolic response, a similar relationship between maximum metabolic budget and acclimation temperature was observed, demonstrating that the TIMR method allows the identification of TMS. The second evaluated the effect of acclimation temperature in snook, semi-sedentary yellow tail (Ocyurus chrysurus), and sedentary clownfish (Amphiprion ocellaris), using TIMR and the chasing method. Both methods produced similar maximum metabolic rates in snook and yellowtail fish, but strong differences became visible in clownfish. In clownfish, the TIMR method led to a significantly higher TMS than the chasing method indicating that chasing may not fully exploit the aerobic power budget in sedentary species. Thus, the TIMR method provides an alternative way to estimate the difference between high and low metabolic activity under different acclimation conditions that, although not equivalent to AS may allow the standardized estimation of TMS that is relevant for sedentary species where measurement of AS via maximal swimming is inappropriate.",
+		"container-title": "Frontiers in Physiology",
+		"DOI": "10.3389/fphys.2018.01438",
+		"ISSN": "1664-042X",
+		"journalAbbreviation": "Front Physiol",
+		"note": "PMID: 30405425\nPMCID: PMC6204536",
+		"page": "1438",
+		"source": "PubMed Central",
+		"title": "Comparison of Aerobic Scope for Metabolic Activity in Aquatic Ectotherms With Temperature Related Metabolic Stimulation: A Novel Approach for Aerobic Power Budget",
+		"title-short": "Comparison of Aerobic Scope for Metabolic Activity in Aquatic Ectotherms With Temperature Related Metabolic Stimulation",
+		"URL": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6204536/",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Paschke",
+				"given": "Kurt"
+			},
+			{
+				"family": "Agüero",
+				"given": "José"
+			},
+			{
+				"family": "Gebauer",
+				"given": "Paulina"
+			},
+			{
+				"family": "Díaz",
+				"given": "Fernando"
+			},
+			{
+				"family": "Mascaró",
+				"given": "Maite"
+			},
+			{
+				"family": "López-Ripoll",
+				"given": "Estefany"
+			},
+			{
+				"family": "Re",
+				"given": "Denisse"
+			},
+			{
+				"family": "Caamal-Monsreal",
+				"given": "Claudia"
+			},
+			{
+				"family": "Tremblay",
+				"given": "Nelly"
+			},
+			{
+				"family": "Pörtner",
+				"given": "Hans-Otto"
+			},
+			{
+				"family": "Rosas",
+				"given": "Carlos"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					10,
+					22
+				]
+			]
+		}
+	},
+	{
+		"id": "heyning_mead97",
+		"type": "article-journal",
+		"abstract": "Vascular structures for heat conservation in the tongue of the gray whale (Eschrichtius robustus) are reported here. Numerous individual countercurrent heat exchangers are found throughout the massive tongue. These converge at the base of the tongue to form a bilateral pair of retia. Temperature measurements from the oral cavity of a live gray whale indicate that more heat may be lost through the blubber layer over the body than through the tongue, despite the fact that the tongue is far more vascularized and has much less insulation. These heat exchangers substantially reduce heat loss when these whales feed in cold waters.",
+		"container-title": "Science",
+		"DOI": "10.1126/science.278.5340.1138",
+		"issue": "5340",
+		"note": "publisher: American Association for the Advancement of Science",
+		"page": "1138-1140",
+		"source": "science.org (Atypon)",
+		"title": "Thermoregulation in the Mouths of Feeding Gray Whales",
+		"URL": "https://www.science.org/doi/full/10.1126/science.278.5340.1138",
+		"volume": "278",
+		"author": [
+			{
+				"family": "Heyning",
+				"given": "John E."
+			},
+			{
+				"family": "Mead",
+				"given": "James G."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					19
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1997",
+					11,
+					7
+				]
+			]
+		}
+	},
+	{
+		"id": "mcginnis_etal72",
+		"type": "article-journal",
+		"container-title": "Comparative Biochemistry and Physiology Part A: Physiology",
+		"DOI": "10.1016/0300-9629(72)90200-9",
+		"ISSN": "0300-9629",
+		"issue": "2",
+		"journalAbbreviation": "Comparative Biochemistry and Physiology Part A: Physiology",
+		"page": "417-423",
+		"source": "ScienceDirect",
+		"title": "Body heat dissipation and conservation in two species of dolphins",
+		"URL": "https://www.sciencedirect.com/science/article/pii/0300962972902009",
+		"volume": "43",
+		"author": [
+			{
+				"family": "McGinnis",
+				"given": "Samuel M."
+			},
+			{
+				"family": "Whittow",
+				"given": "G. Causey"
+			},
+			{
+				"family": "Ohata",
+				"given": "Carl A."
+			},
+			{
+				"family": "Huber",
+				"given": "Harriet"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1972",
+					10,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "meagher_etal08",
+		"type": "article-journal",
+		"abstract": "This study investigated patterns of heat loss in bottlenose dolphins (Tursiops truncatus) resident to Sarasota Bay, FL, USA, where water temperatures vary seasonally from 11 to 33°C. Simultaneous measurements of heat flux (HF) and skin surface temperature were collected at the body wall and appendages of dolphins during health-monitoring events in summer (June 2002–2004) and winter (February 2003–2005). Integument thickness was measured and whole body conductance (W/m2 °C) was estimated using HF and colonic temperature measurements. Across seasons, HF values were similar at the appendages, but their distribution differed significantly at the flipper and fluke. In summer, these appendages displayed uniformly high values, while in winter they most frequently displayed very low HF values with a few high HF values. In winter, blubber thickness was significantly greater and estimated conductance significantly lower, than in summer. These results suggest that dolphins attempt to conserve heat in winter. In winter, though, HF values across the body wall were similar to (flank) or greater than (caudal keel) summer values. It is likely that higher winter HF values are due to the steep temperature gradient between the body core and colder winter water, which may limit the dolphin’s ability to decrease heat loss across the body wall.",
+		"container-title": "Journal of Comparative Physiology B",
+		"DOI": "10.1007/s00360-007-0245-5",
+		"ISSN": "1432-136X",
+		"issue": "4",
+		"journalAbbreviation": "J Comp Physiol B",
+		"language": "en",
+		"page": "529-543",
+		"source": "Springer Link",
+		"title": "Seasonal patterns of heat loss in wild bottlenose dolphins (Tursiops truncatus)",
+		"URL": "https://doi.org/10.1007/s00360-007-0245-5",
+		"volume": "178",
+		"author": [
+			{
+				"family": "Meagher",
+				"given": "Erin M."
+			},
+			{
+				"family": "McLellan",
+				"given": "William A."
+			},
+			{
+				"family": "Westgate",
+				"given": "Andrew J."
+			},
+			{
+				"family": "Wells",
+				"given": "Randall S."
+			},
+			{
+				"family": "Blum",
+				"given": "James E."
+			},
+			{
+				"family": "Pabst",
+				"given": "D. Ann"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2008",
+					5,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "kays94",
+		"type": "article-journal",
+		"abstract": "The objective of this paper is to examine critically the presently available experimental data on Turbulent Prandtl Number for the two-dimensional turbulent boundry layer, and for fully developed flow in a circular tube or a flat duct, and attempt to draw some conclusions as to where matters presently stand.",
+		"container-title": "Journal of Heat Transfer",
+		"DOI": "10.1115/1.2911398",
+		"ISSN": "0022-1481",
+		"issue": "2",
+		"journalAbbreviation": "Journal of Heat Transfer",
+		"page": "284-295",
+		"source": "Silverchair",
+		"title": "Turbulent Prandtl Number—Where Are We?",
+		"URL": "https://doi.org/10.1115/1.2911398",
+		"volume": "116",
+		"author": [
+			{
+				"family": "Kays",
+				"given": "William M."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1994",
+					5,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "mcclain_etal25",
+		"type": "article-journal",
+		"abstract": "Motivation Body size is a fundamental trait influencing an organism's life history, ecology, physiology and evolutionary dynamics. While extensive body-size databases exist for terrestrial vertebrates, equivalent datasets for marine animals are lacking, even though they include a much larger number of species. This data gap hinders comparative and macroecological analyses that rely on body-size data to uncover evolutionary and ecological patterns and processes in marine ecosystems. The Marine Organismal Body Size (MOBS) Database aims to address this deficit by providing standardised body-size data for marine animals, enabling deeper investigations into marine biodiversity and informing conservation and ecological theory. Main Types of Variables Contained The MOBS Database includes maximum linear dimensions of marine animals, specifically height, length, width and diameter. Additional fields include species taxonomy (linked to AphiaIDs in the World Register of Marine Species), notes about measurements and data sources. Spatial Location and Grain The dataset is global in scope, encompassing marine species across all oceanic regions, but does not itself contain geographic data. Integrations with databases like the Ocean Biodiversity Information System (OBIS) can yield spatially resolved analyses. Time Period and Grain Modern, extant species. Major Taxa and Level of Measurement MOBS focuses on marine animals (kingdom Animalia), covering 30 marine phyla. The database currently contains data for 85,204 species (40.4% of valid marine animal species in WoRMS), with seven phyla surpassing 75% coverage. Measurements are reported at the species level, with some records including multiple observations to account for intraspecific variations. Software Format The MOBS Database is available in csv format and is hosted on GitHub for public access (https://github.com/crmcclain/MOBS_OPEN).",
+		"container-title": "Global Ecology and Biogeography",
+		"DOI": "10.1111/geb.70062",
+		"ISSN": "1466-8238",
+		"issue": "6",
+		"language": "en",
+		"license": "© 2025 John Wiley & Sons Ltd.",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/geb.70062",
+		"page": "e70062",
+		"source": "Wiley Online Library",
+		"title": "MOBS 1.0: A Database of Interspecific Variation in Marine Organismal Body Sizes",
+		"title-short": "MOBS 1.0",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/geb.70062",
+		"volume": "34",
+		"author": [
+			{
+				"family": "McClain",
+				"given": "Craig R."
+			},
+			{
+				"family": "Heim",
+				"given": "Noel A."
+			},
+			{
+				"family": "Knope",
+				"given": "Matthew L."
+			},
+			{
+				"family": "Monarrez",
+				"given": "Pedro M."
+			},
+			{
+				"family": "Payne",
+				"given": "Jonathan L."
+			},
+			{
+				"family": "Santos",
+				"given": "Isaac Trindade"
+			},
+			{
+				"family": "Webb",
+				"given": "Thomas J."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					6,
+					26
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2025"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/users/6889865/items/P4CHP7RQ",
+		"type": "document",
+		"title": "Heat Transfer; A Practical Approach [2nd Edition]",
+		"URL": "https://dn790009.ca.archive.org/0/items/HeatAndMassTransferByCengel2ndEdition/Heat%20and%20Mass%20transfer%20by%20Cengel%202nd%20Edition.pdf",
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "kvadsheim_folkow97",
+		"type": "article-journal",
+		"abstract": "The trunk of marine mammals is encased in a blubber layer which provides thermal insulation that can be changed by circulatory adjustments. The extremities, on the other hand, are poorly insulated but have vascular arrangements constructed for prevention or promotion of heat loss, depending on the thermal state of the animal. We have studied the importance of different body parts as sites for heat dissipation and also assessed the effect of circulatory adjustments on heat transfer through blubber, by combining direct measurements of heat flux from the flippers and trunk with simultaneous recordings of temperature gradients through the blubber and metabolic rates of harp seals (Phoca groenlandica) subjected to water temperatures between 1 and 24 °C. We also determined the thermal conductivity of blubber samples from the same animals after death, and compared this with the insulative properties of live blubber. At the lowest water temperatures, the insulative properties of live blubber were similar to those of dead blubber, and heat loss from the flippers only accounted for 2–6% of the metabolic heat production. As heat load increased with increasing water temperatures, the fraction of heat lost from the flippers increased, to 19–48% at 24 °C, while the fraction lost from the trunk decreased, despite an increase in the convective (circulatory) heat transfer through the blubber layer.",
+		"container-title": "Acta Physiologica Scandinavica",
+		"DOI": "10.1046/j.1365-201X.1997.00235.x",
+		"ISSN": "1365-201X",
+		"issue": "3",
+		"language": "en",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1046/j.1365-201X.1997.00235.x",
+		"page": "385-395",
+		"source": "Wiley Online Library",
+		"title": "Blubber and flipper heat transfer in harp seals",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1046/j.1365-201X.1997.00235.x",
+		"volume": "161",
+		"author": [
+			{
+				"family": "Kvadsheim",
+				"given": "P.h."
+			},
+			{
+				"family": "Folkow",
+				"given": "L.p."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					3
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1997"
+				]
+			]
+		}
+	},
+	{
+		"id": "dunkin_etal05",
+		"type": "article-journal",
+		"abstract": "In Atlantic bottlenose dolphins Tursiops truncatus, both the thickness and lipid content of blubber vary across ontogeny and across individuals of differing reproductive and nutritional status. This study investigates how these changes in blubber morphology and composition influence its thermal properties. Thermal conductivity (W m–1deg.–1, where deg. is °C) and thermal insulation(m2 deg. W–1) of dolphin blubber were measured in individuals across an ontogenetic series (fetus through adult, N=36),pregnant females (N=4) and emaciated animals (N=5). These thermal properties were determined by the simultaneous use of two common experimental approaches, the heat flux disc method and the standard material method. Thickness, lipid and water content were measured for each blubber sample. Thermal conductivity and insulation varied significantly across ontogeny. Blubber from fetuses through sub-adults was less conductive(range=0.11–0.13±0.02 W m–1deg.–1) than that of adults (mean=0.18 W m–1deg.–1). The conductivity of blubber from pregnant females was similar to non-adult categories, while that of emaciated animals was significantly higher (0.24 ± 0.04 W m deg.–1) than all other categories. Blubber from sub-adults and pregnant females had the highest insulation values while fetuses and emaciated animals had the lowest. In nutritionally dependant life history categories, changes in blubber's thermal insulation were characterized by stable blubber quality (i.e. conductivity)and increased blubber quantity (i.e. thickness). In nutritionally independent animals, blubber quantity remained stable while blubber quality varied. A final, unexpected observation was that heat flux measurements at the deep blubber surface were significantly higher than that at the superficial surface, a pattern not observed in control materials. This apparent ability to absorb heat, coupled with blubber's fatty acid composition, suggest that dolphin integument may function as a phase change material.",
+		"container-title": "Journal of Experimental Biology",
+		"DOI": "10.1242/jeb.01559",
+		"ISSN": "0022-0949",
+		"issue": "8",
+		"journalAbbreviation": "Journal of Experimental Biology",
+		"page": "1469-1480",
+		"source": "Silverchair",
+		"title": "The ontogenetic changes in the thermal properties of blubber from Atlantic bottlenose dolphin Tursiops truncatus",
+		"URL": "https://doi.org/10.1242/jeb.01559",
+		"volume": "208",
+		"author": [
+			{
+				"family": "Dunkin",
+				"given": "Robin C."
+			},
+			{
+				"family": "McLellan",
+				"given": "William A."
+			},
+			{
+				"family": "Blum",
+				"given": "James E."
+			},
+			{
+				"family": "Pabst",
+				"given": "D. Ann"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					3
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2005",
+					4,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "bagge_etal12",
+		"type": "article-journal",
+		"abstract": "Blubber, the specialized hypodermis of cetaceans, provides thermal insulation through the quantity and quality of lipids it contains. Quality refers to percent lipid content; however, not all lipids are the same. Certain deep-diving cetacean groups possess blubber with lipids – wax esters (WE) – that are not typically found in mammals, and the insulative quality of ‘waxy’ blubber is unknown. Our study explored the influence of lipid storage class – specifically WE in pygmy sperm whales (Kogia breviceps; N=7) and typical mammalian triacylglycerols in short-finned pilot whales (Globicephala macrorhynchus; N=7) – on blubber’s thermal properties. Although the blubber of both species had similar total lipid contents, the thermal conductivity of G. macrorhynchus blubber (0.20±0.01 W m–1 °C–1) was significantly higher than that of K. breviceps (0.15±0.01 W m–1 °C–1; P=0.0006). These results suggest that lipid class significantly influences the ability of blubber to resist heat flow. In addition, because the lipid content of blubber is known to be stratified, we measured its depth-specific thermal conductivities. In K. breviceps blubber, the depth-specific conductivity values tended to vary inversely with lipid content. In contrast, G. macrorhynchus blubber displayed unexpected depth-specific relationships between lipid content and conductivity, which suggests that temperature-dependent effects, such as melting, may be occurring. Differences in heat flux measurements across the depth of the blubber samples provide evidence that both species are capable of storing heat in their blubber. The function of blubber as an insulator is complex and may rely upon its lipid class, stratified composition and dynamic heat storage capabilities.",
+		"container-title": "Journal of Experimental Biology",
+		"DOI": "10.1242/jeb.071530",
+		"ISSN": "0022-0949",
+		"issue": "24",
+		"journalAbbreviation": "Journal of Experimental Biology",
+		"page": "4330-4339",
+		"source": "Silverchair",
+		"title": "Lipid class and depth-specific thermal properties in the blubber of the short-finned pilot whale and the pygmy sperm whale",
+		"URL": "https://doi.org/10.1242/jeb.071530",
+		"volume": "215",
+		"author": [
+			{
+				"family": "Bagge",
+				"given": "Laura E."
+			},
+			{
+				"family": "Koopman",
+				"given": "Heather N."
+			},
+			{
+				"family": "Rommel",
+				"given": "Sentiel A."
+			},
+			{
+				"family": "McLellan",
+				"given": "William A."
+			},
+			{
+				"family": "Pabst",
+				"given": "D. A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					3
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2012",
+					12,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "azizeh_etal21",
+		"type": "article-journal",
+		"abstract": "Kelp gulls Larus dominicanus (KG) feed on the skin and blubber of living southern right whales Eubalaena australis (SRWs) off Península Valdés (PV), Argentina. The whales respond...",
+		"container-title": "Marine Ecology Progress Series",
+		"DOI": "10.3354/meps13716",
+		"ISSN": "1616-1599, 0171-8630",
+		"language": "en",
+		"page": "133-148",
+		"source": "www.int-res.com",
+		"title": "Acute and chronic behavioral effects of kelp gull micropredation on southern right whale mother-calf pairs off Península Valdés, Argentina",
+		"URL": "https://www.int-res.com/abstracts/meps/v668/meps13716",
+		"volume": "668",
+		"author": [
+			{
+				"family": "Azizeh",
+				"given": "Taylor R."
+			},
+			{
+				"family": "Sprogis",
+				"given": "Kate R."
+			},
+			{
+				"family": "Soley",
+				"given": "Raquel"
+			},
+			{
+				"family": "Nielsen",
+				"given": "Mia L. K."
+			},
+			{
+				"family": "Uhart",
+				"given": "Marcela M."
+			},
+			{
+				"family": "Sironi",
+				"given": "Mariano"
+			},
+			{
+				"family": "Marón",
+				"given": "Carina F."
+			},
+			{
+				"family": "Bejder",
+				"given": "Lars"
+			},
+			{
+				"family": "Madsen",
+				"given": "Peter T."
+			},
+			{
+				"family": "Christiansen",
+				"given": "Fredrik"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2021",
+					6,
+					24
+				]
+			]
+		}
+	},
+	{
+		"id": "pattani_etal10a",
+		"type": "article-journal",
+		"abstract": "Objectives/Hypothesis: The purpose of this article is to discuss the various factors related to poor outcome in free flap reconstructions of the head and neck (H&N). Free tissue transfer has become the standard reconstruction technique for complex H&N defects. With the evolution of free flap use in H&N surgery, numerous factors have been proposed that adversely affect flap outcome, many with the support of only anecdotal experience. We seek to critically review the literature to assess what evidence exists for the relation of various intraoperative factors to free flap complications. Study Design: Literature review. Methods: A review of the contemporary literature (1995 to present) on free flap reconstruction of the H&N was undertaken. A PubMed search using the terms head and neck, reconstruction, free flap, microvascular, failure, complications, fluids, intraoperative, hypertension, hypotension, nitrous oxide, temperature, and morbidity in various combinations was completed. Appropriate articles were selected and analyzed. Results: Studies report various factors thought to influence flap outcomes, often with divergent conclusions. Nonetheless, the body of evidence implicates several intraoperative factors to contribute to free flap complications including: >7 L intraoperative fluid administration, significant medical comorbidity, and prolonged operative time. There is no evidence supporting hypotension, pressors, colloids, and nitrous use in free flap failure. Conclusions: Although various dogmas related to the intraoperative care of free flap patients exist, including avoidance of hypotension and pressor use, there is no available clinical evidence to support these practices. Although free flap failure is uncommon, a better understanding of its causes is necessary to avoid this disastrous complication. Laryngoscope, 2010",
+		"container-title": "The Laryngoscope",
+		"DOI": "10.1002/lary.20825",
+		"ISSN": "1531-4995",
+		"issue": "4",
+		"language": "en",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/lary.20825",
+		"page": "717-723",
+		"source": "Wiley Online Library",
+		"title": "What makes a good flap go bad?: A critical analysis of the literature of intraoperative factors related to free flap failure",
+		"title-short": "What makes a good flap go bad?",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1002/lary.20825",
+		"volume": "120",
+		"author": [
+			{
+				"family": "Pattani",
+				"given": "Kavita M."
+			},
+			{
+				"family": "Byrne",
+				"given": "Patrick"
+			},
+			{
+				"family": "Boahene",
+				"given": "Kofi"
+			},
+			{
+				"family": "Richmon",
+				"given": "Jeremy"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010"
+				]
+			]
+		}
+	},
+	{
+		"id": "wang_etal19",
+		"type": "article-journal",
+		"abstract": "BACKGROUND: Postoperative hematoma is one of the most common complications of free flap reconstruction and compromises the perfusion of pedicles and perforators. Therefore, we reviewed our patients to analyze the associated risk factors.\nMETHOD: This study involved a retrospective chart review from 2014 to 2016. We identified the patients undergoing free flap reconstructions for head and neck cancer. Patients with postoperative hematoma requiring surgical intervention were included.\nRESULT: We enlisted 289 patients undergoing head and neck reconstructions. Eighteen patients (6.2%) had postoperative hematomas of which 12 hematomas occurred within the first 3 days and 9 in the first 24 hours. Elevated systolic blood pressure increased the risk of hematoma formation, but hematoma was not associated with higher failure rate. Tachycardia was observed in the patients with hematoma.\nCONCLUSIONS: Transient elevated blood pressure increased the risk of hematoma. We suggest controlling systolic blood pressure below 150 mm Hg for prevention of hematoma.",
+		"container-title": "Head & Neck",
+		"DOI": "10.1002/hed.25831",
+		"ISSN": "1097-0347",
+		"issue": "9",
+		"journalAbbreviation": "Head Neck",
+		"language": "eng",
+		"note": "PMID: 31173434",
+		"page": "3241-3246",
+		"source": "PubMed",
+		"title": "Association between blood pressure and postoperative hematomas in the patients undergoing head and neck cancer reconstruction",
+		"volume": "41",
+		"author": [
+			{
+				"family": "Wang",
+				"given": "Kuan-Ying"
+			},
+			{
+				"family": "Yang",
+				"given": "Kuo-Chung"
+			},
+			{
+				"family": "Su",
+				"given": "Fang-Yi"
+			},
+			{
+				"family": "Chen",
+				"given": "Yu-Ching"
+			},
+			{
+				"family": "Hsieh",
+				"given": "Yu-Hsuan"
+			},
+			{
+				"family": "Huang",
+				"given": "Shiao-Lin"
+			},
+			{
+				"family": "Liu",
+				"given": "Wen-Chung"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					9
+				]
+			]
+		}
+	},
+	{
+		"id": "chen_etal18",
+		"type": "article-journal",
+		"abstract": "Background \n          Free tissue transfer has become a safe and reliable means for repairing soft tissue and bony defects of the head and neck region. Although the success rate is high, the incidence of postoperative complications is common. One significant complication is postoperative hematoma formation. However, few published studies have addressed its incidence, etiology, or outcome. We performed a retrospective analysis to investigate this issue.\n          Methods \n          A retrospective review was conducted of 293 consecutive microvascular free tissue transfers in the head and neck region in a single institute from January 2013 to December 2015. Patients with postoperative hematoma were identified, and demographic data, perioperative conditions, medications, and outcomes were evaluated by chart review.\n          Results \n          A total of 34 patients (11.8%) had postoperative hematoma. Compared with the patients without hematoma, this group had a longer hospital stay (P = 0.06) and required more secondary procedures (P = 0.001). The use of nonsteroidal anti-inflammatory drugs (NSAIDs; P < 0.001) was associated with a higher incidence of hematoma formation. Among the 34 patients with hematoma, 16 (47.1%) had flap compromise and underwent emergent reexploration. The salvage rate was higher than that in the nonhematoma group (87.5% vs 59.3%, P = 0.086).\n          Conclusions \n          Postoperative hematoma after head and neck microvascular reconstruction is not a rare complication and may lead to poor outcome and more complications. The avoidance of NSAIDs preoperatively may prevent hematoma formation. Surgeons should be alert to this situation, and immediate return to the operative room for hematoma evacuation is necessary. Early intervention may contribute to a high salvage rate.",
+		"container-title": "Annals of Plastic Surgery",
+		"DOI": "10.1097/SAP.0000000000001300",
+		"ISSN": "0148-7043",
+		"issue": "2S",
+		"language": "en-US",
+		"page": "S15",
+		"source": "journals.lww.com",
+		"title": "Postoperative Hematoma in Microvascular Reconstruction of the Head and Neck",
+		"URL": "https://journals.lww.com/annalsplasticsurgery/abstract/2018/02001/postoperative_hematoma_in_microvascular.5.aspx",
+		"volume": "80",
+		"author": [
+			{
+				"family": "Chen",
+				"given": "Yi-Fan"
+			},
+			{
+				"family": "Wang",
+				"given": "Tian-Hsiang"
+			},
+			{
+				"family": "Chiu",
+				"given": "Yen-Hao"
+			},
+			{
+				"family": "Chang",
+				"given": "Dun-Hao"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "christiansen_etal25",
+		"type": "article-journal",
+		"abstract": "Baleen whales are extreme capital breeders, capable of fasting for more than half a year while migrating thousands of kilometres and nursing rapidly growing offspring that quadruple in body size over the same period. To understand this energetic conundrum, bioenergetic models that quantify the energy expenditure of baleen whales relative to their body energy reserves (body condition) are required. However, due to the difficulty in measuring the physiology and bioenergetics of large whales, few empirically informed models are available. Here we develop a bioenergetic model for humpback whales (Megaptera novaeangliae) off Western Australia to quantify their daily and seasonal energy expenditure over the breeding season. Specifically, we hypothesised that body size (length) would have a negative effect on the mass-specific energy expenditure of whales, and reduce female reproductive costs. A larger body size would also increase the absolute energy reserves, and hence fasting ability of humpback whales. To test this, we used a unique combination of field methodologies, including behavioural focal follows, aerial photogrammetry, and satellite tagging. To quantify the daily energetic cost of body maintenance, activity, somatic growth, and reproduction (gestation and lactation), we combined fine-scale behavioural and body morphometric data. Seasonal energy loss was estimated from changes in body condition, using aerial photogrammetry data. Migration timing and swim speed were calculated from satellite tag movement data. The resulting bioenergetic model showed that body size had a strong negative effect on the mass-specific energy expenditure of whales, and a positive effect on the fasting ability and residency time of juveniles and adults. Maternal body size had a positive effect on calf birth size and growth, so that calves of larger females reached their departure size quicker and begin their migration back to the Antarctic feeding grounds. The body condition loss during the breeding season declined with body size for juveniles (26.9-14.4%) and lactating females (28.3-7.8%), while adults maintained a constant loss (14.4-15.0%) by increasing their residency time. The ability of humpback whales to support such high seasonal energetic costs with only stored energy reserves highlights the energetic benefits that gigantism provides in these extreme capital breeders.",
+		"container-title": "Ecological Modelling",
+		"DOI": "10.1016/j.ecolmodel.2024.110994",
+		"ISSN": "0304-3800",
+		"journalAbbreviation": "Ecological Modelling",
+		"page": "110994",
+		"source": "ScienceDirect",
+		"title": "Extreme capital breeding for giants: Effects of body size on humpback whale energy expenditure and fasting endurance",
+		"title-short": "Extreme capital breeding for giants",
+		"URL": "https://www.sciencedirect.com/science/article/pii/S030438002400382X",
+		"volume": "501",
+		"author": [
+			{
+				"family": "Christiansen",
+				"given": "Fredrik"
+			},
+			{
+				"family": "Madsen",
+				"given": "Peter T"
+			},
+			{
+				"family": "Andrews-Goff",
+				"given": "Virginia"
+			},
+			{
+				"family": "Double",
+				"given": "Mike C"
+			},
+			{
+				"family": "How",
+				"given": "Jason R"
+			},
+			{
+				"family": "Clapham",
+				"given": "Phil"
+			},
+			{
+				"family": "Ivashchenko",
+				"given": "Yulia"
+			},
+			{
+				"family": "Tormosov",
+				"given": "Dmitry"
+			},
+			{
+				"family": "Sprogis",
+				"given": "Kate R"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2025",
+					2,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "williams_etal99a",
+		"type": "article-journal",
+		"abstract": "During diving, marine mammals initiate a series of cardiovascular changes that include bradycardia and decreased peripheral circulation. Because heat transfer from thermal windows located in peripheral sites of these mammals depends on blood flow, such adjustments may limit their thermoregulatory capabilities during submergence. Here, we demonstrate how the thermoregulatory responses of bottlenose dolphins (Tursiops truncatus) are coordinated with the diving response. Heart rate, skin temperature and heat transfer from the dorsal fin and flank were measured while dolphins rested on the water surface, stationed 5–50 m under water and floated at the surface immediately following a dive. The results showed that heat flow ranged from 42.9±7.3 to 126.2±23.1 W m−2 and varied with anatomical site and diving activity. Upon submergence, heat flow declined by 35 % from the dorsal fin and by 24 % from the flank. An immediate increase in heat flow to levels exceeding pre-dive values occurred at both sites upon resurfacing. Changes in heart rate during diving paralleled the thermoregulatory responses. Mean pre-dive heart rate (102.0±2.6 beats min−1, N=26) decreased by 63.4 % during dives to 50 m and immediately returned to near resting levels upon resurfacing. These studies indicate that heat dissipation by dolphins is attenuated during diving. Rather than challenge the diving response, heat transfer is delayed until post-dive periods when the need for oxygen conservation is reduced.",
+		"container-title": "Journal of Experimental Biology",
+		"DOI": "10.1242/jeb.202.20.2763",
+		"ISSN": "0022-0949",
+		"issue": "20",
+		"journalAbbreviation": "Journal of Experimental Biology",
+		"page": "2763-2769",
+		"source": "Silverchair",
+		"title": "The diving physiology of bottlenose dolphins (Tursiops truncatus): III. Thermoregulation at depth",
+		"title-short": "The diving physiology of bottlenose dolphins (Tursiops truncatus)",
+		"URL": "https://doi.org/10.1242/jeb.202.20.2763",
+		"volume": "202",
+		"author": [
+			{
+				"family": "Williams",
+				"given": "Terrie M."
+			},
+			{
+				"family": "Noren",
+				"given": "D."
+			},
+			{
+				"family": "Berry",
+				"given": "P."
+			},
+			{
+				"family": "Estes",
+				"given": "J. A."
+			},
+			{
+				"family": "Allison",
+				"given": "C."
+			},
+			{
+				"family": "Kirtland",
+				"given": "J."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					10
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					10,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "adamczak_etal20",
+		"type": "article-journal",
+		"abstract": "Aim The aim of this study was to determine if marine mammals follow ecogeographic rules. We examined Bergmann's rule and Allen's rule in two pilot whale species with contrasting latitudinal distributions. Location Northwest Atlantic Ocean. Taxon Globicephala spp. Methods We analysed morphometric data collected from strandings of short- and long-finned pilot whales in the Northwest Atlantic Ocean to assess intraspecific and interspecific variation in surface area to volume ratios (SA:V) of the body core and appendage surface area relative to body core SA (normalized appendage SA) using a novel 3D modelling method. Results Our results suggest that ecogeographic variation in morphometrics between the two pilot whale species is consistent with morphological adaptations required to balance heat conservation and heat dissipation. Interspecific differences in morphology supported Bergmann's rule for fully grown individuals: the more temperate long-finned pilot whale had a larger body size and lower body core SA:V than the short-finned pilot whale, which has a more tropical distribution. Allen's rule was not supported; when all appendages were considered together, long-finned pilot whales had larger normalized SA than short-finned pilot whales. However, the pectoral flippers were the primary driver of this relationship; while long-finned pilot whales had proportionally larger pectoral flippers, short-finned pilot whales had proportionally larger dorsal fins and flukes. In addition, larger long-finned pilot whales (i.e. males and mature individuals) had proportionally larger pectoral flippers than smaller long-finned pilot whales. Main Conclusions Pilot whales follow Bergmann's rule but do not follow Allen's rule when fully mature. Thinly insulated appendages in marine mammals can be used to dissipate heat as the core warms, and larger and better insulated marine mammals may require relatively larger appendages in order to offload heat and thermoregulate effectively. Our results provide novel insight into ecogeographic rules and suggest that species in higher latitude climates towards the poles will demonstrate tradeoffs between core body heat conservation and appendage heat dissipation.",
+		"container-title": "Journal of Biogeography",
+		"DOI": "10.1111/jbi.13796",
+		"ISSN": "1365-2699",
+		"issue": "5",
+		"language": "en",
+		"license": "© 2020 John Wiley & Sons Ltd",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/jbi.13796",
+		"page": "1193-1206",
+		"source": "Wiley Online Library",
+		"title": "Do bigger bodies require bigger radiators? Insights into thermal ecology from closely related marine mammal species and implications for ecogeographic rules",
+		"title-short": "Do bigger bodies require bigger radiators?",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/jbi.13796",
+		"volume": "47",
+		"author": [
+			{
+				"family": "Adamczak",
+				"given": "Stephanie K."
+			},
+			{
+				"family": "Pabst",
+				"given": "D. Ann"
+			},
+			{
+				"family": "McLellan",
+				"given": "William A."
+			},
+			{
+				"family": "Thorne",
+				"given": "Lesley H."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					10
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2020"
+				]
+			]
+		}
+	},
+	{
+		"id": "felts23",
+		"type": "chapter",
+		"container-title": "Whales, Dolphins, and Porpoises",
+		"ISBN": "978-0-520-32137-3",
+		"language": "en",
+		"page": "255-276",
+		"publisher": "University of California Press",
+		"source": "www.degruyterbrill.com",
+		"title": "14. Some Functional and Structural Characteristics of Cetacean Flippers and Flukes",
+		"URL": "https://www.degruyterbrill.com/document/doi/10.1525/9780520321373-016/html",
+		"author": [
+			{
+				"family": "Felts",
+				"given": "William J. L."
+			}
+		],
+		"editor": [
+			{
+				"family": "Norris",
+				"given": "Kenneth S."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					10
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2023",
+					11,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "bernier-graveline_etal",
+		"type": "article-journal",
+		"abstract": "Monitoring the body condition of animals offers insights into their energetic needs, prey consumption, and vulnerability to environmental pressures. Southern hemisphere humpback whales (Megaptera novaeangliae) depend on Antarctic krill for their annual energy requirements. Drone-based photogrammetry was used to assess the energetic cost of migration and reproduction for breeding stock G humpback whales. Body measurements of 103 adult whales (2017–2019) were used to estimate body condition in Colombia (breeding ground) and the Western Antarctic Peninsula (feeding ground) and seasonal change was predicted. Humpback whales reached their peak body condition between early March and late May, and their lowest between late August and early December. The change in body condition was converted into losses of blubber volume, mass, lipid, energy, and ultimately the biomass of krill required to cover migration. On average, an adult humpback whale lost 36 percentage points of its body condition over the migration, equivalent to 12 m3 or 11,000 kg of blubber tissue, 5000 kg of lipid, 196,000,000 kJ or 57,000 kg of Antarctic krill. By linking migration and reproductive energy costs to krill biomass, our findings provide critical ecological context for understanding how environmental changes such as krill population fluctuations could impact whale populations.",
+		"container-title": "Marine Mammal Science",
+		"DOI": "10.1111/mms.70048",
+		"ISSN": "1748-7692",
+		"issue": "n/a",
+		"language": "en",
+		"license": "© 2025 The Author(s). Marine Mammal Science published by Wiley Periodicals LLC on behalf of Society for Marine Mammalogy.",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/mms.70048",
+		"page": "e70048",
+		"source": "Wiley Online Library",
+		"title": "Drone-Based Photogrammetry Provides Estimates of the Energetic Cost of Migration for Humpback Whales Between Antarctica and Colombia",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/mms.70048",
+		"volume": "n/a",
+		"author": [
+			{
+				"family": "Bernier-Graveline",
+				"given": "Alexandre"
+			},
+			{
+				"family": "Nash",
+				"given": "Susan Bengtson"
+			},
+			{
+				"family": "Bierlich",
+				"given": "K. C."
+			},
+			{
+				"family": "Friedlaender",
+				"given": "Ari"
+			},
+			{
+				"family": "Johnston",
+				"given": "David W."
+			},
+			{
+				"family": "Castrillon",
+				"given": "Juliana"
+			},
+			{
+				"family": "Botero-Acosta",
+				"given": "Natalia"
+			},
+			{
+				"family": "Caballero",
+				"given": "Susana"
+			},
+			{
+				"family": "Christiansen",
+				"given": "Fredrik"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					18
+				]
+			]
+		}
+	},
+	{
+		"id": "czapanskiy_etal22",
+		"type": "article-journal",
+		"abstract": "Physio-logging methods, which use animal-borne devices to record physiological variables, are entering a new era driven by advances in sensor development. However, existing datasets collected with traditional bio-loggers, such as accelerometers, still contain untapped eco-physiological information. Here, we present a computational method for extracting heart rate from high-resolution accelerometer data using a ballistocardiogram. We validated our method with simultaneous accelerometer–electrocardiogram tag deployments in a controlled setting on a killer whale (Orcinus orca) and demonstrate the predictions correspond with previously observed cardiovascular patterns in a blue whale (Balaenoptera musculus), including the magnitude of apneic bradycardia and increase in heart rate prior to and during ascent. Our ballistocardiogram method may be applied to mine heart rates from previously collected accelerometery data and expand our understanding of comparative cardiovascular physiology.",
+		"container-title": "Journal of Experimental Biology",
+		"DOI": "10.1242/jeb.243872",
+		"ISSN": "0022-0949",
+		"issue": "10",
+		"journalAbbreviation": "Journal of Experimental Biology",
+		"page": "jeb243872",
+		"source": "Silverchair",
+		"title": "An accelerometer-derived ballistocardiogram method for detecting heart rate in free-ranging marine mammals",
+		"URL": "https://doi.org/10.1242/jeb.243872",
+		"volume": "225",
+		"author": [
+			{
+				"family": "Czapanskiy",
+				"given": "Max F."
+			},
+			{
+				"family": "Ponganis",
+				"given": "Paul J."
+			},
+			{
+				"family": "Fahlbusch",
+				"given": "James A."
+			},
+			{
+				"family": "Schmitt",
+				"given": "T. L."
+			},
+			{
+				"family": "Goldbogen",
+				"given": "Jeremy A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2022",
+					5,
+					20
+				]
+			]
+		}
+	},
+	{
+		"id": "sun_etal10",
+		"type": "article-journal",
+		"container-title": "Journal of Aero Aqua Bio-mechanisms",
+		"DOI": "10.5226/jabmech.1.45",
+		"ISSN": "2185-1522",
+		"issue": "1",
+		"journalAbbreviation": "J. Abmech",
+		"language": "en",
+		"note": "publisher: Study Group of Aero Aqua Bio-mechanics",
+		"page": "45-50",
+		"source": "Crossref",
+		"title": "Structure and Mechanical Properties on Tail Flukes of Dolphin",
+		"URL": "http://www.jstage.jst.go.jp/article/jabmech/1/1/1_1_45/_article",
+		"volume": "1",
+		"author": [
+			{
+				"family": "Sun",
+				"given": "Qilong"
+			},
+			{
+				"family": "Morikawa",
+				"given": "Hirohisa"
+			},
+			{
+				"family": "Kobayashi",
+				"given": "Shunichi"
+			},
+			{
+				"family": "Ueda",
+				"given": "Keiichi"
+			},
+			{
+				"family": "Miyahara",
+				"given": "Hirokazu"
+			},
+			{
+				"family": "Nakashima",
+				"given": "Motomu"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010"
+				]
+			]
+		}
+	},
+	{
+		"id": "norris66",
+		"type": "book",
+		"abstract": "This title is part of UC Press's Voices Revived program, which commemorates University of California Press's mission to seek out and cultivate the brightest minds and give them voice, reach, and impact. Drawing on a backlist dating to 1893, Voices Revived makes high-quality, peer-reviewed scholarship accessible once again using print-on-demand technology. This title was originally published in 1966.",
+		"edition": "DGO - Digital original, 1",
+		"note": "DOI: 10.2307/jj.8306021",
+		"publisher": "University of California Press",
+		"source": "JSTOR",
+		"title": "Whales, Dolphins, and Porpoises",
+		"URL": "https://www.jstor.org/stable/jj.8306021",
+		"collection-editor": [
+			{
+				"family": "Norris",
+				"given": "Kenneth S."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1966"
+				]
+			]
+		}
+	},
+	{
+		"id": "bagge_etal12a",
+		"type": "article-journal",
+		"abstract": "Blubber, the specialized hypodermis of cetaceans, provides thermal insulation through the quantity and quality of lipids it contains. Quality refers to percent lipid content; however, not all lipids are the same. Certain deep-diving cetacean groups possess blubber with lipids – wax esters (WE) – that are not typically found in mammals, and the insulative quality of ‘waxy’ blubber is unknown. Our study explored the influence of lipid storage class – specifically WE in pygmy sperm whales (Kogia breviceps; N=7) and typical mammalian triacylglycerols in short-finned pilot whales (Globicephala macrorhynchus; N=7) – on blubber’s thermal properties. Although the blubber of both species had similar total lipid contents, the thermal conductivity of G. macrorhynchus blubber (0.20±0.01 W m–1 °C–1) was significantly higher than that of K. breviceps (0.15±0.01 W m–1 °C–1; P=0.0006). These results suggest that lipid class significantly influences the ability of blubber to resist heat flow. In addition, because the lipid content of blubber is known to be stratified, we measured its depth-specific thermal conductivities. In K. breviceps blubber, the depth-specific conductivity values tended to vary inversely with lipid content. In contrast, G. macrorhynchus blubber displayed unexpected depth-specific relationships between lipid content and conductivity, which suggests that temperature-dependent effects, such as melting, may be occurring. Differences in heat flux measurements across the depth of the blubber samples provide evidence that both species are capable of storing heat in their blubber. The function of blubber as an insulator is complex and may rely upon its lipid class, stratified composition and dynamic heat storage capabilities.",
+		"container-title": "Journal of Experimental Biology",
+		"DOI": "10.1242/jeb.071530",
+		"ISSN": "0022-0949",
+		"issue": "24",
+		"journalAbbreviation": "Journal of Experimental Biology",
+		"page": "4330-4339",
+		"source": "Silverchair",
+		"title": "Lipid class and depth-specific thermal properties in the blubber of the short-finned pilot whale and the pygmy sperm whale",
+		"URL": "https://doi.org/10.1242/jeb.071530",
+		"volume": "215",
+		"author": [
+			{
+				"family": "Bagge",
+				"given": "Laura E."
+			},
+			{
+				"family": "Koopman",
+				"given": "Heather N."
+			},
+			{
+				"family": "Rommel",
+				"given": "Sentiel A."
+			},
+			{
+				"family": "McLellan",
+				"given": "William A."
+			},
+			{
+				"family": "Pabst",
+				"given": "D. A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2012",
+					12,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "heath_ridgway99",
+		"type": "article-journal",
+		"abstract": "Dolphins have been observed swimming in inshore tropical waters as warm as 36–38°C. A simple protocol that mimicked the thermal conditions encountered by a dolphin moving from cool pelagic to warm inshore water was used to determine how dolphins avoid hyperthermia in water temperatures (Tw) at and above their normal core temperature (Tc). Tw (2 sites), rectal temperature (Tre; 3 depths), and skin temperature (Tsk; 7 sites) and rate of heat flow (4–5 sites) between the skin and the environment were measured while the dolphin rested in a chamber during a 30-min baseline and 40–60 min while water was warmed at ∼0.43°C/min until temperatures of 34–36°C were attained. Instead of the expected increase, Treconsistently showed declines during the warming ramp, sometimes by amounts that were remarkable both in their magnitude (1.35°C) and rapidity (8–15 min). The reduction in Tre occurred even while heat loss to the environment was prevented by continued controlled warming of the water that kept Tw slightly above Tsk and while metabolic heat production alone should have added 1.6–2°C/h to the Tc. This reduction in Tc could only be due to a massive redistribution of heat from the core to the blubber layer.",
+		"container-title": "American Journal of Physiology-Regulatory, Integrative and Comparative Physiology",
+		"DOI": "10.1152/ajpregu.1999.276.4.R1188",
+		"ISSN": "0363-6119",
+		"issue": "4",
+		"note": "publisher: American Physiological Society",
+		"page": "R1188-R1194",
+		"source": "journals.physiology.org (Atypon)",
+		"title": "How dolphins use their blubber to avoid heat  stress during encounters with warm water",
+		"URL": "https://journals.physiology.org/doi/full/10.1152/ajpregu.1999.276.4.R1188",
+		"volume": "276",
+		"author": [
+			{
+				"family": "Heath",
+				"given": "M. E."
+			},
+			{
+				"family": "Ridgway",
+				"given": "S. H."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					4
+				]
+			]
+		}
+	},
+	{
+		"id": "ryg_etal93",
+		"type": "article-journal",
+		"abstract": "We describe scaling of morphological variables that influence total insulation in eight species of marine mammals ranging in average size from 35 to 30000 kg. We also calculate total heat loss and the partitioning of heat loss through the body surface and appendages. For the eight species investigated, heat loss in 0°C water is appreciably higher than the predicted basal metabolic rates for small species such as the ringed seal. Rorquals, on the other hand, will probably not need to raise their metabolic rates to keep warm. At rest, 10–30% of the heat production of a resting animal is lost through flippers, fins and flukes. This amount can increase to 70–80% during moderate exercise. Whole-body conductance scales with body size in the same way in marine as in terrestrial mammals, although conductance is higher for a given body size in a marine mammal.",
+		"container-title": "Journal of Zoology",
+		"DOI": "10.1111/j.1469-7998.1993.tb02682.x",
+		"ISSN": "1469-7998",
+		"issue": "2",
+		"language": "en",
+		"note": "_eprint: https://zslpublications.onlinelibrary.wiley.com/doi/pdf/10.1111/j.1469-7998.1993.tb02682.x",
+		"page": "193-206",
+		"source": "Wiley Online Library",
+		"title": "Scaling of insulation in seals and whales",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1469-7998.1993.tb02682.x",
+		"volume": "230",
+		"author": [
+			{
+				"family": "Ryg",
+				"given": "M."
+			},
+			{
+				"family": "Lydersen",
+				"given": "C."
+			},
+			{
+				"family": "Knutsen",
+				"given": "L. Ø."
+			},
+			{
+				"family": "Bjørge",
+				"given": "A."
+			},
+			{
+				"family": "Smith",
+				"given": "T. G."
+			},
+			{
+				"family": "ØRitsland",
+				"given": "N. A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1993"
+				]
+			]
+		}
+	},
+	{
+		"id": "ryg_etal88",
+		"type": "article-journal",
+		"abstract": "The distribution of blubber in ringed seals (Phoca hispida) and relationships between surface area, body mass, and linear dimensions are described. The blubber was distributed in such a way that the ratio of blubber thickness to body radius is nearly constant over the body, maximizing the available blubber for insulation. The hind part of the body has a higher thickness to radius ratio and is thus \"overinsulated.\" During periods of mass loss, fat is lost fastest from this overinsulated region, thus reducing the negative thermal effects of the fat loss. We present formulae for calculating body surface area and an effective, or \"equivalent blubber thickness,\" for calculations of heat loss and suggest that these formulae are independent of size and shape. By combining these equations, we arrive at a general formula for calculating a lower limit for heat loss from marine mammals. According to this formula, thermal stability can be maintained when blubber is lost if mass is simultaneously lost from the body core.",
+		"container-title": "Canadian Journal of Fisheries and Aquatic Sciences",
+		"DOI": "10.1139/f88-121",
+		"ISSN": "0706-652X",
+		"issue": "6",
+		"journalAbbreviation": "Can. J. Fish. Aquat. Sci.",
+		"note": "publisher: NRC Research Press",
+		"page": "985-992",
+		"source": "cdnsciencepub.com (Atypon)",
+		"title": "Thermal Significance of the Topographical Distribution of Blubber in Ringed Seals (Phoca hispida)",
+		"URL": "https://cdnsciencepub.com/doi/abs/10.1139/f88-121",
+		"volume": "45",
+		"author": [
+			{
+				"family": "Ryg",
+				"given": "Morten"
+			},
+			{
+				"family": "Smith",
+				"given": "Thomas G."
+			},
+			{
+				"family": "Øritsland",
+				"given": "Nils Are"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1988",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "bose_etal97",
+		"type": "article-journal",
+		"abstract": "Specimens of nine species of cetacean were obtained through an entrapment and stranding network. These were: harbour porpoise (Phocoena phocoena); white-sided dolphin (Lagenorhynchus acutus); white-beaked dolphin (Lagenorhynchus albirostris) common dolphin (Delphinus delphis); white whale Delphinapterus leucas); Sowerby's and baked whale (Mesoplodon bidens); minke whale (Balaenoptera acutorostrate); fin whale (Balaenoptera Physalus); and sperm whale (Physeter macrocephalus). Measurements of length, body girths, fluke-planform offsets and fluke-section offsets are presented for these species. Values of body volume, mass, wetted-surface area, prismatic and volumetric coefficients, fluke area, aspect ratio and sweep angles were estimated from these measurements. Parameters derived from these measurements lay within narrow ranges of values for all species. Variation over these ranges may indicate a correlation between species and their relative swimming performance.",
+		"container-title": "Proceedings of the Royal Society of London. Series B: Biological Sciences",
+		"DOI": "10.1098/rspb.1990.0120",
+		"issue": "1305",
+		"note": "publisher: Royal Society",
+		"page": "163-173",
+		"source": "royalsocietypublishing.org (Atypon)",
+		"title": "Measurements of the bodies and flukes of several cetacean species",
+		"URL": "https://royalsocietypublishing.org/doi/abs/10.1098/rspb.1990.0120",
+		"volume": "242",
+		"author": [
+			{
+				"family": "Bose",
+				"given": "Neil"
+			},
+			{
+				"family": "Lien",
+				"given": "Jon"
+			},
+			{
+				"family": "Ahia",
+				"given": "Juha"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1997",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "scholander_schevill55",
+		"type": "article-journal",
+		"container-title": "Journal of Applied Physiology",
+		"DOI": "10.1152/jappl.1955.8.3.279",
+		"ISSN": "8750-7587",
+		"issue": "3",
+		"note": "publisher: American Physiological Society",
+		"page": "279-282",
+		"source": "journals.physiology.org (Atypon)",
+		"title": "Counter-Current Vascular Heat Exchange in the Fins of Whales",
+		"URL": "https://journals.physiology.org/doi/abs/10.1152/jappl.1955.8.3.279",
+		"volume": "8",
+		"author": [
+			{
+				"family": "Scholander",
+				"given": "P. F."
+			},
+			{
+				"family": "Schevill",
+				"given": "William E."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1955",
+					11
+				]
+			]
+		}
+	},
+	{
+		"id": "folkow_blix92",
+		"type": "article-journal",
+		"abstract": "Body temperature, blubber thickness and lung capacity (Ve) were recorded in newly killed minke whales, while respiratory frequency (f) was determined in free-swimming animals. Mean deep (thoracic) body temperature was 34.7±0.8 (SD) °C (n= 14). Weighted mean core/blubber interface temperature in animals caught in 2.5-5.5 °C water was 28.8±1.7 °C (n= 8). The minimum average rate of sensible heat loss (HLs) was 3.81±0.53 (SD) W kgw-0.75 (n= 8) in animals with body masses (w) in the range of 1840 to 5740 kg, HLs being inversely proportional to ω (HLS= - 2.98 10-4 w + 4.89 W kgω-0 75 (n= 8, r-2= 0.73, P < 0.01)). The average rate of respiratory heat loss (HLr) was 0.26±0.04 (SD) W kgw-0.75, regardless of w, in the same 8 animals. Total rates of heat loss (HL=HLr+HLs) in 2.5-5.5 °C water ranged between 3.40 and 4.87 W kgw-0.75, with an average of 4.06±0.52 (SD) W kgw-0.75 (n= 8). Estimates of oxygen consumption based on records of f and Vc and data on oxygen extraction from other cetaceans, yielded a range of metabolic rates which compared nicely with the calculated HL values.",
+		"container-title": "Acta Physiologica Scandinavica",
+		"DOI": "10.1111/j.1748-1716.1992.tb09402.x",
+		"ISSN": "1365-201X",
+		"issue": "1",
+		"language": "en",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1748-1716.1992.tb09402.x",
+		"page": "141-150",
+		"source": "Wiley Online Library",
+		"title": "Metabolic rates of minke whales (Balaenoptera acutorostrata) in cold water",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1748-1716.1992.tb09402.x",
+		"volume": "146",
+		"author": [
+			{
+				"family": "Folkow",
+				"given": "L. P."
+			},
+			{
+				"family": "Blix",
+				"given": "A. S."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1992"
+				]
+			]
+		}
+	},
+	{
+		"id": "hart_connellan84",
+		"type": "article-journal",
+		"abstract": "Prey intake, amount of time feeding, pursuit and manipulation times and growth rate were studied in the pike, Esox lucius, in relation to prey weight. Predator and prey were observed in tanks at 15°C and with a 14:10 h LD photoperiod. A total of 444 captures were recorded from five 1 g prey weight groups varying from 0 to 4.9 g. Ten pike were used weighing between 50 and 149 g. As prey weight increased, the number and weight of prey consumed decreased as did the time spent feeding, which became concentrated into the first trial of the day. Pursuit time did not vary with prey weight, but manipulation time and the weight of prey gained per unit pursuit plus manipulation time increased with prey weight. The growth rate of pike was a positive function of ration size and a negative function of the amount of time spent capturing each gramme of prey (capture cost). Growth rate was also correlated with the mean length and weight of prey eaten. The most profitable prey, as estimated from optimal foraging theory, need only be available once every 84 min for pike to maximize their net energy gain. The data show that feeding behaviour can have a direct influence on the reproductive success of pike through its effect on growth rate.",
+		"container-title": "Journal of Fish Biology",
+		"DOI": "10.1111/j.1095-8649.1984.tb04876.x",
+		"ISSN": "1095-8649",
+		"issue": "3",
+		"language": "en",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1095-8649.1984.tb04876.x",
+		"page": "279-292",
+		"source": "Wiley Online Library",
+		"title": "Cost of prey capture, growth rate and ration size in pike, Esox lucius L., as functions of prey weight",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1095-8649.1984.tb04876.x",
+		"volume": "25",
+		"author": [
+			{
+				"family": "Hart",
+				"given": "P. J. B."
+			},
+			{
+				"family": "Connellan",
+				"given": "B."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1984"
+				]
+			]
+		}
+	},
+	{
+		"id": "bolnick_ferry-graham02",
+		"type": "article-journal",
+		"container-title": "Evolutionary Ecology Research",
+		"ISSN": "1522-0613",
+		"issue": "6",
+		"journalAbbreviation": "Evol Ecol Res",
+		"language": "English",
+		"note": "publisher: Evolutionary Ecology, Ltd.",
+		"page": "843-855",
+		"source": "www.evolutionary-ecology.com",
+		"title": "Optimizing prey-capture behaviour to maximize expected net benefit",
+		"URL": "https://www.evolutionary-ecology.com/abstracts/v04/1396.html",
+		"volume": "4",
+		"author": [
+			{
+				"family": "Bolnick",
+				"given": "Daniel I."
+			},
+			{
+				"family": "Ferry-Graham",
+				"given": "Lara A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2002"
+				]
+			]
+		}
+	},
+	{
+		"id": "griffiths80",
+		"type": "article-journal",
+		"container-title": "The American Naturalist",
+		"DOI": "10.1086/283666",
+		"ISSN": "0003-0147",
+		"issue": "5",
+		"note": "publisher: The University of Chicago Press",
+		"page": "743-752",
+		"source": "journals.uchicago.edu (Atypon)",
+		"title": "Foraging Costs and Relative Prey Size",
+		"URL": "https://www.journals.uchicago.edu/doi/abs/10.1086/283666",
+		"volume": "116",
+		"author": [
+			{
+				"family": "Griffiths",
+				"given": "David"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1980",
+					11
+				]
+			]
+		}
+	},
+	{
+		"id": "christiansen_etal22b",
+		"type": "article-journal",
+		"abstract": "Animal body size and growth patterns play important roles in shaping the life history of species. Baleen whales include the largest animals on the planet, with somatic growth costs expected to be...",
+		"container-title": "Marine Ecology Progress Series",
+		"DOI": "10.3354/meps14009",
+		"ISSN": "1616-1599, 0171-8630",
+		"language": "en",
+		"page": "173-194",
+		"source": "www.int-res.com",
+		"title": "Estimating the cost of growth in southern right whales from drone photogrammetry data and long-term sighting histories",
+		"URL": "https://www.int-res.com/abstracts/meps/v687/meps14009",
+		"volume": "687",
+		"author": [
+			{
+				"family": "Christiansen",
+				"given": "Fredrik"
+			},
+			{
+				"family": "Bejder",
+				"given": "Lars"
+			},
+			{
+				"family": "Burnell",
+				"given": "Stephen"
+			},
+			{
+				"family": "Ward",
+				"given": "Rhianne"
+			},
+			{
+				"family": "Charlton",
+				"given": "Claire"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2022",
+					4,
+					7
+				]
+			]
+		}
+	},
+	{
+		"id": "harshman_zera07",
+		"type": "article-journal",
+		"container-title": "Trends in Ecology & Evolution",
+		"DOI": "10.1016/j.tree.2006.10.008",
+		"ISSN": "0169-5347",
+		"issue": "2",
+		"journalAbbreviation": "Trends in Ecology & Evolution",
+		"language": "English",
+		"note": "publisher: Elsevier\nPMID: 17056152",
+		"page": "80-86",
+		"source": "www.cell.com",
+		"title": "The cost of reproduction: the devil in the details",
+		"title-short": "The cost of reproduction",
+		"URL": "https://www.cell.com/trends/ecology-evolution/abstract/S0169-5347(06)00341-7",
+		"volume": "22",
+		"author": [
+			{
+				"family": "Harshman",
+				"given": "Lawrence G."
+			},
+			{
+				"family": "Zera",
+				"given": "Anthony J."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2007",
+					2,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "bell80",
+		"type": "article-journal",
+		"abstract": "This paper identifies the effects of different types of reproductive cost on the pattern of life histories. By reproductive cost I mean the generally deleterious effect of present reproduction on future survival or fecundity or both. My approach is first to discover the circumstances in which reproduction at a given age should be maximal, and then to investigate the conditions under which reproduction at given age should be zero; this leads to a discussion first of semelparity and later of the optimal age at maturity. When all entries in the life table are independent of one another there is no reproductive cost, and it can be shown that semelparity is unlikely to evolve if maturity is delayed or if prereproductive survival is poor. The existence of a number of conspicuous exceptions to these rules points to an inadequacy in the model. Once reproductive costs are introduced, reproduction will be optimized rather than being merely maximized. The \"survival cost\" is the decrease in the rate of adult survival which accompanies a given increase in fecundity. If the graph of fecundity on survival is linear, semelparity will be an optimal life history provided that the slope of the graph, and thus the magnitude of the survival cost, does not exceed a quantity which can be defined mathematically. More generally, the graph of fecundity on survival will be curvilinear. If it is convex upwards there will be a stable equilibrium at which a given combination of survival and fecundity maximizes fitness; if it is concave upward there will be a point of unstable equilibrium at which some combination of survival and fecundity minimizes fitness. Semelparity may evolve either through selection toward a stable equilibrium or through selection away from an unstable equilibrium. The latter route seems to be responsible for the evolution of semelparity in some North American salmonids. The same principles continue to hold in fluctuating environments, but the evolution of semelparity is further favored if variation in prereproductive survival is less than variation in adult survival. Delayed maturation, either in semelparous or in iteroparous species, may be favorably selected given that a survival cost exists, if fecundity increases with age (the \"actual fecundity cost\"). This idea is supported by the facts that poikilotherms usually mature later in life than homoiotherms, that females mature later than males among poikilotherms, and that males mature later than females among homoiotherms. A necessary but not sufficient condition for the existence of an optimal age at maturity is that present reproduction should cause a decrease in potential future fecundity (the \"potential fecundity cost\"); a sufficient condition is that the potential fecundity cost should decrease with age relative to the actual fecundity cost. Potential fecundity costs appear to be widespread amongst poikilotherms, and their general use in interpreting ages at maturity is explained. Methods of finding the optimal age at maturity are outlined, and the estimated optima are compared with the mean ages at maturity in two poikilotherms. Finally, I argue that experimental tests of life history theory are not yet feasible, and that we must instead rely on comparative techniques. After criticizing a number of recent comparative studies on methodological grounds, I suggest areas in which further research should be undertaken, and conclude by stressing the importance of life histories to general evolutionary theory.",
+		"container-title": "The American Naturalist",
+		"ISSN": "0003-0147",
+		"issue": "1",
+		"note": "publisher: [The University of Chicago Press, The American Society of Naturalists]",
+		"page": "45-76",
+		"source": "JSTOR",
+		"title": "The Costs of Reproduction and Their Consequences",
+		"URL": "https://www.jstor.org/stable/2460709",
+		"volume": "116",
+		"author": [
+			{
+				"family": "Bell",
+				"given": "Graham"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1980"
+				]
+			]
+		}
+	},
+	{
+		"id": "remick92",
+		"type": "article-journal",
+		"abstract": "The measurement of costs of reproduction is of interest because such costs are generally assumed by life history theory. There is some controversy concerning how to measure costs: common methods include experimental manipulations of life history, such as preventing some individuals from reproducing, or estimates of genetic correlations. These two methods often yield similar results, suggesting that one can serve as a substitute for the other. There are now experiments which demonstrate that there are different mechanisms underlying the response to an experimental manipulation versus a genetic correlation, so the two methods are not equivalent in estimating costs.",
+		"container-title": "Trends in Ecology & Evolution",
+		"DOI": "10.1016/0169-5347(92)90104-J",
+		"ISSN": "0169-5347",
+		"issue": "2",
+		"journalAbbreviation": "Trends in Ecology & Evolution",
+		"page": "42-45",
+		"source": "ScienceDirect",
+		"title": "Measuring the costs of reproduction",
+		"URL": "https://www.sciencedirect.com/science/article/pii/016953479290104J",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Remick",
+				"given": "David"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1992",
+					2,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "christiansen_etal16",
+		"type": "article-journal",
+		"abstract": "An animal's body condition will affect its survival and reproductive success, which influences population dynamics. Despite its importance, relatively little is known about the body condition of large whales and its relationship to reproduction. We assessed the body condition of humpback whales (Megaptera novaeangliae) at a breeding/resting ground from aerial photographs recorded using an unmanned aerial vehicle (UAV). Photogrammetry methods were used to measure the surface area of individual whales, which was used as an index for body condition. Repeated measurements of the same individuals were not possible; hence, this study represents a cross-sectional sample of the population. Intraseasonal changes in the body condition of four reproductive classes (calves, immature, mature, and lactating) were investigated to infer the relative energetic cost that each class faces during the breeding season. To better understand the costs of reproduction, we investigated the relationship between female body condition (FBC) and the linear growth and body condition of their dependent calves (CBC). We documented a linear decline in the body condition of mature whales (0.027 m2/d; n = 20) and lactating females (0.032 m2/d; n = 31) throughout the breeding season, while there was no change in body condition of immature whales (n = 51) and calves (n = 32). The significant decline in mature and lactating female's body condition implies substantial energetic costs for these reproductive classes. In support of this, we found a positive linear relationship between FBC and CBC. This suggests that females in poorer body condition may not have sufficient energy stores to invest as much energy into their offspring as better conditioned females without jeopardizing their own body condition and survival probability. Measurement precision was investigated from repeated measurements of the same animals both from the same and different photographs, and by looking at residual errors in relation to the positioning of the whales in the photographs. The resulting errors were included in a sensitivity analysis to demonstrate that model parameters were robust to measurement errors. Our findings provide strong support for the use of UAVs as a noninvasive tool to measure the body condition of whales and other mammals.",
+		"container-title": "Ecosphere",
+		"DOI": "10.1002/ecs2.1468",
+		"ISSN": "2150-8925",
+		"issue": "10",
+		"language": "en",
+		"license": "© 2016 Christiansen et al.",
+		"note": "_eprint: https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.1002/ecs2.1468",
+		"page": "e01468",
+		"source": "Wiley Online Library",
+		"title": "Noninvasive unmanned aerial vehicle provides estimates of the energetic cost of reproduction in humpback whales",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1002/ecs2.1468",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Christiansen",
+				"given": "Fredrik"
+			},
+			{
+				"family": "Dujon",
+				"given": "Antoine M."
+			},
+			{
+				"family": "Sprogis",
+				"given": "Kate R."
+			},
+			{
+				"family": "Arnould",
+				"given": "John P. Y."
+			},
+			{
+				"family": "Bejder",
+				"given": "Lars"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2016"
+				]
+			]
+		}
+	},
+	{
+		"id": "armstrong_blaxter56",
+		"type": "article-journal",
+		"abstract": "IN ruminants the heat losses associated with carbohydrate dissimilation amount to 30–70 k.cal./100 k.cal. carbohydrate digested1, whereas in man such losses are only 5–7 k.cal./100 k.cal.2. In calorimetric experiments with fasted sheep, we have found that the steam-volatile fatty acids which are the major end-products of rumen fermentation of carbohydrate produce a greater heat increment than does glucose given under similar conditions, precautions having been taken to minimize bacterial fermentation of the sugar. Furthermore, in starved animals, and also in those receiving food, the energy-loss as heat is considerably greater for acetic acid than for propionic or butyric acids.",
+		"container-title": "Nature",
+		"DOI": "10.1038/1771183b0",
+		"ISSN": "1476-4687",
+		"issue": "4521",
+		"language": "en",
+		"license": "1956 Springer Nature Limited",
+		"note": "publisher: Nature Publishing Group",
+		"page": "1183-1184",
+		"source": "www-nature-com.eres.library.manoa.hawaii.edu",
+		"title": "Heat Increments of Feeding in Ruminants",
+		"URL": "https://www.nature.com/articles/1771183b0",
+		"volume": "177",
+		"author": [
+			{
+				"family": "Armstrong",
+				"given": "D. G."
+			},
+			{
+				"family": "Blaxter",
+				"given": "K. L."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1956",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "rosen_trites97",
+		"type": "article-journal",
+		"abstract": "The heat increment of feeding (HIF) was measured in six captive, juvenile Steller sea lions (Eumetopias jubatus), fed meals of either 2 or 4 kg of herring. HIF was calculated as the post-prandial increase in metabolism above baseline levels, and was measured using open-circuit (gas) respirometry. It averaged 12.4 ± 0.9% (SE) of ingested energy intake for the 4-kg meal trials, and 9.9 ± 0.9% for the 2-kg meal size. The effect lasted 8–10 hr for the larger meal size. Metabolism peaked 3.7 hr after feeding, and was 2.13 times higher than baseline levels. For the 2-kg meal size, the effect lasted 6–8 hr, with metabolism peaking 2.8 hr after ingestion at 1.76 times baseline levels. Our estimates of HIF for Steller sea lions are at the lower end of estimates for terrestrial mammals, and are consistent with estimates for other marine mammals.",
+		"container-title": "Comparative Biochemistry and Physiology Part A: Physiology",
+		"DOI": "10.1016/S0300-9629(97)00039-X",
+		"ISSN": "0300-9629",
+		"issue": "3",
+		"journalAbbreviation": "Comparative Biochemistry and Physiology Part A: Physiology",
+		"page": "877-881",
+		"source": "ScienceDirect",
+		"title": "Heat increment of feeding in Steller sea lions, <i>Eumetopias jubatus</i>",
+		"URL": "https://www.sciencedirect.com/science/article/pii/S030096299700039X",
+		"volume": "118",
+		"author": [
+			{
+				"family": "Rosen",
+				"given": "David A. S."
+			},
+			{
+				"family": "Trites",
+				"given": "Andrew W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1997",
+					11,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "chappell_etal97",
+		"type": "article-journal",
+		"abstract": "The heat increment of feeding (HIF), a transient postprandial increase in metabolic rate, is the energy cost of processing a meal. We measured HIF in house wren chicks (Troglodytes aedon) ranging in mass from 1.6 to 10.3 g. This mass range (age 2–10 days) spanned a transition from blind, naked, ectothermic chicks through alert, endothermic birds with nearly complete feathering. We fed chicks crickets (2.7–10% of chick body mass) and determined HIF from continuous measurements of oxygen consumption rate (O2) before and after meals. At warm ambient temperatures (Ta) of 33–36 °C, the magnitude of HIF (in ml O2 or joules) was linearly related to meal mass and was not affected by chick mass. HIF accounted for 6.3% of ingested energy, which is within the range of results for other carnivorous vertebrates. The duration of HIF was inversely related to chick mass; 10-g chicks processed a standard meal approximately twice as fast as 2-g chicks. HIF duration increased with increasing meal mass. The peak O2 during HIF, expressed as the factorial increase above resting metabolism, was independent of body mass and meal mass. In large, endothermic chicks ( > 8 g), HIF substituted for thermoregulatory heat production at low Ta.",
+		"container-title": "Journal of Comparative Physiology B",
+		"DOI": "10.1007/s003600050079",
+		"ISSN": "1432-136X",
+		"issue": "4",
+		"journalAbbreviation": "J Comp Physiol B",
+		"language": "en",
+		"page": "313-318",
+		"source": "Springer Link",
+		"title": "The heat increment of feeding in house wren chicks: magnitude, duration, and substitution for thermostatic costs",
+		"title-short": "The heat increment of feeding in house wren chicks",
+		"URL": "https://doi.org/10.1007/s003600050079",
+		"volume": "167",
+		"author": [
+			{
+				"family": "Chappell",
+				"given": "Mark. A."
+			},
+			{
+				"family": "Bachman",
+				"given": "Gwendolyn C."
+			},
+			{
+				"family": "Hammond",
+				"given": "Kimberly A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1997",
+					5,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "millward_etal76",
+		"type": "article-journal",
+		"abstract": "//static.cambridge.org/content/id/urn%3Acambridge.org%3Aid%3Aarticle%3AS0029665176000578/resource/name/firstPage-S0029665176000578a.jpg",
+		"container-title": "Proceedings of the Nutrition Society",
+		"DOI": "10.1079/PNS19760054",
+		"ISSN": "1475-2719, 0029-6651",
+		"issue": "3",
+		"language": "en",
+		"page": "339-349",
+		"source": "Cambridge University Press",
+		"title": "The energy cost of growth",
+		"URL": "https://www.cambridge.org/core/journals/proceedings-of-the-nutrition-society/article/energy-cost-of-growth/6DB0341CD3E25765C829FEBBF84476FE",
+		"volume": "35",
+		"author": [
+			{
+				"family": "Millward",
+				"given": "D. J."
+			},
+			{
+				"family": "Garlick",
+				"given": "P. J."
+			},
+			{
+				"family": "Reeds",
+				"given": "P. J."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1976",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "scholander_etal50",
+		"type": "article-journal",
+		"container-title": "Biological Bulletin",
+		"DOI": "10.2307/1538741",
+		"ISSN": "0006-3185",
+		"issue": "2",
+		"note": "publisher: Marine Biological Laboratory",
+		"page": "237-258",
+		"source": "JSTOR",
+		"title": "Heat Regulation in Some Arctic and Tropical Mammals and Birds",
+		"URL": "https://www.jstor.org/stable/1538741",
+		"volume": "99",
+		"author": [
+			{
+				"family": "Scholander",
+				"given": "P. F."
+			},
+			{
+				"family": "Hock",
+				"given": "Raymond"
+			},
+			{
+				"family": "Walters",
+				"given": "Vladimir"
+			},
+			{
+				"family": "Johnson",
+				"given": "Fred"
+			},
+			{
+				"family": "Irving",
+				"given": "Laurence"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1950"
+				]
+			]
+		}
+	},
+	{
+		"id": "boyles_brack09",
+		"type": "article-journal",
+		"abstract": "Estimating survival rates of naturally hibernating mammals is important for ecological and conservation reasons, but empirical estimates are logistically difficult to obtain. Individual-based models can estimate survival under circumstances that would be impossible or unethical to test experimentally. Here, we present an individual-based model based on energy expenditure to estimate survival rates of hibernating little brown bats (Myotis lucifugus). Initial simulations assumed only thermal energetics of individuals were important to energy expenditure; subsequent simulations assumed bats also use a behavioral mechanism (clustering) to reduce energy expenditure during euthermy. Our model suggests that survival rates are high (&gt;0.96) for populations that cluster during hibernation and experience no human disturbance, regardless of winter length (between 90 and 200 d). Survival rates are much lower, especially at long winter lengths (0.73 ± 0.01 SD at 200 d), if bats do not cluster. Human disturbances strongly affect survival rates, but the relationship is not linear. Survival rates are not lowered substantially by a limited number of disturbances because those arousals would have occurred naturally, but as disturbances reach a frequency threshold (dependent on winter length and disturbance pattern) they become very detrimental to survival. Thus, our model has implications for understanding the effect of environmental variability, social thermoregulation, and human disturbance on mammals hibernating under natural conditions.",
+		"container-title": "Journal of Mammalogy",
+		"DOI": "10.1644/08-MAMM-A-205.1",
+		"ISSN": "0022-2372",
+		"issue": "1",
+		"journalAbbreviation": "Journal of Mammalogy",
+		"page": "9-16",
+		"source": "Silverchair",
+		"title": "Modeling Survival Rates of Hibernating Mammals with Individual-Based Models of Energy Expenditure",
+		"URL": "https://doi.org/10.1644/08-MAMM-A-205.1",
+		"volume": "90",
+		"author": [
+			{
+				"family": "Boyles",
+				"given": "Justin G."
+			},
+			{
+				"family": "Brack",
+				"given": "Virgil",
+				"suffix": "Jr."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2009",
+					2,
+					18
+				]
+			]
+		}
+	},
+	{
+		"id": "sumich21",
+		"type": "article-journal",
+		"abstract": "A bioenergetic model is developed from empirically derived equations of morphometric, ventilatory and thermoregulatory variables to compare estimated field metabolic rates (FMR) of gray whale calves to estimates of unregulated body heat losses and consequent required thermogenesis at birth, natal lagoon departure, and weaning. Estimates of FMR are based on rates of oxygen consumption. Body surface and ventilatory heat fluxes are evaluated separately, then combined to estimate minimum total heat losses from birth to weaning at three ambient water temperature regimes typical of winter natal lagoons and Oregon coastal waters and arctic conditions during summer. Modeled heat losses of neonates in winter lagoons are half their estimated mean FMR. Neonates in good body condition appear to be capable of tolerating heat losses experienced in 10°C water without additional thermogenic activities above their estimated resting metabolic rates. This study provides new evidence that no thermoregulatory advantage accrues to neonates or to their mothers by being born in warm winter natal lagoons or by remaining there several weeks longer than other gray whales. Consequently, avoidance or reduced risk of killer whale predation seems a more likely candidate than reduced heat loss as the principal fitness benefit of low-latitude winter migrations.",
+		"container-title": "Marine Mammal Science",
+		"DOI": "10.1111/mms.12778",
+		"ISSN": "1748-7692",
+		"issue": "3",
+		"language": "en",
+		"license": "© 2021 Society for Marine Mammalogy",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/mms.12778",
+		"page": "870-887",
+		"source": "Wiley Online Library",
+		"title": "Why Baja? A bioenergetic model for comparing metabolic rates and thermoregulatory costs of gray whale calves (Eschrichtius robustus)",
+		"title-short": "Why Baja?",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/mms.12778",
+		"volume": "37",
+		"author": [
+			{
+				"family": "Sumich",
+				"given": "James L."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2021"
+				]
+			]
+		}
+	},
+	{
+		"id": "mcnab71",
+		"type": "article-journal",
+		"abstract": "A positive correlation of weight with latitude in homoiotherms (Bergmann's rule) cannot normally depend upon the physics of heat exchange. Most latitudinally widespread mammals in North America do not follow this rule. Those that do are usually carnivores or granivores; a change in their body size reflects a change in the size of their prey. A latitudinal change in the size of available prey is due either to the distribution of the prey species or to the distribution of other predators utilizing the same prey species. Only the smallest species of a set of similar predators normally will conform to Bergmanns rule, and then only beyond the limits of distribution of the largest species. These changes in size seem to be another example of character displacement.",
+		"container-title": "Ecology",
+		"DOI": "10.2307/1936032",
+		"ISSN": "1939-9170",
+		"issue": "5",
+		"language": "en",
+		"license": "© 1971 by the Ecological Society of America",
+		"note": "_eprint: https://esajournals.onlinelibrary.wiley.com/doi/pdf/10.2307/1936032",
+		"page": "845-854",
+		"source": "Wiley Online Library",
+		"title": "On the Ecological Significance of Bergmann's Rule",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.2307/1936032",
+		"volume": "52",
+		"author": [
+			{
+				"family": "McNab",
+				"given": "Brian K."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1971"
+				]
+			]
+		}
+	},
+	{
+		"id": "ray60",
+		"type": "article-journal",
+		"container-title": "Journal of Morphology",
+		"DOI": "10.1002/jmor.1051060104",
+		"ISSN": "1097-4687",
+		"issue": "1",
+		"language": "en",
+		"license": "Copyright © 1960 Wiley-Liss, Inc.",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/jmor.1051060104",
+		"page": "85-108",
+		"source": "Wiley Online Library",
+		"title": "The application of Bergmann's and Allen's rules to the poikilotherms",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1002/jmor.1051060104",
+		"volume": "106",
+		"author": [
+			{
+				"family": "Ray",
+				"given": "Carleton"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2025",
+					7,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1960"
 				]
 			]
 		}
