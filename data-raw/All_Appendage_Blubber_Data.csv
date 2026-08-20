@@ -1,0 +1,12 @@
+ID,Species,Sex,Age_Class,Stranding_Notes,Flipper_or_Fluke,Body_Length_mm,Body_Length_cm,Body_Length_m,Pec_Mid_Span_Chord_Width_mm,Fluke_Mid_Span_Chord_Width_mm,Pec_Average_Blubber_Thickness_mm,Fluke_Average_Blubber_Thickness_mm,Appendage_Average_Blubber_Thickness_mm,Appendage_Average_Blubber_Thickness_m,Pec_Thickness_As_Percent_Of_Body_Length,Fluke_Thickness_As_Percent_Of_Body_Length,Appendage_Thickness_As_Percent_Of_Body_Length,Pec_Thickness_As_Percent_Of_Mid_Span_Chord_Width,Fluke_Thickness_As_Percent_Of_Mid_Span_Chord_Width,Appendage_Thickness_As_Percent_Of_Mid_Span_Chord_Width
+FA-6436,pygmy killer,Male,Subadult,,Flipper,2130,213,2.13,190,,0.7,,0.7,0.0007,0.03286385,,0.03286385,0.368421053,,0.368421053
+FA-9529,pygmy killer,Female,Subadult,,Flipper,2197,219.7,2.197,280,,0.8,,0.8,0.0008,0.036413291,,0.036413291,0.285714286,,0.285714286
+FA-9519,pygmy killer,Female,Adult,Pregnant,Flipper,2290,229,2.29,172,,1.7,,1.7,0.0017,0.074235808,,0.074235808,0.988372093,,0.988372093
+FA-6599,pygmy killer,Female,Adult,Lactating,Flipper,2320,232,2.32,132,,3.5,,3.5,0.0035,0.150862069,,0.150862069,2.651515152,,2.651515152
+FA-8456,pygmy killer,Male,Calf,,Flipper,1371,137.1,1.371,65.6,,1.3,,1.3,0.0013,0.094821298,,0.094821298,1.981707317,,1.981707317
+FA-2937,pygmy killer,Male,Adult,Emaciated,Flipper,2320,232,2.32,245,,0.8,,0.8,0.0008,0.034482759,,0.034482759,0.326530612,,0.326530612
+FA-7995,pygmy killer,Male,Adult,Emaciated,Flipper,2350,235,2.35,137,,1.8,,1.8,0.0018,0.076595745,,0.076595745,1.313868613,,1.313868613
+SC-3576,striped dolphin,Male,Adult,,Flipper/Fluke,2110,211,2.11,94,104,2.1,2,2.05,0.00205,0.099526066,0.09478673,0.097156398,2.234042553,1.923076923,2.078559738
+C-551,humpback whale,Unknown,Juvenile,,Fluke,9260,926,9.26,,698.86,,8.27416667,8.27416667,0.008274167,,0.089353852,0.089353852,,1.18395196,1.18395196
+FEF-Plasticized,humpback whale,Male,Subadult,,Flipper,9020,902,9.02,515,,3,,3,0.003,0.033259424,,0.033259424,0.582524272,,0.582524272
+HP2015001,harbor porpoise,Unknown,Unknown,,Fluke,1465,146.5,1.465,,80,,0.469583333,0.469583333,0.000469583,,0.03205347,0.03205347,,0.586979167,0.586979167
