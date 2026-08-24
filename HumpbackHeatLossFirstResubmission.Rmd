@@ -48,9 +48,13 @@ library(R.matlab)
 library(officer)
 library(glue)
 library(broom)
+library(broom.mixed)
 library(mgcv)
 library(ggnewscale)
 library(janitor)
+library(lme4)
+library(lmerTest)
+library(car)
 
 load_all()
 ```
@@ -665,6 +669,1153 @@ EnergyDiff_MJ_Signed <- MJ_signed
 EnergyDiff_MJ_Excess <- MJ_excess
 ```
 
+```{r STATISTICS - Main Analyses, include=FALSE, message=FALSE, warning=FALSE}
+
+# ============================================================
+# STATISTICAL ANALYSES
+#
+# Statistical inference is conducted at the level of the
+# individual whale. Monte Carlo iterations are used to
+# propagate uncertainty and are NOT treated as independent
+# biological observations.
+#
+# Median (p50) Monte Carlo estimates are used as the central
+# estimate for inferential analyses.
+# ============================================================
+
+
+# ============================================================
+# HELPER FUNCTIONS
+# ============================================================
+
+# Convert a car::Anova() table to a normal dataframe
+tidy_car_anova <- function(x) {
+  as.data.frame(x) %>%
+    tibble::rownames_to_column("Term")
+}
+
+# ============================================================
+# 0. FLIPPER AREA ALLOMETRIC SCALING
+#
+# Tests whether flipper surface area scales geometrically
+# with body length.
+#
+# Model:
+#   Flipper Area = a * Body Length^b
+#
+# On the log10 scale:
+#   log10(Flipper Area) =
+#     log10(a) + b * log10(Body Length)
+#
+# Under geometric similarity:
+#   H0: b = 2
+#
+# b < 2 = negative allometry
+# b = 2 = isometry
+# b > 2 = positive allometry
+# ============================================================
+
+
+# ------------------------------------------------------------
+# Prepare data
+# ------------------------------------------------------------
+
+FlipperScaling_stats <- HumpbackHeatLoss::FlukeFlipperMetrics %>%
+  dplyr::filter(
+    is.finite(Body_Length_m),
+    Body_Length_m > 0,
+    is.finite(Full_Mean_Flipper_SA_m2),
+    Full_Mean_Flipper_SA_m2 > 0
+  ) %>%
+  dplyr::mutate(
+    Log10_Body_Length = log10(Body_Length_m),
+    Log10_Flipper_Area = log10(Full_Mean_Flipper_SA_m2)
+  )
+
+
+# ------------------------------------------------------------
+# Fit allometric model
+# ------------------------------------------------------------
+
+FlipperScaling_model <- stats::lm(
+  Log10_Flipper_Area ~ Log10_Body_Length,
+  data = FlipperScaling_stats
+)
+
+
+# ------------------------------------------------------------
+# Model coefficients and 95% CI
+# ------------------------------------------------------------
+
+FlipperScaling_coefficients <- broom::tidy(
+  FlipperScaling_model,
+  conf.int = TRUE,
+  conf.level = 0.95
+)
+
+
+# Model fit
+FlipperScaling_model_fit <- broom::glance(
+  FlipperScaling_model
+)
+
+
+# ------------------------------------------------------------
+# Extract scaling exponent
+# ------------------------------------------------------------
+
+FlipperScaling_exponent <-
+  coef(FlipperScaling_model)[["Log10_Body_Length"]]
+
+FlipperScaling_exponent_SE <-
+  summary(FlipperScaling_model)$coefficients[
+    "Log10_Body_Length",
+    "Std. Error"
+  ]
+
+FlipperScaling_exponent_CI <-
+  confint(
+    FlipperScaling_model,
+    "Log10_Body_Length",
+    level = 0.95
+  )
+
+
+# ------------------------------------------------------------
+# Test exponent against geometric expectation of b = 2
+#
+# H0: b = 2
+# HA: b != 2
+# ------------------------------------------------------------
+
+FlipperScaling_t <-
+  (FlipperScaling_exponent - 2) /
+  FlipperScaling_exponent_SE
+
+FlipperScaling_df <-
+  df.residual(FlipperScaling_model)
+
+FlipperScaling_p <-
+  2 * stats::pt(
+    abs(FlipperScaling_t),
+    df = FlipperScaling_df,
+    lower.tail = FALSE
+  )
+
+
+# ------------------------------------------------------------
+# Classification
+# ------------------------------------------------------------
+
+FlipperScaling_classification <-
+  dplyr::case_when(
+
+    FlipperScaling_p >= 0.05 ~
+      "not significantly different from isometry",
+
+    FlipperScaling_exponent < 2 ~
+      "negative allometry",
+
+    FlipperScaling_exponent > 2 ~
+      "positive allometry"
+  )
+
+
+# ------------------------------------------------------------
+# Summary table
+# ------------------------------------------------------------
+
+FlipperScaling_summary <- tibble::tibble(
+
+  N = nrow(FlipperScaling_stats),
+
+  Exponent =
+    FlipperScaling_exponent,
+
+  SE =
+    FlipperScaling_exponent_SE,
+
+  CI_lower =
+    FlipperScaling_exponent_CI[1],
+
+  CI_upper =
+    FlipperScaling_exponent_CI[2],
+
+  Expected_exponent = 2,
+
+  t =
+    FlipperScaling_t,
+
+  df =
+    FlipperScaling_df,
+
+  p =
+    FlipperScaling_p,
+
+  Scaling =
+    FlipperScaling_classification,
+
+  R2 =
+    summary(FlipperScaling_model)$r.squared
+)
+
+
+FlipperScaling_summary
+
+# ============================================================
+# FLUKE AREA ALLOMETRIC SCALING
+# ============================================================
+
+FlukeScaling_exponent <-
+  coef(BLvFlukeArea_model)[["log10(Body_Length_m)"]]
+
+FlukeScaling_exponent_SE <-
+  summary(BLvFlukeArea_model)$coefficients[
+    "log10(Body_Length_m)",
+    "Std. Error"
+  ]
+
+FlukeScaling_exponent_CI <-
+  confint(
+    BLvFlukeArea_model,
+    "log10(Body_Length_m)",
+    level = 0.95
+  )
+
+# Test H0: b = 2
+FlukeScaling_t <-
+  (FlukeScaling_exponent - 2) /
+  FlukeScaling_exponent_SE
+
+FlukeScaling_df <-
+  df.residual(BLvFlukeArea_model)
+
+FlukeScaling_p <-
+  2 * stats::pt(
+    abs(FlukeScaling_t),
+    df = FlukeScaling_df,
+    lower.tail = FALSE
+  )
+
+# Display results
+tibble::tibble(
+  Exponent = FlukeScaling_exponent,
+  SE = FlukeScaling_exponent_SE,
+  CI_lower = FlukeScaling_exponent_CI[1],
+  CI_upper = FlukeScaling_exponent_CI[2],
+  Expected_exponent = 2,
+  t = FlukeScaling_t,
+  df = FlukeScaling_df,
+  p = FlukeScaling_p
+)
+
+# ============================================================
+# 1. BODY LENGTH VS CONDUCTIVE HEAT LOSS
+#    Figure 2
+#
+# Tests whether conductive heat loss scales with body length
+# and whether that scaling differs between Alaska and Hawai‘i.
+#
+# Separate models are fit for:
+#   - Body
+#   - Flippers
+#   - Flukes
+# ============================================================
+
+HL_components_stats <- MC_HeatLoss_Summaries %>%
+  dplyr::transmute(
+    Individual_ID,
+    Region,
+    Demographic_Class,
+    Body_Length_m,
+
+    Environment = dplyr::recode(
+      Region,
+      AK = "Alaska",
+      HI = "Hawaii"
+    ),
+
+    Body = dplyr::if_else(
+      Region == "HI",
+      Warm_Conductive_Body_Only_Heat_Loss_W_p50,
+      Cold_Conductive_Body_Only_Heat_Loss_W_p50
+    ),
+
+    Flipper = dplyr::if_else(
+      Region == "HI",
+      Warm_Conductive_Flipper_Heat_Loss_W_p50,
+      Cold_Conductive_Flipper_Heat_Loss_W_p50
+    ),
+
+    Fluke = dplyr::if_else(
+      Region == "HI",
+      Warm_Conductive_Fluke_Heat_Loss_W_p50,
+      Cold_Conductive_Fluke_Heat_Loss_W_p50
+    )
+  ) %>%
+
+  tidyr::pivot_longer(
+    cols = c(Body, Flipper, Fluke),
+    names_to = "Component",
+    values_to = "Heat_Loss_W"
+  ) %>%
+
+  dplyr::filter(
+    is.finite(Body_Length_m),
+    Body_Length_m > 0,
+    is.finite(Heat_Loss_W),
+    Heat_Loss_W > 0,
+    !is.na(Environment)
+  ) %>%
+
+  dplyr::mutate(
+    Environment = factor(
+      Environment,
+      levels = c("Hawaii", "Alaska")
+    ),
+
+    Component = factor(
+      Component,
+      levels = c("Body", "Flipper", "Fluke")
+    ),
+
+    Log10_Body_Length = log10(Body_Length_m),
+    Log10_Heat_Loss = log10(Heat_Loss_W)
+  )
+
+
+# Sum contrasts are preferable for Type III tests
+contrasts(HL_components_stats$Environment) <- contr.sum(2)
+
+
+# Fit one ANCOVA for each component
+HL_component_models <- split(
+  HL_components_stats,
+  HL_components_stats$Component
+) %>%
+  purrr::map(
+    ~ stats::lm(
+      Log10_Heat_Loss ~
+        Log10_Body_Length * Environment,
+      data = .x
+    )
+  )
+
+
+# Type III ANCOVA tables
+HL_component_ANOVA <- purrr::map(
+  HL_component_models,
+  ~ car::Anova(.x, type = 3)
+)
+
+
+# Convenient combined dataframe
+HL_component_ANOVA_table <- purrr::imap_dfr(
+  HL_component_ANOVA,
+  ~ tidy_car_anova(.x) %>%
+    dplyr::mutate(Component = .y, .before = 1)
+)
+
+
+# Regression coefficients and 95% CI
+HL_component_coefficients <- purrr::imap_dfr(
+  HL_component_models,
+  ~ broom::tidy(
+    .x,
+    conf.int = TRUE,
+    conf.level = 0.95
+  ) %>%
+    dplyr::mutate(Component = .y, .before = 1)
+)
+
+
+# Model R2
+HL_component_model_fit <- purrr::imap_dfr(
+  HL_component_models,
+  ~ broom::glance(.x) %>%
+    dplyr::mutate(Component = .y, .before = 1)
+)
+
+
+
+# ============================================================
+# 2. WHOLE-ANIMAL HEAT LOSS VS BODY LENGTH
+#    Figure 3
+#
+# IMPORTANT:
+# Figure 3 compares the biologically relevant regional
+# scenarios:
+#
+#   Hawai‘i = warm water + thermal windows open
+#   Alaska  = cold water + thermal windows closed
+#
+# Therefore, "Regional_Scenario" rather than "Environment" is
+# used here because temperature and window state are confounded
+# in this particular comparison.
+# ============================================================
+
+WholeBody_HL_stats <- MC_HeatLoss_Summaries %>%
+  dplyr::transmute(
+    Individual_ID,
+    Region,
+    Demographic_Class,
+    Body_Length_m,
+
+    Regional_Scenario = dplyr::recode(
+      Region,
+      HI = "Hawaii - Open",
+      AK = "Alaska - Closed"
+    ),
+
+    Heat_Loss_W = dplyr::case_when(
+      Region == "HI" ~ Warm_Windows_Open_Heat_Loss_W_p50,
+      Region == "AK" ~ Cold_Windows_Closed_Heat_Loss_W_p50,
+      TRUE ~ NA_real_
+    )
+  ) %>%
+
+  dplyr::filter(
+    is.finite(Body_Length_m),
+    Body_Length_m > 0,
+    is.finite(Heat_Loss_W),
+    Heat_Loss_W > 0,
+    !is.na(Regional_Scenario)
+  ) %>%
+
+  dplyr::mutate(
+    Regional_Scenario = factor(
+      Regional_Scenario,
+      levels = c(
+        "Hawaii - Open",
+        "Alaska - Closed"
+      )
+    ),
+
+    Log10_Body_Length = log10(Body_Length_m),
+    Log10_Heat_Loss = log10(Heat_Loss_W)
+  )
+
+
+contrasts(
+  WholeBody_HL_stats$Regional_Scenario
+) <- contr.sum(2)
+
+
+WholeBody_HL_model <- stats::lm(
+  Log10_Heat_Loss ~
+    Log10_Body_Length * Regional_Scenario,
+  data = WholeBody_HL_stats
+)
+
+
+WholeBody_HL_ANOVA <- car::Anova(
+  WholeBody_HL_model,
+  type = 3
+)
+
+
+WholeBody_HL_ANOVA_table <- tidy_car_anova(
+  WholeBody_HL_ANOVA
+)
+
+
+WholeBody_HL_coefficients <- broom::tidy(
+  WholeBody_HL_model,
+  conf.int = TRUE,
+  conf.level = 0.95
+)
+
+
+WholeBody_HL_model_fit <- broom::glance(
+  WholeBody_HL_model
+)
+
+
+
+# ============================================================
+# 3. BODY CONDITION VS MASS-SPECIFIC HEAT LOSS
+#    Figure 4
+#
+# Separate models for:
+#   - Calves
+#   - Adults
+#   - Lactating females
+#
+# Again, Hawai‘i/open and Alaska/closed are regional scenarios,
+# rather than an isolated test of environmental temperature.
+# ============================================================
+
+BodyCondition_stats <- MC_HeatLoss_Summaries %>%
+  dplyr::transmute(
+    Individual_ID,
+    Region,
+    Demographic_Class,
+    Body_Length_m,
+    Body_Condition,
+
+    Regional_Scenario = dplyr::recode(
+      Region,
+      HI = "Hawaii - Open",
+      AK = "Alaska - Closed"
+    ),
+
+    Body_Mass_kg = Body_Mass_kg_p50,
+
+    Heat_Loss_W = dplyr::case_when(
+      Region == "HI" ~ Warm_Windows_Open_Heat_Loss_W_p50,
+      Region == "AK" ~ Cold_Windows_Closed_Heat_Loss_W_p50,
+      TRUE ~ NA_real_
+    )
+  ) %>%
+
+  dplyr::mutate(
+    Mass_Specific_Heat_Loss_W_kg =
+      Heat_Loss_W / Body_Mass_kg
+  ) %>%
+
+  dplyr::filter(
+    Demographic_Class %in%
+      c("Calf", "Adult", "Lactating"),
+    is.finite(Body_Condition),
+    is.finite(Mass_Specific_Heat_Loss_W_kg),
+    Mass_Specific_Heat_Loss_W_kg > 0,
+    !is.na(Regional_Scenario)
+  ) %>%
+
+  dplyr::mutate(
+    Regional_Scenario = factor(
+      Regional_Scenario,
+      levels = c(
+        "Hawaii - Open",
+        "Alaska - Closed"
+      )
+    ),
+
+    Demographic_Class = factor(
+      Demographic_Class,
+      levels = c(
+        "Calf",
+        "Adult",
+        "Lactating"
+      )
+    ),
+
+    Log10_Mass_Specific_Heat_Loss =
+      log10(Mass_Specific_Heat_Loss_W_kg)
+  )
+
+
+contrasts(
+  BodyCondition_stats$Regional_Scenario
+) <- contr.sum(2)
+
+
+BodyCondition_models <- split(
+  BodyCondition_stats,
+  BodyCondition_stats$Demographic_Class
+) %>%
+  purrr::map(
+    ~ stats::lm(
+      Log10_Mass_Specific_Heat_Loss ~
+        Body_Condition * Regional_Scenario,
+      data = .x
+    )
+  )
+
+
+BodyCondition_ANOVA <- purrr::map(
+  BodyCondition_models,
+  ~ car::Anova(.x, type = 3)
+)
+
+
+BodyCondition_ANOVA_table <- purrr::imap_dfr(
+  BodyCondition_ANOVA,
+  ~ tidy_car_anova(.x) %>%
+    dplyr::mutate(
+      Demographic_Class = .y,
+      .before = 1
+    )
+)
+
+
+BodyCondition_coefficients <- purrr::imap_dfr(
+  BodyCondition_models,
+  ~ broom::tidy(
+    .x,
+    conf.int = TRUE,
+    conf.level = 0.95
+  ) %>%
+    dplyr::mutate(
+      Demographic_Class = .y,
+      .before = 1
+    )
+)
+
+
+BodyCondition_model_fit <- purrr::imap_dfr(
+  BodyCondition_models,
+  ~ broom::glance(.x) %>%
+    dplyr::mutate(
+      Demographic_Class = .y,
+      .before = 1
+    )
+)
+
+
+
+# ============================================================
+# 4. FULL THERMAL SCOPE MODEL
+#    Figure 6
+#
+# THIS IS THE PRIMARY INFERENTIAL MODEL.
+#
+# Every individual can be evaluated under all four modeled
+# scenarios:
+#
+#   Hawai‘i + windows closed
+#   Hawai‘i + windows open
+#   Alaska  + windows closed
+#   Alaska  + windows open
+#
+# Environment and Window_State are therefore repeated modeled
+# conditions within each individual.
+#
+# Tests:
+#   Body Length
+#   Environment
+#   Window State
+#   Body Length × Environment
+#   Body Length × Window State
+#   Environment × Window State
+#   Body Length × Environment × Window State
+# ============================================================
+
+ThermalScope_stats <- MC_HeatLoss_Summaries %>%
+  dplyr::select(
+    Individual_ID,
+    Body_Length_m,
+
+    Warm_Lower_Realistic_BMR_Met_Beta_Factor_p50,
+    Warm_Upper_Realistic_BMR_Met_Beta_Factor_p50,
+
+    Cold_Lower_Realistic_BMR_Met_Beta_Factor_p50,
+    Cold_Upper_Realistic_BMR_Met_Beta_Factor_p50
+  ) %>%
+
+  tidyr::pivot_longer(
+    cols = c(
+      Warm_Lower_Realistic_BMR_Met_Beta_Factor_p50,
+      Warm_Upper_Realistic_BMR_Met_Beta_Factor_p50,
+      Cold_Lower_Realistic_BMR_Met_Beta_Factor_p50,
+      Cold_Upper_Realistic_BMR_Met_Beta_Factor_p50
+    ),
+    names_to = "Scenario",
+    values_to = "BMR_Multiple"
+  ) %>%
+
+  dplyr::mutate(
+
+    Environment = dplyr::case_when(
+      stringr::str_detect(Scenario, "^Warm") ~ "Hawaii",
+      stringr::str_detect(Scenario, "^Cold") ~ "Alaska",
+      TRUE ~ NA_character_
+    ),
+
+    Window_State = dplyr::case_when(
+      stringr::str_detect(Scenario, "_Lower_") ~ "Closed",
+      stringr::str_detect(Scenario, "_Upper_") ~ "Open",
+      TRUE ~ NA_character_
+    ),
+
+    Environment = factor(
+      Environment,
+      levels = c("Hawaii", "Alaska")
+    ),
+
+    Window_State = factor(
+      Window_State,
+      levels = c("Closed", "Open")
+    ),
+
+    Individual_ID = factor(Individual_ID),
+
+    Log10_Body_Length = log10(Body_Length_m),
+
+    Log10_BMR_Multiple = log10(BMR_Multiple)
+  ) %>%
+
+  dplyr::filter(
+    is.finite(Body_Length_m),
+    Body_Length_m > 0,
+    is.finite(BMR_Multiple),
+    BMR_Multiple > 0,
+    !is.na(Environment),
+    !is.na(Window_State)
+  )
+
+
+contrasts(
+  ThermalScope_stats$Environment
+) <- contr.sum(2)
+
+contrasts(
+  ThermalScope_stats$Window_State
+) <- contr.sum(2)
+
+
+ThermalScope_model <- lmerTest::lmer(
+  Log10_BMR_Multiple ~
+    Log10_Body_Length *
+    Environment *
+    Window_State +
+    (1 | Individual_ID),
+  data = ThermalScope_stats,
+  REML = TRUE
+)
+
+
+# Type III tests with Satterthwaite denominator df
+ThermalScope_ANOVA <- stats::anova(
+  ThermalScope_model,
+  type = 3,
+  ddf = "Satterthwaite"
+)
+
+
+ThermalScope_ANOVA_table <- as.data.frame(
+  ThermalScope_ANOVA
+) %>%
+  tibble::rownames_to_column("Term")
+
+
+# Model coefficient table
+ThermalScope_coefficients <- as.data.frame(
+  summary(ThermalScope_model)$coefficients
+) %>%
+  tibble::rownames_to_column("Term")
+
+
+# ============================================================
+# CRITICAL TEMPERATURE MODEL
+# ============================================================
+
+CriticalTemp_stats <- MC_HeatLoss_Summaries %>%
+  dplyr::select(
+    Individual_ID,
+    Body_Length_m,
+    T_crit_Scenario_1_p50,
+    Upper_T_crit_p50
+  ) %>%
+  tidyr::pivot_longer(
+    cols = c(
+      T_crit_Scenario_1_p50,
+      Upper_T_crit_p50
+    ),
+    names_to = "Critical_Temperature_Type",
+    values_to = "Critical_Temperature_C"
+  ) %>%
+  dplyr::mutate(
+    Critical_Temperature_Type = dplyr::recode(
+      Critical_Temperature_Type,
+      T_crit_Scenario_1_p50 = "Lower",
+      Upper_T_crit_p50 = "Upper"
+    ),
+
+    Critical_Temperature_Type = factor(
+      Critical_Temperature_Type,
+      levels = c("Lower", "Upper")
+    ),
+
+    Individual_ID = factor(Individual_ID),
+
+    # Center body length so main effects have a useful
+    # biological interpretation
+    Body_Length_Centered =
+      Body_Length_m - mean(Body_Length_m, na.rm = TRUE)
+  ) %>%
+  dplyr::filter(
+    is.finite(Body_Length_Centered),
+    is.finite(Critical_Temperature_C)
+  )
+
+contrasts(
+  CriticalTemp_stats$Critical_Temperature_Type
+) <- contr.sum(2)
+
+CriticalTemp_model <- lmerTest::lmer(
+  Critical_Temperature_C ~
+    Body_Length_Centered *
+    Critical_Temperature_Type +
+    (1 | Individual_ID),
+  data = CriticalTemp_stats,
+  REML = TRUE
+)
+
+CriticalTemp_ANOVA <- stats::anova(
+  CriticalTemp_model,
+  type = 3,
+  ddf = "Satterthwaite"
+)
+
+CriticalTemp_ANOVA_table <- as.data.frame(
+  CriticalTemp_ANOVA
+) %>%
+  tibble::rownames_to_column("Term")
+
+CriticalTemp_coefficients <- as.data.frame(
+  summary(CriticalTemp_model)$coefficients
+) %>%
+  tibble::rownames_to_column("Term")
+
+# ============================================================
+# 6. CALF AGE VS MINIMUM SUSTAINABLE METABOLIC RATE
+#    Figure 7
+#
+# Each calf receives modeled predictions for both environments,
+# so Individual_ID is included as a random-effect smooth.
+#
+# Separate environment-specific smooths allow the age
+# relationship to differ between Alaska and Hawai‘i.
+# ============================================================
+
+CalfAge_stats <- MC_HeatLoss_Summaries %>%
+  dplyr::filter(
+    Demographic_Class == "Calf",
+    is.finite(Calf_Age_Days)
+  ) %>%
+
+  dplyr::transmute(
+    Individual_ID = factor(Individual_ID),
+
+    Calf_Age_Days,
+
+    BMR_W =
+      Kleiber_BMR_W_p50,
+
+    Hawaii =
+      Warm_Lower_Realistic_BMR_Met_Beta_Factor_p50,
+
+    Alaska =
+      Cold_Lower_Realistic_BMR_Met_Beta_Factor_p50
+  ) %>%
+
+  tidyr::pivot_longer(
+    cols = c(Hawaii, Alaska),
+    names_to = "Environment",
+    values_to = "LSMR_multiple"
+  ) %>%
+
+  dplyr::mutate(
+    Environment = factor(
+      Environment,
+      levels = c("Hawaii", "Alaska")
+    ),
+
+    LSMR_W =
+      LSMR_multiple * BMR_W
+  ) %>%
+
+  dplyr::filter(
+    is.finite(LSMR_multiple),
+    LSMR_multiple > 0,
+    is.finite(LSMR_W),
+    LSMR_W > 0
+  )
+
+
+# Adaptive basis dimension based on number of unique ages
+CalfAge_k <- min(
+  12,
+  max(
+    4,
+    floor(
+      dplyr::n_distinct(
+        CalfAge_stats$Calf_Age_Days
+      ) / 3
+    )
+  )
+)
+
+
+# ------------------------------------------------------------
+# GAM: absolute metabolic rate in W
+# ------------------------------------------------------------
+
+CalfAge_GAM_W <- mgcv::gam(
+  LSMR_W ~
+    Environment +
+    s(
+      Calf_Age_Days,
+      by = Environment,
+      k = CalfAge_k
+    ) +
+    s(
+      Individual_ID,
+      bs = "re"
+    ),
+  data = CalfAge_stats,
+  method = "REML"
+)
+
+
+CalfAge_GAM_W_summary <- summary(
+  CalfAge_GAM_W
+)
+
+
+# Parametric portion
+CalfAge_GAM_W_parametric <- as.data.frame(
+  CalfAge_GAM_W_summary$p.table
+) %>%
+  tibble::rownames_to_column("Term")
+
+
+# Smooth terms
+CalfAge_GAM_W_smooth <- as.data.frame(
+  CalfAge_GAM_W_summary$s.table
+) %>%
+  tibble::rownames_to_column("Term")
+
+
+# Model R2 / deviance explained
+CalfAge_GAM_W_R2 <-
+  CalfAge_GAM_W_summary$r.sq
+
+CalfAge_GAM_W_Deviance_Explained <-
+  CalfAge_GAM_W_summary$dev.expl
+
+
+
+# ------------------------------------------------------------
+# GAM: metabolic rate as multiples of Kleiber BMR
+# ------------------------------------------------------------
+
+CalfAge_GAM_multiple <- mgcv::gam(
+  LSMR_multiple ~
+    Environment +
+    s(
+      Calf_Age_Days,
+      by = Environment,
+      k = CalfAge_k
+    ) +
+    s(
+      Individual_ID,
+      bs = "re"
+    ),
+  data = CalfAge_stats,
+  method = "REML"
+)
+
+
+CalfAge_GAM_multiple_summary <- summary(
+  CalfAge_GAM_multiple
+)
+
+
+CalfAge_GAM_multiple_parametric <- as.data.frame(
+  CalfAge_GAM_multiple_summary$p.table
+) %>%
+  tibble::rownames_to_column("Term")
+
+
+CalfAge_GAM_multiple_smooth <- as.data.frame(
+  CalfAge_GAM_multiple_summary$s.table
+) %>%
+  tibble::rownames_to_column("Term")
+
+
+CalfAge_GAM_multiple_R2 <-
+  CalfAge_GAM_multiple_summary$r.sq
+
+CalfAge_GAM_multiple_Deviance_Explained <-
+  CalfAge_GAM_multiple_summary$dev.expl
+
+
+
+# ============================================================
+# 7. CUMULATIVE ALASKA VS HAWAI‘I DIFFERENCE: DAYS 0–90
+#
+# Uses the GAM fitted above rather than fitting another set
+# of unrelated models.
+# ============================================================
+
+CalfAge_0_90_grid <- data.frame(
+  Calf_Age_Days = rep(
+    seq(0, 90, by = 0.1),
+    2
+  ),
+
+  Environment = factor(
+    rep(
+      c("Hawaii", "Alaska"),
+      each = length(seq(0, 90, by = 0.1))
+    ),
+    levels = c("Hawaii", "Alaska")
+  )
+)
+
+
+# ============================================================
+# 7. CUMULATIVE ALASKA VS HAWAI‘I DIFFERENCE: DAYS 0–90
+#
+# Population-level predictions are generated from the GAM
+# while excluding the individual-level random-effect smooth.
+# ============================================================
+
+Age_Grid <- seq(0, 90, by = 0.1)
+
+CalfAge_0_90_grid <- tidyr::expand_grid(
+  Calf_Age_Days = Age_Grid,
+  Environment = factor(
+    c("Hawaii", "Alaska"),
+    levels = levels(CalfAge_stats$Environment)
+  )
+) %>%
+  dplyr::mutate(
+    # predict.gam() requires Individual_ID to be present in
+    # newdata even when its random-effect smooth is excluded.
+    # Use any valid factor level from the fitted dataset.
+    Individual_ID = factor(
+      levels(CalfAge_stats$Individual_ID)[1],
+      levels = levels(CalfAge_stats$Individual_ID)
+    )
+  )
+
+
+# Population-level predictions:
+# exclude the individual-specific random effect
+CalfAge_0_90_grid$Predicted_LSMR_W <- as.numeric(
+  predict(
+    CalfAge_GAM_W,
+    newdata = CalfAge_0_90_grid,
+    type = "response",
+    exclude = "s(Individual_ID)"
+  )
+)
+
+
+CalfAge_0_90_wide <- CalfAge_0_90_grid %>%
+  dplyr::select(
+    Calf_Age_Days,
+    Environment,
+    Predicted_LSMR_W
+  ) %>%
+  tidyr::pivot_wider(
+    names_from = Environment,
+    values_from = Predicted_LSMR_W
+  ) %>%
+  dplyr::mutate(
+    Difference_W = Alaska - Hawaii,
+    Positive_Difference_W = pmax(Difference_W, 0)
+  )
+
+
+# Trapezoidal integration helper
+trapz_manual <- function(x, y) {
+  sum(
+    diff(x) *
+      (head(y, -1) + tail(y, -1)) / 2,
+    na.rm = TRUE
+  )
+}
+
+
+# Signed Alaska - Hawai‘i difference
+CalfAge_0_90_Wday_Signed <- trapz_manual(
+  CalfAge_0_90_wide$Calf_Age_Days,
+  CalfAge_0_90_wide$Difference_W
+)
+
+
+# Positive Alaska excess only
+CalfAge_0_90_Wday_Excess <- trapz_manual(
+  CalfAge_0_90_wide$Calf_Age_Days,
+  CalfAge_0_90_wide$Positive_Difference_W
+)
+
+
+# Convert W·day -> J -> MJ
+CalfAge_0_90_MJ_Signed <-
+  CalfAge_0_90_Wday_Signed * 86400 / 1e6
+
+CalfAge_0_90_MJ_Excess <-
+  CalfAge_0_90_Wday_Excess * 86400 / 1e6
+
+
+# Preserve object name already used elsewhere in manuscript
+Excess_MJ_0_90 <- CalfAge_0_90_MJ_Excess
+
+
+# ============================================================
+# 8. MODEL DIAGNOSTICS
+#
+# These objects are created for checking assumptions.
+# Nothing is plotted during knitting.
+# ============================================================
+
+# LM residuals
+HL_component_diagnostics <- purrr::imap(
+  HL_component_models,
+  ~ data.frame(
+    Component = .y,
+    Fitted = fitted(.x),
+    Residual = residuals(.x),
+    Standardized_Residual =
+      rstandard(.x)
+  )
+)
+
+
+WholeBody_HL_diagnostics <- data.frame(
+  Fitted = fitted(WholeBody_HL_model),
+  Residual = residuals(WholeBody_HL_model),
+  Standardized_Residual =
+    rstandard(WholeBody_HL_model)
+)
+
+
+BodyCondition_diagnostics <- purrr::imap(
+  BodyCondition_models,
+  ~ data.frame(
+    Demographic_Class = .y,
+    Fitted = fitted(.x),
+    Residual = residuals(.x),
+    Standardized_Residual =
+      rstandard(.x)
+  )
+)
+
+
+# GAM diagnostic checks can be run interactively with:
+#
+# mgcv::gam.check(CalfAge_GAM_W)
+# mgcv::gam.check(CalfAge_GAM_multiple)
+#
+# qqnorm(residuals(ThermalScope_model))
+# qqline(residuals(ThermalScope_model))
+#
+# qqnorm(residuals(CriticalTemp_model))
+# qqline(residuals(CriticalTemp_model))
+
+
+# ============================================================
+# 9. OPTIONAL CONSOLE OUTPUT
+#
+# Uncomment any of these when you want to inspect the results.
+# ============================================================
+
+HL_component_ANOVA_table
+WholeBody_HL_ANOVA_table
+BodyCondition_ANOVA_table
+ThermalScope_ANOVA_table
+CriticalTemp_ANOVA_table
+CalfAge_GAM_W_parametric
+CalfAge_GAM_W_smooth
+CalfAge_GAM_multiple_parametric
+CalfAge_GAM_multiple_smooth
+```
+
 ```{r TABLE - Creation of Morphometrics Table, include = FALSE}
 # ---------- 1. Summarize in long format ----------
 MorphSummary_long <- Morphometrics %>% 
@@ -880,7 +2031,7 @@ HL3 <- MC_HeatLoss_Summaries %>%
   tidyr::pivot_longer(cols = -c(Individual_ID, Region, Demographic_Class, Body_Length_m),
                       names_to   = c("Component", ".value"),
                       names_pattern = "(Body|Flipper|Fluke)_(median|low|high)_W") %>%
-  mutate(RegionLabel = recode(Region, AK = "Alaska", HI = "Hawaii"),
+  mutate(RegionLabel = dplyr::recode(Region, AK = "Alaska", HI = "Hawaii"),
          median_MJday = (median/1e6) * 86400,
          low_MJday    = (low/1e6)    * 86400,
          high_MJday   = (high/1e6)   * 86400,
@@ -1124,7 +2275,7 @@ MC_HeatLoss_Summaries <- MC_HeatLoss_Summaries %>%
     ),
     Mass_Specific_True_Region_Windows_Open_Heat_Loss_W =
       True_Region_Windows_Open_Heat_Loss_W / Body_Mass_kg_mean,
-    RegionLabel = recode(Region, AK = "Alaska", HI = "Hawaii")
+    RegionLabel = dplyr::recode(Region, AK = "Alaska", HI = "Hawaii")
   )
 
 df_plot <- MC_HeatLoss_Summaries %>%
@@ -1326,7 +2477,7 @@ convert_pdf_to_png(
 
 ```{r FIGURE - Critical Temperature Vs. Body Length, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide', fig.keep = 'none', fig.align = 'center', fig.dim = c(8, 8)}
 MC_HeatLoss_Summaries <- MC_HeatLoss_Summaries %>%
-  mutate(Environment = recode(Region, AK = "Alaska", HI = "Hawaii"))
+  mutate(Environment = dplyr::recode(Region, AK = "Alaska", HI = "Hawaii"))
 
 Kleiber_label_df <- data.frame(x = c(3.68, 3.68, 3.68, 3.68, 3.65),
                                y = c(17.5, 12.8,  7.65,  2.75, -3.0),
@@ -1407,7 +2558,7 @@ convert_pdf_to_png("figs/LowerCritTempVsBodyLength.pdf",
 
 ```{r FIGURE - Upper and Lower Critical Temperatures Vs. Body Length, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide', fig.keep = 'none', fig.align = 'center', fig.dim = c(8, 8)}
 MC_HeatLoss_Summaries <- MC_HeatLoss_Summaries %>%
-  mutate(Environment = recode(Region, AK = "Alaska", HI = "Hawaii"))
+  mutate(Environment = dplyr::recode(Region, AK = "Alaska", HI = "Hawaii"))
 
 # Create long-format dataset containing the 1x Kleiber
 # lower and upper critical temperatures
@@ -1430,7 +2581,7 @@ CritTemp_plot <- MC_HeatLoss_Summaries %>%
     values_to = "Critical_Temperature_C"
   ) %>%
   mutate(
-    Critical_Temperature_Type = recode(
+    Critical_Temperature_Type = dplyr::recode(
       Critical_Temperature_Type,
       T_crit_Scenario_1_mean = "Lower",
       Upper_T_crit_mean = "Upper"
@@ -2680,33 +3831,40 @@ $$
 
 To estimate the upper and lower critical temperatures, we performed this analysis with thermal windows open and closed, respectively. In both scenarios, this equation only incorporated conductive $HL$, though our results allowed us to safely assume that $HL_{\text{vent}}$ was negligible in relation to the conductive component.
 
-## Statistics (NEED TO UPDATE)
+## Statistics
 
-For analyses of calf age, we fitted generalized additive models for each environment using the function *gam* in the R package *mgcv* [@wood11]. We modeled the response as a Gaussian-distributed continuous variable with an identity link, and included calf age (days) as a smooth term using a thin-plate regression spline (s(D)). Smoothing parameters were estimated by restricted maximum likelihood (REML). To reflect differences in data density across environments, the basis dimension ($m$) was set adaptively as a function of the number of unique age values ($m=min(12,max(4,⌊n_{unique} (age)/3⌋))$). Model adequacy was evaluated using standard GAM diagnostics, including residual-versus-fitted plots and Q-Q plots, and by checking whether the chosen basis dimension was adequate (k-index). No additional predictors were considered and no stepwise model selection was performed beyond REML-based smoothing selection. To determine the total cost between the two environments for the age range from 0-90 days (the time that mother-calf pairs are assumed to remain on the calving ground), we predicted both environment fits on a common grid and plotted the point-wise envelope, restricted to ages where both fits exist. Values are presented as mean ± standard deviation, unless otherwise stated.
+All statistical analyses were conducted in R. Individual median estimates from our Monte Carlo simulations were used for statistical analyses and 5th–95th percentiles were used to represent uncertainty. Relationships between $TL$ and conductive $HL$ were evaluated using analysis of covariance (ANCOVA), with environment and its interaction with $TL$ included to test for differences in $HL$ scaling between environments. Similar ANCOVAs were used to compare whole-body $HL$ between the Hawai‘i/open and Alaska/closed regional scenarios and to assess relationships between body condition and mass-specific $HL$ within demographic classes.
+
+The combined effects of $TL$, $T_{ambient}$, and thermal window state ("open" or "closed") on sustainable metabolic limits were evaluated using a linear mixed-effects model with individual identity included as a random intercept. Upper and lower critical temperatures were similarly evaluated using a mixed-effects model containing $TL$, critical temperature type (upper or lower), and their interaction, with individual identity as a random intercept. Type III *F*-tests with Satterthwaite approximations for denominator degrees of freedom were used for mixed-effects models.
+
+Relationships between calf age and minimum sustainable metabolic rate were evaluated using generalized additive models (GAMs; R package *mgcv*) with environment-specific smooths of calf age and individual identity as a random-effect smooth, fitted using REML. The cumulative difference in minimum sustainable metabolic requirements between Alaska and Hawai‘i during the first 90 days was estimated by integrating the difference between population-level fitted curves using the trapezoidal rule. Statistical significance was evaluated at α = 0.05.
+
 
 # Results
 
 ## Morphometrics
 
-Our morphometric dataset (n = `r format_numbers(as.numeric(nrow(Morphometrics)), digits = 4, format = "dcml")` individuals) included measurements on `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Calf"))), digits = 4, format = "dcml")` calves (n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Calf" & Region == "HI"))), digits = 4, format = "dcml")` in Hawai‘i; n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Calf" & Region == "AK"))), digits = 3, format = "dcml")` in Alaska), `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Lactating"))), digits = 4, format = "dcml")` lactating mothers (n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Lactating" & Region == "HI"))), digits = 4, format = "dcml")` in Hawai‘i; n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Lactating" & Region == "AK"))), digits = 3, format = "dcml")` in Alaska), `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Juvenile"))), digits = 2, format = "dcml")` juveniles (n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Juvenile" & Region == "HI"))), digits = 2, format = "dcml")` in Hawai‘i; n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Juvenile" & Region == "AK"))), digits = 1, format = "dcml")` in Alaska), `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Yearling"))), digits = 2, format = "dcml")` yearlings in Hawai‘i, and `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Adult"))), digits = 4, format = "dcml")` adults of unknown sex (n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Adult" & Region == "HI"))), digits = 4, format = "dcml")` in Hawai‘i; n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Adult" & Region == "AK"))), digits = 3, format = "dcml")` in Alaska). Table 1 presents a subset of important morphometric values for each demographic class and geographic location. Our subset of animals with visually flat flippers and flukes (n = `r format_numbers(as.numeric(nrow(HumpbackHeatLoss::FlukeFlipperMetrics)), digits = 2, format = "dcml")`) were all from Hawai‘i and covered a similar $TL$ range as our larger dataset (`r format_numbers(as.numeric(min(HumpbackHeatLoss::FlukeFlipperMetrics$Body_Length_m)), digits = 3, format = "dcml")`-`r format_numbers(as.numeric(max(HumpbackHeatLoss::FlukeFlipperMetrics$Body_Length_m)), digits = 4, format = "dcml")` m). Relationships between $TL$ and selected morphometric estimates ($S_{\text{body}}$; $S_{\text{flippers}}$; $S_{\text{flukes}}$; $BT_{\text{appendage}}$, $r_{v}$) are shown in the supplementary materials (Figures S2-S4). In our dataset, $S_{\text{flippers}}$ and $S_{\text{flukes}}$ were found to be `r format_numbers(as.numeric(mean(Morphometrics$Total_Flipper_Area_As_Percent_Of_Body)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(Morphometrics$Total_Flipper_Area_As_Percent_Of_Body)), digits = 2, format = "dcml")`% and `r format_numbers(as.numeric(mean(Morphometrics$Total_Fluke_Area_As_Percent_Of_Body)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(Morphometrics$Total_Fluke_Area_As_Percent_Of_Body)), digits = 1, format = "dcml")`% of $S_{\text{body}}$, respectively. The combination of all appendages ($S_{\text{flippers}}$ and $S_{\text{flukes}}$) was, therefore, found to be `r format_numbers(as.numeric(mean(Morphometrics$Total_Appendage_Area_As_Percent_Of_Body)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(Morphometrics$Total_Appendage_Area_As_Percent_Of_Body)), digits = 2, format = "dcml")`% of $S_{\text{body}}$ and `r format_numbers(as.numeric(mean(Morphometrics$Total_Appendage_Area_As_Percent_Of_Body_Plus_Appendage_Area)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(Morphometrics$Total_Appendage_Area_As_Percent_Of_Body_Plus_Appendage_Area)), digits = 2, format = "dcml")`% of total surface area (sum of $S_{\text{body}}$, $S_{\text{flippers}}$, and $S_{\text{flukes}}$).
+Our morphometric dataset (n = `r format_numbers(as.numeric(nrow(Morphometrics)), digits = 4, format = "dcml")` individuals) included measurements on `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Calf"))), digits = 4, format = "dcml")` calves (n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Calf" & Region == "HI"))), digits = 4, format = "dcml")` in Hawai‘i; n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Calf" & Region == "AK"))), digits = 3, format = "dcml")` in Alaska), `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Lactating"))), digits = 4, format = "dcml")` lactating mothers (n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Lactating" & Region == "HI"))), digits = 4, format = "dcml")` in Hawai‘i; n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Lactating" & Region == "AK"))), digits = 3, format = "dcml")` in Alaska), `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Juvenile"))), digits = 2, format = "dcml")` juveniles (n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Juvenile" & Region == "HI"))), digits = 2, format = "dcml")` in Hawai‘i; n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Juvenile" & Region == "AK"))), digits = 1, format = "dcml")` in Alaska), `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Yearling"))), digits = 2, format = "dcml")` yearlings in Hawai‘i, and `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Adult"))), digits = 4, format = "dcml")` adults of unknown sex (n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Adult" & Region == "HI"))), digits = 4, format = "dcml")` in Hawai‘i; n = `r format_numbers(as.numeric(nrow(Morphometrics %>% filter(Demographic_Class == "Adult" & Region == "AK"))), digits = 3, format = "dcml")` in Alaska). Table 1 presents a subset of important morphometric values for each demographic class and geographic location. Our subset of animals with visually flat flippers and flukes (n = `r format_numbers(as.numeric(nrow(HumpbackHeatLoss::FlukeFlipperMetrics)), digits = 2, format = "dcml")`) were all from Hawai‘i and covered a similar $TL$ range as our larger dataset (`r format_numbers(as.numeric(min(HumpbackHeatLoss::FlukeFlipperMetrics$Body_Length_m)), digits = 3, format = "dcml")`-`r format_numbers(as.numeric(max(HumpbackHeatLoss::FlukeFlipperMetrics$Body_Length_m)), digits = 4, format = "dcml")` m). Relationships between $TL$ and selected morphometric estimates ($S_{\text{body}}$; $S_{\text{flippers}}$; $S_{\text{flukes}}$; $BT_{\text{appendage}}$; $r_{v}$) are shown in the supplementary materials (Figures S2-S4). $S_{\text{flippers}}$ and $S_{\text{flukes}}$ scaled with $TL$ to the power of 1.8, indicating negative allometric scaling. Consequently, smaller individuals had proportionally greater flipper surface area relative to body size. In our dataset, $S_{\text{flippers}}$ and $S_{\text{flukes}}$ were found to be `r format_numbers(as.numeric(mean(Morphometrics$Total_Flipper_Area_As_Percent_Of_Body)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(Morphometrics$Total_Flipper_Area_As_Percent_Of_Body)), digits = 2, format = "dcml")`% and `r format_numbers(as.numeric(mean(Morphometrics$Total_Fluke_Area_As_Percent_Of_Body)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(Morphometrics$Total_Fluke_Area_As_Percent_Of_Body)), digits = 1, format = "dcml")`% of $S_{\text{body}}$, respectively. The combination of all appendages ($S_{\text{flippers}}$ and $S_{\text{flukes}}$) was, therefore, found to be `r format_numbers(as.numeric(mean(Morphometrics$Total_Appendage_Area_As_Percent_Of_Body)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(Morphometrics$Total_Appendage_Area_As_Percent_Of_Body)), digits = 2, format = "dcml")`% of $S_{\text{body}}$ and `r format_numbers(as.numeric(mean(Morphometrics$Total_Appendage_Area_As_Percent_Of_Body_Plus_Appendage_Area)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(Morphometrics$Total_Appendage_Area_As_Percent_Of_Body_Plus_Appendage_Area)), digits = 2, format = "dcml")`% of total surface area (sum of $S_{\text{body}}$, $S_{\text{flippers}}$, and $S_{\text{flukes}}$).
 
 ## Heat Loss
 
-Broken down into the components of $HL$, we found that daily conductive heat loss potential averaged across all values of $TL$ was highest from the flippers (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Flipper_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Flipper_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Flipper_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Flipper_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")` MJ day^-1^) and flukes (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Fluke_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Fluke_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Fluke_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Fluke_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")` MJ day^-1^). The daily conductive heat loss potential of the body was lower (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^), and the ventilatory heat loss potential was exceedingly low (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Ventilatory_Heat_Loss_W_mean, na.rm=TRUE)), digits = 2, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Ventilatory_Heat_Loss_W_mean, na.rm=TRUE)), digits = 2, format = "dcml")` MJ day^-1^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Ventilatory_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Ventilatory_Heat_Loss_W_mean, na.rm=TRUE)), digits = 2, format = "dcml")` MJ day^-1^) (Figure S5). When the thermal windows were open, the flippers and flukes collectively accounted for `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Appendages_As_Percentage_Of_Conductive_Heat_Loss_mean, na.rm = TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Appendages_As_Percentage_Of_Conductive_Heat_Loss_mean, na.rm = TRUE)), digits = 2, format = "dcml")`% of total conductive heat loss potential, compared with `r format_numbers(as.numeric(100 - mean(MC_HeatLoss_Summaries$Warm_Appendages_As_Percentage_Of_Conductive_Heat_Loss_mean, na.rm = TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Appendages_As_Percentage_Of_Conductive_Heat_Loss_mean, na.rm = TRUE)), digits = 2, format = "dcml")`% attributable to the body. Figure 2 shows the relationship between conductive heat loss and $TL$ for both geographic regions, and Figure S5 shows this same relationship between ventilatory heat loss and $TL$.
+Broken down into the components of $HL$, we found that daily conductive heat loss potential averaged across all values of $TL$ was highest from the flippers (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Flipper_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Flipper_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Flipper_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Flipper_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")` MJ day^-1^) and flukes (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Fluke_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Fluke_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Fluke_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Fluke_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")` MJ day^-1^). The daily conductive heat loss potential of the body was lower (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^), and the ventilatory heat loss potential was exceedingly low (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Ventilatory_Heat_Loss_W_mean, na.rm=TRUE)), digits = 2, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Ventilatory_Heat_Loss_W_mean, na.rm=TRUE)), digits = 2, format = "dcml")` MJ day^-1^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Ventilatory_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Ventilatory_Heat_Loss_W_mean, na.rm=TRUE)), digits = 2, format = "dcml")` MJ day^-1^) (Figure S5). When the thermal windows were open, the flippers and flukes collectively accounted for `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Appendages_As_Percentage_Of_Conductive_Heat_Loss_mean, na.rm = TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Appendages_As_Percentage_Of_Conductive_Heat_Loss_mean, na.rm = TRUE)), digits = 2, format = "dcml")`% of total conductive heat loss potential, compared with `r format_numbers(as.numeric(100 - mean(MC_HeatLoss_Summaries$Warm_Appendages_As_Percentage_Of_Conductive_Heat_Loss_mean, na.rm = TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Appendages_As_Percentage_Of_Conductive_Heat_Loss_mean, na.rm = TRUE)), digits = 2, format = "dcml")`% attributable to the body.
+
+Conductive $HL$ increased significantly with $TL$ for the body, flippers, and flukes (all *P* < 0.001; Figure 2). Although conductive $HL$ also differed significantly between environments for all three components (all *P* < 0.001), the relationship between $TL$ and conductive $HL$ did not differ between Hawai‘i and Alaska (body: *F*~1,`r round(HL_component_ANOVA_table$Df[HL_component_ANOVA_table$Component == "Body" & HL_component_ANOVA_table$Term == "Residuals"], 0)`~ = `r round(HL_component_ANOVA_table$`F value`[HL_component_ANOVA_table$Component == "Body" & HL_component_ANOVA_table$Term == "Log10_Body_Length:Environment"], 2)`, *P* = `r format.pval(HL_component_ANOVA_table$`Pr(>F)`[HL_component_ANOVA_table$Component == "Body" & HL_component_ANOVA_table$Term == "Log10_Body_Length:Environment"], digits = 3, eps = 0.001)`; flippers: *F*~1,`r round(HL_component_ANOVA_table$Df[HL_component_ANOVA_table$Component == "Flipper" & HL_component_ANOVA_table$Term == "Residuals"], 0)`~ = `r round(HL_component_ANOVA_table$`F value`[HL_component_ANOVA_table$Component == "Flipper" & HL_component_ANOVA_table$Term == "Log10_Body_Length:Environment"], 2)`, *P* = `r format.pval(HL_component_ANOVA_table$`Pr(>F)`[HL_component_ANOVA_table$Component == "Flipper" & HL_component_ANOVA_table$Term == "Log10_Body_Length:Environment"], digits = 3, eps = 0.001)`; flukes: *F*~1,`r round(HL_component_ANOVA_table$Df[HL_component_ANOVA_table$Component == "Fluke" & HL_component_ANOVA_table$Term == "Residuals"], 0)`~ = `r round(HL_component_ANOVA_table$`F value`[HL_component_ANOVA_table$Component == "Fluke" & HL_component_ANOVA_table$Term == "Log10_Body_Length:Environment"], 2)`, *P* = `r format.pval(HL_component_ANOVA_table$`Pr(>F)`[HL_component_ANOVA_table$Component == "Fluke" & HL_component_ANOVA_table$Term == "Log10_Body_Length:Environment"], digits = 3, eps = 0.001)`). Ventilatory $HL$ similarly increased with $TL$, but remained negligible relative to conductive $HL$ across body sizes (Figure S5).
 
 Heat flux was higher for the appendages (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Flipper_Heat_Flux_Per_m2_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Flipper_Heat_Flux_Per_m2_mean, na.rm=TRUE)), digits = 4, format = "dcml")` W m^2^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Flipper_Heat_Flux_Per_m2_mean, na.rm=TRUE)), digits = 5, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Flipper_Heat_Flux_Per_m2_mean, na.rm=TRUE)), digits = 3, format = "dcml")` W m^2^) than it was for the body (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Flux_Per_m2_mean, na.rm=TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Flux_Per_m2_mean, na.rm=TRUE)), digits = 2, format = "dcml")` W m^2^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Flux_Per_m2_mean, na.rm=TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Flux_Per_m2_mean, na.rm=TRUE)), digits = 3, format = "dcml")` W m^2^), across both geographic regions. Calves displayed higher heat flux in both geographic regions (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm=TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm=TRUE)), digits = 2, format = "dcml")` W m^2^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm=TRUE)), digits = 3, format = "dcml")` W m^2^) than either adults of unknown sex (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm=TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm=TRUE)), digits = 2, format = "dcml")` W m^2^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm=TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm=TRUE)), digits = 2, format = "dcml")` W m^2^) or lactating females (Hawai‘i: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm=TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm=TRUE)), digits = 2, format = "dcml")` W m^2^; Alaska: `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm=TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Conductive_Body_Only_Heat_Flux_Per_m2_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm=TRUE)), digits = 2, format = "dcml")` W m^2^).
 
-Combining our conductive and ventilatory heat loss components together, we found mean daily heat loss potential values of `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")` MJ day^-1^ and `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^ in Hawai‘i for the "windows open" and "windows closed" conditions, respectively. In Alaska, we found a value of `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 5, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")` MJ day^-1^ for the "windows open" condition and a value of `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^ for the "windows closed" condition. Across a range of body sizes, heat loss was higher in Hawai‘i with the thermal windows open than in Alaska with thermal windows closed (Figure 3), highlighting the contribution of heat loss from the extremities.
+Combining our conductive and ventilatory heat loss components together, we found mean daily heat loss potential values of `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")` MJ day^-1^ and `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^ in Hawai‘i for the "windows open" and "windows closed" conditions, respectively. In Alaska, we found a value of `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 5, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")` MJ day^-1^ for the "windows open" condition and a value of `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^ for the "windows closed" condition. Combining our conductive and ventilatory heat loss components together, we found mean daily heat loss potential values of `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")` MJ day^-1^ and `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^ in Hawai‘i for the "windows open" and "windows closed" conditions, respectively. In Alaska, we found a value of `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 5, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")` MJ day^-1^ for the "windows open" condition and a value of `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 4, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Closed_Heat_Loss_W_mean, na.rm=TRUE)), digits = 3, format = "dcml")` MJ day^-1^ for the "windows closed" condition. Whole-body $HL$ increased significantly with $TL$ and differed between the Hawai‘i/open and Alaska/closed regional scenarios (both *P* < 0.001; Figure 3), with the relationship between $TL$ and $HL$ also differing significantly between scenarios ($TL$ × regional scenario: *F*~1,`r round(WholeBody_HL_ANOVA_table$Df[WholeBody_HL_ANOVA_table$Term == "Residuals"], 0)`~ = `r round(WholeBody_HL_ANOVA_table$`F value`[WholeBody_HL_ANOVA_table$Term == "Log10_Body_Length:Regional_Scenario"], 2)`, *P* `r ifelse(WholeBody_HL_ANOVA_table$`Pr(>F)`[WholeBody_HL_ANOVA_table$Term == "Log10_Body_Length:Regional_Scenario"] < 0.001, "< 0.001", paste0("= ", format.pval(WholeBody_HL_ANOVA_table$`Pr(>F)`[WholeBody_HL_ANOVA_table$Term == "Log10_Body_Length:Regional_Scenario"], digits = 3)))`).
 
-We found that calves displayed the highest average mass-specific heat loss potential (Hawai‘i, `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm = TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm = TRUE)), digits = 2, format = "dcml")` W kg^-1^; Alaska, `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm = TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm = TRUE)), digits = 3, format = "dcml")` W kg^-1^), with lactating females (Hawai‘i, `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm = TRUE)), digits = 2, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm = TRUE)), digits = 1, format = "dcml")` W kg^-1^; Alaska, `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm = TRUE)), digits = 2, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm = TRUE)), digits = 2, format = "dcml")` W kg^-1^), and adults of unknown sex (Hawai‘i, `r format_numbers(as.numeric(median(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm = TRUE)), digits = 2, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm = TRUE)), digits = 1, format = "dcml")` W kg^-1^; Alaska, `r format_numbers(as.numeric(median(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm = TRUE)), digits = 2, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm = TRUE)), digits = 2, format = "dcml")` W kg^-1^) maintaining similar values (Figure 4). We also found that mass-specific heat loss potential decreased with increasing body condition across all demographic classes.
+We found that calves displayed the highest average mass-specific heat loss potential (Hawai‘i, `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm = TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm = TRUE)), digits = 2, format = "dcml")` W kg^-1^; Alaska, `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm = TRUE)), digits = 3, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Calf"], na.rm = TRUE)), digits = 3, format = "dcml")` W kg^-1^), with lactating females (Hawai‘i, `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm = TRUE)), digits = 2, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm = TRUE)), digits = 1, format = "dcml")` W kg^-1^; Alaska, `r format_numbers(as.numeric(mean(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm = TRUE)), digits = 2, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Lactating"], na.rm = TRUE)), digits = 2, format = "dcml")` W kg^-1^), and adults of unknown sex (Hawai‘i, `r format_numbers(as.numeric(median(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm = TRUE)), digits = 2, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Warm_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm = TRUE)), digits = 1, format = "dcml")` W kg^-1^; Alaska, `r format_numbers(as.numeric(median(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm = TRUE)), digits = 2, format = "dcml")`±`r format_numbers(as.numeric(sd(MC_HeatLoss_Summaries$Cold_Windows_Open_Heat_Loss_Mass_Specific_W_kg_mean[MC_HeatLoss_Summaries$Demographic_Class == "Adult"], na.rm = TRUE)), digits = 2, format = "dcml")` W kg^-1^) maintaining similar values (Figure 4). Mass-specific $HL$ decreased significantly with increasing body condition across all demographic classes (all *P* < 0.001), although the relationship differed significantly between regional scenarios for calves (*F*~1,`r BodyCondition_ANOVA_table$Df[BodyCondition_ANOVA_table$Demographic_Class == "Calf" & BodyCondition_ANOVA_table$Term == "Residuals"]`~ = `r round(BodyCondition_ANOVA_table$`F value`[BodyCondition_ANOVA_table$Demographic_Class == "Calf" & BodyCondition_ANOVA_table$Term == "Body_Condition:Regional_Scenario"], 2)`, *P* = `r format.pval(BodyCondition_ANOVA_table$`Pr(>F)`[BodyCondition_ANOVA_table$Demographic_Class == "Calf" & BodyCondition_ANOVA_table$Term == "Body_Condition:Regional_Scenario"], digits = 3, eps = 0.001)`), adults (*F*~1,`r BodyCondition_ANOVA_table$Df[BodyCondition_ANOVA_table$Demographic_Class == "Adult" & BodyCondition_ANOVA_table$Term == "Residuals"]`~ = `r round(BodyCondition_ANOVA_table$`F value`[BodyCondition_ANOVA_table$Demographic_Class == "Adult" & BodyCondition_ANOVA_table$Term == "Body_Condition:Regional_Scenario"], 2)`, *P* `r ifelse(BodyCondition_ANOVA_table$`Pr(>F)`[BodyCondition_ANOVA_table$Demographic_Class == "Adult" & BodyCondition_ANOVA_table$Term == "Body_Condition:Regional_Scenario"] < 0.001, "< 0.001", paste0("= ", format.pval(BodyCondition_ANOVA_table$`Pr(>F)`[BodyCondition_ANOVA_table$Demographic_Class == "Adult" & BodyCondition_ANOVA_table$Term == "Body_Condition:Regional_Scenario"], digits = 3)))`), and lactating females (*F*~1,`r BodyCondition_ANOVA_table$Df[BodyCondition_ANOVA_table$Demographic_Class == "Lactating" & BodyCondition_ANOVA_table$Term == "Residuals"]`~ = `r round(BodyCondition_ANOVA_table$`F value`[BodyCondition_ANOVA_table$Demographic_Class == "Lactating" & BodyCondition_ANOVA_table$Term == "Body_Condition:Regional_Scenario"], 2)`, *P* `r ifelse(BodyCondition_ANOVA_table$`Pr(>F)`[BodyCondition_ANOVA_table$Demographic_Class == "Lactating" & BodyCondition_ANOVA_table$Term == "Body_Condition:Regional_Scenario"] < 0.001, "< 0.001", paste0("= ", format.pval(BodyCondition_ANOVA_table$`Pr(>F)`[BodyCondition_ANOVA_table$Demographic_Class == "Lactating" & BodyCondition_ANOVA_table$Term == "Body_Condition:Regional_Scenario"], digits = 3)))`).
 
 ## Sustainable Metabolic Range
 
-From our analysis of critical temperatures ($T_{crit}$), the majority of calves from Hawai‘i (`r format_numbers(with(subset(MC_HeatLoss_Summaries, Demographic_Class == "Calf"), 100 * mean(T_crit_Scenario_1_mean >= 5 & T_crit_Scenario_1_mean <= 25, na.rm = TRUE)), digits = 2, format = "dcml")`%) were estimated to have lower $T_{crit}$ values between 5°C and 25°C, requiring them to maintain metabolic rates above their assumed Kleiber $BMR$ to achieve thermal balance (Figure 5). The lower $T_{crit}$ for adults fell well below freezing, putting them outside the range of temperatures experienced anywhere on the planet and into the "Zone of Irrelevance" described by Watts et al. [-@watts_etal93]. Upper $T_{crit}$ values for many larger adults (longer than ~10m) fell below our modeled ambient temperatures for Hawaiian waters, requiring metabolic rates below the assumed Kleiber $BMR$ estimates to achieve thermal balance.
+From our analysis of critical temperatures ($T_{crit}$), the majority of calves from Hawai‘i (`r format_numbers(with(subset(MC_HeatLoss_Summaries, Demographic_Class == "Calf"), 100 * mean(T_crit_Scenario_1_mean >= 5 & T_crit_Scenario_1_mean <= 25, na.rm = TRUE)), digits = 2, format = "dcml")`%) were estimated to have lower $T_{crit}$ values between 5°C and 25°C, requiring them to maintain metabolic rates above their assumed Kleiber $BMR$ to achieve thermal balance (Figure 5). The lower $T_{crit}$ for adults fell well below freezing, putting them outside the range of temperatures experienced anywhere on the planet and into the "Zone of Irrelevance" described by Watts et al. [-@watts_etal93]. Upper $T_{crit}$ values for many larger adults (longer than ~10 m) fell below our modeled ambient temperatures for Hawaiian waters, requiring metabolic rates below the assumed Kleiber $BMR$ estimates to achieve thermal balance. Both upper and lower $T_{crit}$ decreased significantly with increasing $TL$, but the rate of decline differed between the two thermal limits ($TL$ × $T_{crit}$ type: *F*~1,`r round(CriticalTemp_ANOVA_table$DenDF[CriticalTemp_ANOVA_table$Term == "Body_Length_Centered:Critical_Temperature_Type"], 0)`~ = `r round(CriticalTemp_ANOVA_table$`F value`[CriticalTemp_ANOVA_table$Term == "Body_Length_Centered:Critical_Temperature_Type"], 2)`, *P* `r ifelse(CriticalTemp_ANOVA_table$`Pr(>F)`[CriticalTemp_ANOVA_table$Term == "Body_Length_Centered:Critical_Temperature_Type"] < 0.001, "< 0.001", paste0("= ", format.pval(CriticalTemp_ANOVA_table$`Pr(>F)`[CriticalTemp_ANOVA_table$Term == "Body_Length_Centered:Critical_Temperature_Type"], digits = 3)))`), resulting in a widening of the modeled thermal range with increasing body size.
 
-Assuming that heat loss must equal metabolic heat production to maintain thermal balance, we found that the range of metabolic rates that could be maintained indefinitely (i.e., falling between the lowest heat loss potential of the "windows closed" condition and the close-to-maximal heat loss potential of the "windows open" condition) was much broader in Alaska, and much narrower in Hawai‘i (Figure 6). In Alaska, the smallest calves ($TL$ of <4 m) had a minimum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Cold_Windows_Closed_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m < 4], na.rm = TRUE), digits = 2, format = "dcml")`x Kleiber and a maximum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Cold_Windows_Open_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m < 4], na.rm = TRUE), digits = 2, format = "dcml")`x Kleiber. In Hawai‘i, these same small calves had a minimum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Warm_Windows_Closed_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m < 4], na.rm = TRUE), digits = 2, format = "dcml")`x Kleiber and a maximum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Warm_Windows_Open_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m < 4], na.rm = TRUE), digits = 2, format = "dcml")`x Kleiber. At the larger end of the size scale ($TL$ of >12 m), animals in Alaska had a minimum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Cold_Windows_Closed_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m > 12], na.rm = TRUE), digits = 2, format = "dcml")`x Kleiber and a maximum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Cold_Windows_Open_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m > 12], na.rm = TRUE), digits = 2, format = "dcml")`x Kleiber. Those same animals in Hawai‘i had a minimum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Warm_Windows_Closed_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m > 12], na.rm = TRUE), digits = 2, format = "dcml")`x Kleiber and a maximum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Warm_Windows_Open_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m > 12], na.rm = TRUE), digits = 2, format = "dcml")`x Kleiber.
+Assuming that heat loss must equal metabolic heat production to achieve thermal balance, we found that the range of "sustainable" metabolic rates that could be maintained indefinitely (i.e., falling between the lowest heat loss potential of the "windows closed" condition and the close-to-maximal heat loss potential of the "windows open" condition) was much broader in Alaska and much narrower in Hawai‘i (Figure 6). Sustainable metabolic limits varied significantly with $TL$, $T_{ambient}$, and thermal-window state (all *P* < 0.001), with a significant interaction between $TL$ and thermal-window state (*F*~1,`r round(ThermalScope_ANOVA_table$DenDF[ThermalScope_ANOVA_table$Term == "Log10_Body_Length:Window_State"], 0)`~ = `r round(ThermalScope_ANOVA_table$`F value`[ThermalScope_ANOVA_table$Term == "Log10_Body_Length:Window_State"], 2)`, *P* `r ifelse(ThermalScope_ANOVA_table$`Pr(>F)`[ThermalScope_ANOVA_table$Term == "Log10_Body_Length:Window_State"] < 0.001, "< 0.001", paste0("= ", format.pval(ThermalScope_ANOVA_table$`Pr(>F)`[ThermalScope_ANOVA_table$Term == "Log10_Body_Length:Window_State"], digits = 3)))`). In contrast, the $TL$ × $T_{ambient}$ (*P* = `r format.pval(ThermalScope_ANOVA_table$`Pr(>F)`[ThermalScope_ANOVA_table$Term == "Log10_Body_Length:Environment"], digits = 3)`), $T_{ambient}$ × thermal-window state (*P* = `r format.pval(ThermalScope_ANOVA_table$`Pr(>F)`[ThermalScope_ANOVA_table$Term == "Environment:Window_State"], digits = 3)`), and three-way interactions (*P* = `r format.pval(ThermalScope_ANOVA_table$`Pr(>F)`[ThermalScope_ANOVA_table$Term == "Log10_Body_Length:Environment:Window_State"], digits = 3)`) were not significant. In Alaska, the smallest calves ($TL$ of <4 m) had a minimum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Cold_Windows_Closed_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m < 4], na.rm = TRUE), digits = 2, format = "dcml")`× Kleiber and a maximum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Cold_Windows_Open_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m < 4], na.rm = TRUE), digits = 2, format = "dcml")`× Kleiber. In Hawai‘i, these same small calves had a minimum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Warm_Windows_Closed_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m < 4], na.rm = TRUE), digits = 2, format = "dcml")`× Kleiber and a maximum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Warm_Windows_Open_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m < 4], na.rm = TRUE), digits = 2, format = "dcml")`× Kleiber. At the larger end of the size scale ($TL$ of >12 m), animals in Alaska had a minimum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Cold_Windows_Closed_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m > 12], na.rm = TRUE), digits = 2, format = "dcml")`× Kleiber and a maximum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Cold_Windows_Open_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m > 12], na.rm = TRUE), digits = 2, format = "dcml")`× Kleiber. Those same animals in Hawai‘i had a minimum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Warm_Windows_Closed_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m > 12], na.rm = TRUE), digits = 2, format = "dcml")`× Kleiber and a maximum sustainable metabolic rate of `r format_numbers(1/mean(MC_HeatLoss_Summaries$BMR_to_Warm_Windows_Open_Heat_Loss_Ratio_mean[MC_HeatLoss_Summaries$Body_Length_m > 12], na.rm = TRUE), digits = 2, format = "dcml")`× Kleiber.
 
-Figure 7 shows the minimum sustainable metabolic rate for calves in closer detail, relative to estimated calf age. Heat loss potential ("windows closed" condition) in Hawai‘i was lower than it would be in Alaska for each of the first 90 days of life. We found the total difference between the minimum metabolic rates in Alaska and Hawai‘i over the first 90 days of life to be `r format_numbers(as.numeric(Excess_MJ_0_90), digits = 4, format = "dcml")` MJ. If this total can be split evenly between each day, that would result in a daily difference of `r format_numbers(as.numeric(Excess_MJ_0_90/91), digits = 3, format = "dcml")` MJ day^-1^. Somatic growth costs for a humpback calf have been estimated by van Aswegen et al. (2025) for multiple points within that same age range (0 days, 390 MJ day^-1^; 30 days, 659 MJ day^-1^; 60 days, 871 MJ day^-1^; 90 days, 728 MJ day^-1^). Our daily difference would therefore account for `r format_numbers(as.numeric((Excess_MJ_0_90/91)/390*90), digits = 3, format = "dcml")`% of growth costs at 0 days of age, `r format_numbers(as.numeric((Excess_MJ_0_90/91)/659*90), digits = 3, format = "dcml")`% at 30 days of age, `r format_numbers(as.numeric((Excess_MJ_0_90/91)/871*90), digits = 3, format = "dcml")`% at 60 days of age, and `r format_numbers(as.numeric((Excess_MJ_0_90/91)/728*90), digits = 3, format = "dcml")`% at 90 days of age.
+Figure 7 shows the minimum sustainable metabolic rate for calves in closer detail relative to estimated calf age. Minimum sustainable metabolic rate varied nonlinearly with calf age in both Hawai‘i (edf = `r round(CalfAge_GAM_W_smooth$edf[CalfAge_GAM_W_smooth$Term == "s(Calf_Age_Days):EnvironmentHawaii"], 2)`, *F* = `r round(CalfAge_GAM_W_smooth$F[CalfAge_GAM_W_smooth$Term == "s(Calf_Age_Days):EnvironmentHawaii"], 2)`, *P* `r ifelse(CalfAge_GAM_W_smooth$`p-value`[CalfAge_GAM_W_smooth$Term == "s(Calf_Age_Days):EnvironmentHawaii"] < 0.001, "< 0.001", paste0("= ", format.pval(CalfAge_GAM_W_smooth$`p-value`[CalfAge_GAM_W_smooth$Term == "s(Calf_Age_Days):EnvironmentHawaii"], digits = 3)))`) and Alaska (edf = `r round(CalfAge_GAM_W_smooth$edf[CalfAge_GAM_W_smooth$Term == "s(Calf_Age_Days):EnvironmentAlaska"], 2)`, *F* = `r round(CalfAge_GAM_W_smooth$F[CalfAge_GAM_W_smooth$Term == "s(Calf_Age_Days):EnvironmentAlaska"], 2)`, *P* `r ifelse(CalfAge_GAM_W_smooth$`p-value`[CalfAge_GAM_W_smooth$Term == "s(Calf_Age_Days):EnvironmentAlaska"] < 0.001, "< 0.001", paste0("= ", format.pval(CalfAge_GAM_W_smooth$`p-value`[CalfAge_GAM_W_smooth$Term == "s(Calf_Age_Days):EnvironmentAlaska"], digits = 3)))`). Heat loss potential under the "windows closed" condition was lower in Hawai‘i than in Alaska throughout the first 90 days of life. The cumulative difference between the minimum sustainable metabolic rates in Alaska and Hawai‘i over this period was `r format_numbers(as.numeric(Excess_MJ_0_90), digits = 4, format = "dcml")` MJ. Averaged across this period, this corresponds to a daily difference of `r format_numbers(as.numeric(Excess_MJ_0_90/90), digits = 3, format = "dcml")` MJ day^-1^. Somatic growth costs for a humpback calf have been estimated by van Aswegen et al. (2025) at multiple points within the same age range (0 days, 390 MJ day^-1^; 30 days, 659 MJ day^-1^; 60 days, 871 MJ day^-1^; 90 days, 728 MJ day^-1^). The average daily difference in minimum sustainable metabolic rate between environments is equivalent to `r format_numbers(as.numeric((Excess_MJ_0_90/90)/390*100), digits = 3, format = "dcml")`% of estimated growth costs at 0 days of age, `r format_numbers(as.numeric((Excess_MJ_0_90/90)/659*100), digits = 3, format = "dcml")`% at 30 days of age, `r format_numbers(as.numeric((Excess_MJ_0_90/90)/871*100), digits = 3, format = "dcml")`% at 60 days of age, and `r format_numbers(as.numeric((Excess_MJ_0_90/90)/728*100), digits = 3, format = "dcml")`% at 90 days of age.
 
 # Discussion
 
@@ -2714,13 +3872,15 @@ Thermoregulation is a complex physiological process, with small changes in core 
 
 ## Model Limitations
 
-In our estimation of heat loss potential from the body, we relied on a simplified view of blubber, with uniform thickness ($BT_{\text{body}}$) and thermal conductivity ($k$). Both of these factors have been shown to vary due to a number of critical factors (e.g., timing in the annual cycle, location on the body, temperature gradient between the body and ambient environment, amount of blood perfused through the tissue, lipid composition) [@favilla_etal24; @george09; @meagher_etal08; @lockyer87; @miller_etal11; @vikingsson90; @sumich21]. Additionally, we were able to incorporate the effects of body condition into our estimation of surface area ($S_{\text{body}}$) following the methods of Glarou et al., [-@glarou_etal25], but we were unable to capture how body condition might also impact $BT_{\text{body}}$ or $k$.
+In our estimation of heat loss potential from the body, we relied on a simplified view of blubber, with uniform thickness ($BT_{\text{body}}$) and thermal conductivity ($k$). Both of these variables have been shown to vary due to a number of critical factors (e.g., timing in the annual cycle, location on the body, temperature gradient between the body and ambient environment, amount of blood perfused through the tissue, lipid composition) [@favilla_etal24; @george09; @meagher_etal08; @lockyer87; @miller_etal11; @vikingsson90; @sumich21]. Modeling $BT_{\text{body}}$ solely on $TL$ was necessary for our present model, but changes in body condition may alter blubber stores and, consequently, insulative properties. Recent biologging studies may allow us to better characterize this relationship, as tissue density can be estimated from the gliding dynamics of humpback whales and used as an indicator of lipid stores [@narazaki_etal18; @aoki_etal21]. Combining tag-derived tissue density with UAS-derived body condition and direct measurements of blubber thickness could therefore help determine how changes in energy stores translate into changes in insulation. At present, however, tissue density describes whole-body composition rather than blubber thickness directly, and the relationship between these variables remains insufficiently resolved to incorporate condition-dependent $BT_{\text{body}}$ into our model.
 
 In comparison to the body, modeling heat loss potential through the extremities is even more difficult. There are many experimentally-derived values in the literature that we can draw from for the blubber anatomy and thermal dynamics of large whale bodies [@glarou_etal25; @parry49]. For the extremities, we relied on the same value of $k$ for both the body and the extremities, and we based our estimation of $BT_{\text{appendage}}$ on the cross-sections of flippers and flukes from multiple species and age/sex classes. These values ranged from `r format_numbers(as.numeric(min(HumpbackHeatLoss::AppendageBlubberData$Appendage_Average_Blubber_Thickness_mm, na.rm=TRUE)), digits = 2, format = "dcml")`-`r format_numbers(as.numeric(max(HumpbackHeatLoss::AppendageBlubberData$Appendage_Average_Blubber_Thickness_mm, na.rm=TRUE)), digits = 2, format = "dcml")`, though the values from the two ~9 m humpback whales in the dataset were remarkably different (~3 mm in the subadult flipper cross-section versus ~8.3 mm in the juvenile fluke). Unfortunately, there are very few literature sources on the $BT$ of cetacean extremities to compare against. The majority of studies that investigate the flippers or flukes focus instead on other anatomical structures (e.g., skin, collagenous fibers, bone, vasculature), noting only a very thin blubber layer [@felts23; @gavazzi_etal24; @gough_etal18; @sun_etal10]. Only George [-@george09; -@george_etal21] gives actual values for the blubber thickness of the flippers (~20 mm) and flukes (~10-15 mm), but these were for the strongly ice-associated bowhead whale (*Balaena mysticetus*) that spends its entire life in cold arctic waters. 
 
-Our model assumes the same thermal dynamics in the appendages as the rest of the body, with an internal temperature (set as the same as the core body temperature) and a single-thickness blubber layer that loses heat uniformly to the environment. Heat loss through the cetacean extremities is tied closely to the anatomical layout of their vasculature [@williams_etal99a; @favilla_etal24], suggesting that heat loss in a more detailed model would take into account areas of higher and lower heat loss potential. As a result of this simplification, we could be overestimating the heat loss through the extremities. Alternately, a change in the $k$ of blubber on the extremities could lead to additional heat loss that we are unable to capture. Finally, when working with such thin $BT$ values as we included in our model, small changes can have a large impact on model outputs. Additional data will be needed to parameterize these critical variables in future modeling exercises.
+Our model assumes the same thermal dynamics in the appendages as the rest of the body, with an internal temperature (set as the same as the core body temperature) and a single-thickness blubber layer that loses heat uniformly to the environment. Heat loss through the cetacean extremities is tied closely to the anatomical layout of their vasculature [@williams_etal99a; @favilla_etal24], suggesting that heat loss in a more detailed model would take into account areas of higher and lower heat loss potential. As a result of this simplification, we are likely overestimating the heat loss through the extremities. Alternately, a change in the $k$ of blubber on the extremities, associated with factors such as lipid content and composition [@worthy_edwards90, @kvadsheim_etal96; @bagge_etal12; @dunkin_etal05], could lead to additional heat loss that we are unable to capture. Finally, when working with such thin $BT$ values as we included in our model, small changes can have a large impact on model outputs. Additional data will be needed to parameterize these critical variables in future modeling exercises.
 
-Our model also simplifies the effects of forced convection on heat loss potential, assuming that there is always enough water movement past the skin to nullify the boundary layer and maintain the full predicted temperature gradient between $T_{body}$ and $T_{ambient}$. In reality, warming of the boundary layer is likely to reduce this temperature gradient and, subsequently, the heat loss potential of an animal. For adult humpbacks in Hawai‘i that remain stationary for large portions of their day, this could bring them closer to overheating, further necessitating a reduced metabolic rate or additional heat loss mechanisms (e.g., engulfing cool water to engage the highly vascularized tongue and palate [@ford_etal13; @heyning_mead97] that we are unable to capture with our model.
+Our model also assumes that heat loss through the thermal windows can be reduced to zero when "closed", representing an idealized lower bound of whole-body heat loss. In reality, some heat transfer is likely to persist even under maximal vasoconstriction, and changes in blood flow through the appendages would effectively alter their thermal conductivity ($k$) between "open" and "closed" states. We did not estimate separate values of $k$ for these states because the extent to which perfusion and countercurrent heat exchange alter heat transfer through humpback whale appendages has not been sufficiently quantified. Consequently, our "windows closed" scenario likely underestimates total heat loss, particularly in cold water.
+
+Finally, our model simplifies the effects of forced convection on heat loss potential, assuming that there is always enough water movement past the skin to nullify the boundary layer and maintain the full predicted temperature gradient between $T_{body}$ and $T_{ambient}$. In reality, warming of the boundary layer is likely to reduce this temperature gradient and, subsequently, the heat loss potential of an animal. For adult humpbacks in Hawai‘i that remain stationary for large portions of their day, this could bring them closer to overheating, further necessitating a reduced metabolic rate or additional heat loss mechanisms (e.g., engulfing cool water to engage the highly vascularized tongue and palate [@ford_etal13; @heyning_mead97] that we are unable to capture with our model.
 
 ## Impact of Thermal Windows on Conductive Heat Loss
 
@@ -2730,7 +3890,9 @@ Previous research by Meagher et al. [-@meagher_etal08] described the heat flux t
 
 The uniquely large appendages of humpback whales result in enhanced maneuverability and allow for a wide repertoire of foraging behaviors (e.g., bubble-netting) on the feeding grounds [@fish_lauder06; @woodward_etal06; @nemeth_etal25; @szabo_etal24], but they likely also convey a higher heat loss potential on the warm breeding grounds, resulting in a greater scope for movement or energetically intense behaviors such as competitive male "heat runs" [@tyack_whitehead82] or repeated breaches [@segre_etal20]. Bergmann's rule (that larger animals should inhabit colder waters) and Allen's rule (that animals residing in colder climates have smaller appendages) have been suggested as reasons for the appendage-to-body size ratios in various cetacean species [@adamczak_etal20; @favilla_etal24; @torres-romero_etal16], but humpbacks appear to defy these rules by migrating between both tropical and arctic climates while having the largest appendages (relative to body size) of any cetacean [@kahane-rapport_goldbogen18; @woodward_etal06]. The large size of humpback whale appendages may therefore be key to their ability to tolerate wide variation in water temperatures without risking either hyperthermia or hypothermia.
 
-The large body sizes of humpback whales, and their subsequently increased surface-to-volume ratio, allow for greater heat loss potential in tropical climates to keep from overheating. If our model predicted similarly low heat flux values for both the body and the extremities, adults would be incapable of dispersing enough heat to keep from overheating in Hawaiian waters. Heat flux estimates from the fore- and hind-flippers of harp seals showed higher values (~100-300 W m^2^) at ambient temperatures of 23-24°C, with short-duration increases (up to 20-fold) measured for one or both hind-flippers [@kvadsheim_folkow97]. If the countercurrent heat exchange system in cetaceans works similarly, it suggests that our higher extremity heat flux values are not outside the realm of possibility. It is also possible that whales can increase heat dissipation from the main body by elevating blood flow to the outer blubber layer, thereby increasing $k$ [@kanwisher_sundnes66a]. In this scenario, whales would rely less on their appendages for heat dissipation in warmer waters or during periods of elevated activity.
+The large body sizes of humpback whales, and their subsequently low surface-to-volume ratio, limit their capacity to dissipate excess heat across the body in tropical climates, increasing the potential importance of appendages as thermal windows. If our model predicted similarly low heat flux values for both the body and the extremities, adults would be incapable of dispersing enough heat to keep from overheating in Hawaiian waters. Heat flux estimates from the fore- and hind-flippers of harp seals showed higher values (~100-300 W m^2^) at ambient temperatures of 23-24°C, with short-duration increases (up to 20-fold) measured for one or both hind-flippers [@kvadsheim_folkow97]. If the countercurrent heat exchange system in cetaceans works similarly, it suggests that our higher extremity heat flux values are not outside the realm of possibility. It is also possible that whales can increase heat dissipation from the main body by elevating blood flow to the outer blubber layer, thereby increasing $k$ [@kanwisher_sundnes66a]. In this scenario, whales would rely less on their appendages for heat dissipation in warmer waters or during periods of elevated activity.
+
+Finally, the relative importance of the thermal windows may also change across body size as individuals grow. Both flipper and fluke surface area exhibited negative allometric scaling relative to $TL$, with scaling exponents of `r format_numbers(as.numeric(FlipperScaling_exponent), digits = 3, format = "dcml")` (95% CI = `r format_numbers(as.numeric(FlipperScaling_exponent_CI[1]), digits = 3, format = "dcml")`–`r format_numbers(as.numeric(FlipperScaling_exponent_CI[2]), digits = 3, format = "dcml")`) and `r format_numbers(as.numeric(FlukeScaling_exponent), digits = 3, format = "dcml")` (95% CI = `r format_numbers(as.numeric(FlukeScaling_exponent_CI[1]), digits = 3, format = "dcml")`–`r format_numbers(as.numeric(FlukeScaling_exponent_CI[2]), digits = 3, format = "dcml")`), respectively. Calves and juveniles therefore have proportionally larger appendages than adults, providing greater relative capacity for heat dissipation when their thermal windows are open. However, this additional capacity may provide little thermoregulatory benefit to smaller individuals in warm water, where they are less likely than larger adults to approach their maximal heat loss threshold. Instead, relatively large appendages may represent a greater thermal liability in cold water, where residual heat loss through these regions could disproportionately increase heat loss in smaller individuals.
 
 ## Effects of Body Size on Metabolic Rate
 
